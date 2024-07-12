@@ -1,9 +1,22 @@
+import { useAuthProvider } from '@/store/context/useAuthProvider'
 import AuthHeader from '@components/global/AuthHeader'
 import { PrimaryButton } from '@components/global/Buttons'
 import successCheck from '@images/success-check.png'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const ForgotSuccess = () => {
+	const { setShowLogo } = useAuthProvider()
+
+
+	useEffect(() => {
+		setShowLogo(false)
+
+		return () => {
+			setShowLogo(true)
+		}
+	}, [setShowLogo])
+
 	return (
 		<div className='space-y-8'>
 			<div className='w-fit mx-auto '>

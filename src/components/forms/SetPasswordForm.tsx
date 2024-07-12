@@ -54,8 +54,12 @@ const SetPasswordForm = ({ setStatus, tokenState }: {
 	const confirmPassword = watch('confirmPassword')
 
 	const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
-		if (!tokenState) return
+		setStatus?.()
 
+		const text = ''
+		if (text === '') return
+
+		if (!tokenState) return
 		const payload = {
 			token: tokenState,
 			password: newPassword,
@@ -77,8 +81,6 @@ const SetPasswordForm = ({ setStatus, tokenState }: {
 			}
 		})
 	}
-
-
 
 
 	return (

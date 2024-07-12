@@ -8,7 +8,9 @@ const Otp = () => {
 	const [status, setStatus] = useState('')
 	const [tokenState, setTokenState] = useState('')
 
-
+	// useEffect(() => {
+	// 	setStatus('')
+	// }, [])
 	const switchByStatus = () => {
 		switch (status) {
 			case 'success':

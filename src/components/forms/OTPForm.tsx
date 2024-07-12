@@ -3,7 +3,7 @@ import { PrimaryButton } from "@components/global/Buttons";
 import { P } from "@components/global/Typography";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 
-const maximumLength = 6
+const maximumLength = 4
 const error = false
 const hideNumber = false
 const fillEmptyBoxes = true
@@ -85,6 +85,11 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
 	const { mutate, isPending } = useVerifyOtp()
 
 	const submitForm = async () => {
+		// setTokenState?.(code)
+		// setStatus()
+		// const text = ''; if (text === '') return
+
+
 		mutate(code, {
 			onSuccess: () => {
 				setTokenState?.(code)
@@ -124,8 +129,7 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
 			</PrimaryButton>
 
 			<P className="w-fit mx-auto text-center">
-				Didn't receive code?
-				<button onClick={handleResend} type='button' className="text-textHeader">  Resend</button>
+				Didn't receive code? <button onClick={handleResend} type='button' className="text-textHeader">Resend</button>
 			</P>
 
 		</div>

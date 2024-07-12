@@ -1,33 +1,21 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useState } from 'react'
 
-const TAuthState = {
-
+export type TAuthState = {
+	showLogo: boolean
+	setShowLogo: (value: boolean) => void
 }
-const AuthContext = createContext(null)
+const AuthContext = createContext<TAuthState | undefined>(undefined)
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const [data, setData] = useState<TAuthState>({
-
-	})
-
+	const [showLogo, setShowLogo] = useState(true)
 
 
 	return (
-		<AuthContext.Provider value={}>
-
+		<AuthContext.Provider value={{ showLogo, setShowLogo }}>
+			{children}
 		</AuthContext.Provider>
 	)
 }
 
-const useAuthProvider = () => {
-	const context = useContext(AuthContext);
-	if (context === undefined) {
-		throw new Error(
-			'AuthContext must be used within a AuthProvider'
-		);
-	}
-	return context;
-};
 
-
-export { AuthContext, useAuthProvider, AuthProvider } 
+export { AuthContext, AuthProvider } 

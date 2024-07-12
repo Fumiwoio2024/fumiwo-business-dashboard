@@ -62,7 +62,11 @@ export const useMForgotPassword = () => {
 export const useVerifyOtp = () => {
 	const mutation = useMutation({
 		mutationFn: (token: string) => {
-			return api.post<TSignInRes>(`/auth/reset-token/${token}/verify`)
+			return api.get<TSignInRes>(`/auth/reset-token/${token}/verify`, {
+				params: {
+					userType: 'business'
+				}
+			})
 		},
 	})
 

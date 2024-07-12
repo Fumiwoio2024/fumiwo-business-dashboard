@@ -1,8 +1,9 @@
 import { Link, Outlet } from 'react-router-dom'
 import logo from '@images/fumiwo-logo.png'
+import { useAuthProvider } from '@/store/context/useAuthProvider'
 
 const AuthLayout = () => {
-
+	const { showLogo } = useAuthProvider()
 	// useEffect(() => {
 	// 	redirect('login')
 	// }, [])
@@ -33,13 +34,13 @@ const AuthLayout = () => {
 
 				<div className=' h-full flex flex-col justify-between'>
 					<div className="w-[480px] space-y-8 px-6 mx-auto my-[7%] text-center">
-						<div className='w-fit mx-auto '>
+						{showLogo && <div className='w-fit mx-auto '>
 							<img
 								src={logo}
 								alt='logo'
 								className='max-w-[238px] cursor-pointer'
 							/>
-						</div>
+						</div>}
 
 						<Outlet />
 

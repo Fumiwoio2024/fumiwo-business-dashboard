@@ -10,8 +10,10 @@ type TPrimaryButton = {
 }
 
 export const PrimaryButton = ({ children, className, disabled, loading, ...props }: TPrimaryButton) => {
+	console.log(disabled);
+
 	return (
-		<button disabled={disabled || loading} className={`bg-primaryGreen text-textHeader py-3 px-10 rounded-[50px] font-medium text-lg hover:bg-primaryGreen/80 active:bg-primaryGreen/50 transition duration-300 ${(disabled || loading) && 'cursor-not-allowed active:opacity-50'} ${className}`}  {...props}>
+		<button disabled={disabled || loading} className={`  py-3 px-10 rounded-[50px] font-medium text-lg  transition duration-300 ${(disabled || loading) ? 'cursor-not-allowed !bg-primaryGreen/50 !text-textHeader/50' : 'text-textHeader bg-primaryGreen hover:bg-primaryGreen/80 active:bg-primaryGreen/50'} ${className}`}  {...props}>
 			{children}
 		</button>
 	)

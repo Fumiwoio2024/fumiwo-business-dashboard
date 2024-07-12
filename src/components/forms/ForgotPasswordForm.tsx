@@ -24,7 +24,7 @@ const ForgotPasswordForm = () => {
 
 
 	const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
-		console.log(data)
+
 
 		const payload = {
 			...data,
