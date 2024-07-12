@@ -21,7 +21,38 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    /* Path aliasing */
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@type/*": [
+        "src/types/*"
+      ],
+      "@images/*": [
+        "src/assets/images/*"
+      ],
+      "@router/*": [
+        "src/router/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@layouts/*": [
+        "src/components/layouts/*"
+      ],
+      "@auth-screens/*": [
+        "src/screens/auth/*"
+      ],
+      "@app-screens/*": [
+        "src/screens/app/*"
+      ],
+      "@/*": [
+        "src/*"
+      ],
+    }
   },
   "include": ["src"]
 }
