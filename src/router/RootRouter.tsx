@@ -7,6 +7,9 @@ import Login from "@auth-screens/Login";
 import ForgotPassword from "@auth-screens/ForgotPassword";
 import Otp from "@auth-screens/Verify.tsx";
 import Dashboard from "@app-screens/Dashboard";
+import SettingsLayout from "@components/layouts/SettingsLayout";
+import Settings from "@app-screens/Settings";
+import AppLayout from "@components/layouts/AppLayout";
 
 const router = createBrowserRouter([
 	{
@@ -32,8 +35,28 @@ const router = createBrowserRouter([
 		]
 	},
 	{
-		path: "/dashboard",
-		element: <Dashboard />,
+		path: "dashboard",
+		element: <AppLayout />,
+		children: [
+			{
+				index: true,
+				element: <Dashboard />
+			},
+			{
+				path: "overview",
+				element: <Dashboard />
+			},
+			{
+				path: "settings",
+				element: <SettingsLayout />,
+				children: [
+					{
+						index: true,
+						element: <Settings />
+					}
+				]
+			}
+		]
 	}
 ]);
 
