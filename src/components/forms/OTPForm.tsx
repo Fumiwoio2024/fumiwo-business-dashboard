@@ -85,10 +85,7 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
 	const { mutate, isPending } = useVerifyOtp()
 
 	const submitForm = async () => {
-		// setTokenState?.(code)
-		// setStatus()
-		// const text = ''; if (text === '') return
-
+		if (!code) return
 
 		mutate(code, {
 			onSuccess: () => {
@@ -110,6 +107,7 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
 				<input
 					className="h-full absolute w-full opacity-0"
 					contextMenu="false"
+					autoFocus
 					ref={inputRef}
 					autoComplete="sms-otp"
 					onBlur={handleBlur}

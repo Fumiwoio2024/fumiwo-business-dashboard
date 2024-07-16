@@ -17,7 +17,7 @@ const SetPassword = ({ description, setStatus, tokenState }: TSetPasswordProps) 
 				description={description || "For security reasons, you&apos;re required to change your password to proceed"}
 			/>
 
-			<SetPasswordForm setStatus={setStatus} tokenState={tokenState} />
+			<SetPasswordForm setStatus={setStatus} tokenState={tokenState} flow={description ? 'login' : 'forgot-password'} />
 		</div>
 	)
 }

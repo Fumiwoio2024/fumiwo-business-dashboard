@@ -9,7 +9,6 @@ const AuthContext = createContext<TAuthState | undefined>(undefined)
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [showLogo, setShowLogo] = useState(true)
 
-
 	return (
 		<AuthContext.Provider value={{ showLogo, setShowLogo }}>
 			{children}

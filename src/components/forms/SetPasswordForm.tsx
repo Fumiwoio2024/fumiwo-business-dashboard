@@ -1,10 +1,11 @@
 
-import { useMResetNewPassword } from "@/hooks/api/mutations/auth"
+import { useMChangePassword, useMResetNewPassword } from "@/hooks/api/mutations/auth"
 import { PrimaryButton } from "@components/global/Buttons"
 import Input from "@components/global/Input"
 import { P } from "@components/global/Typography"
 import { AxiosError } from "axios"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 
 const defaultValues = {
@@ -35,9 +36,10 @@ const PasswordCheck = ({ isStrong, title }: { isStrong: boolean, title: string }
 }
 
 
-const SetPasswordForm = ({ setStatus, tokenState }: {
+const SetPasswordForm = ({ setStatus, tokenState, flow }: {
 	setStatus?: () => void,
-	tokenState?: string
+	tokenState?: string;
+	flow: 'login' | 'forgot-password'
 }) => {
 	const {
 		register,
@@ -48,38 +50,58 @@ const SetPasswordForm = ({ setStatus, tokenState }: {
 	} = useForm({
 		defaultValues
 	})
-	const { mutate } = useMResetNewPassword()
+
+	const navigate = useNavigate()
+	const { mutate: mutateReset, isPending: isPendingReset } = useMResetNewPassword()
+	const { mutate: mutateChange, isPending: isPendingChange } = useMChangePassword()
 
 	const newPassword = watch('newPassword')
 	const confirmPassword = watch('confirmPassword')
 
 	const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
-		setStatus?.()
-
-		const text = ''
-		if (text === '') return
-
 		if (!tokenState) return
-		const payload = {
-			token: tokenState,
-			password: newPassword,
-			confirmPassword: data.confirmPassword,
-			userType: 'business'
+
+		if (flow === 'forgot-password') {
+			const payload = {
+				token: tokenState,
+				password: newPassword,
+				confirmPassword: data.confirmPassword,
+				userType: 'business'
+			}
+
+			mutateReset(payload, {
+				onSuccess: () => {
+					reset()
+					setStatus?.()
+				},
+				onError: (error) => {
+					if (error instanceof AxiosError) {
+						toast.error(error.response?.data?.message)
+					}
+				}
+			})
+
+		} else if (flow === 'login') {
+			const payload = {
+				currentPassword: tokenState,
+				newPassword: data.newPassword,
+			}
+
+			mutateChange(payload, {
+				onSuccess: () => {
+					reset()
+					navigate('/dashboard')
+					setStatus?.()
+				},
+				onError: (error) => {
+					if (error instanceof AxiosError) {
+
+						toast.error(error.response?.data?.message)
+					}
+				}
+			})
 		}
 
-		mutate(payload, {
-			onSuccess: () => {
-				reset()
-
-				setStatus?.()
-			},
-			onError: (error) => {
-				if (error instanceof AxiosError) {
-
-					toast.error(error.response?.data?.message)
-				}
-			}
-		})
 	}
 
 
@@ -138,6 +160,7 @@ const SetPasswordForm = ({ setStatus, tokenState }: {
 			<PrimaryButton
 				className="w-full "
 				type="submit"
+				loading={isPendingReset || isPendingChange}
 			>
 				Continue
 			</PrimaryButton>

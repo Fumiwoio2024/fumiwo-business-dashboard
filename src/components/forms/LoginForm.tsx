@@ -1,3 +1,4 @@
+import api from "@/config/axios"
 import { useMSignIn } from "@/hooks/api/mutations/auth"
 import { PrimaryButton } from "@components/global/Buttons"
 import Input from "@components/global/Input"
@@ -18,24 +19,36 @@ const LoginForm = ({ setIsSetPassword, setTokenState }: { setIsSetPassword: (sta
 		handleSubmit,
 		formState: { errors },
 		reset,
+		setError
 	} = useForm({
 		defaultValues
 	})
 	const { mutate, isPending } = useMSignIn()
 	const navigate = useNavigate();
 
-	const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
+	const submitForm: SubmitHandler<typeof defaultValues> = async (formData) => {
 
 		const payload = {
-			...data,
+			...formData,
 			userType: 'business'
 		}
 
 		mutate(payload, {
 			onSuccess: (data) => {
+				// if for some reason the token isn't sent
+				if (!data.data.data.token) {
+					setError('password', {
+						type: 'custom',
+						message: 'An error occurred during sign up, please try again'
+					})
+					return
+				}
 				reset()
+
+				localStorage.setItem('fmw_business_auth_token', data.data.data.token)
+				api.defaults.headers.common['Authorization'] = `Bearer ${data.data.data.token}`
 				if (data.data?.data.user.isDefaultPassword === true) {
-					setTokenState?.(data.data.data.token)
+					setTokenState?.(formData.password)
 					setIsSetPassword(true)
 				} else {
 					navigate('/dashboard')

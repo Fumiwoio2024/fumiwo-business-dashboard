@@ -15,6 +15,7 @@ export default defineConfig({
       "@": root(''),
       '@assets': root('/assets'),
       '@type': root('/types'),
+      '@store': root('/store'),
       '@images': root('/assets/images'),
       '@hooks': root('/hooks'),
       '@components': root('/components'),

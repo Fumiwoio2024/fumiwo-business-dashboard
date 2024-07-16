@@ -1,6 +1,7 @@
 import { useAuthProvider } from '@/store/context/useAuthProvider'
 import AuthHeader from '@components/global/AuthHeader'
 import { PrimaryButton } from '@components/global/Buttons'
+import Divider from '@components/global/Divider'
 import successCheck from '@images/success-check.png'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
@@ -23,7 +24,7 @@ const ForgotSuccess = () => {
 				<img
 					src={successCheck}
 					alt='logo'
-					className='max-w-[238px] cursor-pointer'
+					className='max-w-[238px]'
 				/>
 			</div>
 
@@ -31,6 +32,7 @@ const ForgotSuccess = () => {
 				title='Password reset complete'
 				description='You can now log in with your new password'
 			/>
+			<Divider />
 
 			<Link to='/login'>
 				<PrimaryButton>
