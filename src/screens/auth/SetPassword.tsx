@@ -14,7 +14,7 @@ const SetPassword = ({ description, setStatus, tokenState }: TSetPasswordProps) 
 		<div className='space-y-8'>
 			<AuthHeader
 				title='Set new password'
-				description={description || "For security reasons, you&apos;re required to change your password to proceed"}
+				description={description || 'Enter new password'}
 			/>
 
 			<SetPasswordForm setStatus={setStatus} tokenState={tokenState} flow={description ? 'login' : 'forgot-password'} />

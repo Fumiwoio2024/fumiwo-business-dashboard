@@ -68,7 +68,7 @@ const ForgotPasswordForm = () => {
 				Submit
 			</PrimaryButton>
 
-			<P className="w-fit mx-auto text-center">Remember Password? <Link to='/forgot-password' className="text-textHeader">Login</Link></P>
+			<P small className="w-fit mx-auto text-center">Remember Password? <Link to='/forgot-password' className="text-textHeader">Login</Link></P>
 
 		</form>
 	)

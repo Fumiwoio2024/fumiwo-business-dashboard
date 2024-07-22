@@ -50,6 +50,8 @@ const LoginForm = ({ setIsSetPassword, setTokenState }: { setIsSetPassword: (sta
 				if (data.data?.data.user.isDefaultPassword === true) {
 					setTokenState?.(formData.password)
 					setIsSetPassword(true)
+				} else if (!data.data?.data.user.contactPersonInfo._id) {
+					navigate("/dashboard/settings/onboarding/contact-details")
 				} else {
 					navigate('/dashboard')
 				}
@@ -93,7 +95,7 @@ const LoginForm = ({ setIsSetPassword, setTokenState }: { setIsSetPassword: (sta
 				)}
 			/>
 			<Link to='/forgot-password' className="block w-fit ml-auto ">
-				<P>Forgot Password?</P>
+				<P small>Forgot Password?</P>
 			</Link>
 			<PrimaryButton
 				loading={isPending}
@@ -104,7 +106,7 @@ const LoginForm = ({ setIsSetPassword, setTokenState }: { setIsSetPassword: (sta
 			</PrimaryButton>
 
 			<div className="text-center">
-				<P>Don&apos;t have an account? <button type='button' className="text-primaryGreen">Contact Admin</button></P>
+				<P small>Don&apos;t have an account? <button type='button' className="text-primaryGreen">Contact Admin</button></P>
 			</div>
 
 		</form>

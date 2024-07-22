@@ -32,7 +32,19 @@ export default {
         inputLabel: '#061C3D',
         inputBorder: '#E6E8EC',
         bottomFooterBorder: '#8A8A8A',
-        otpBox: "#EAECF0"
+        otpBox: "#EAECF0",
+        sidebarBorder: '#EEF1F6',
+        sideBarText: '#011D7B',
+        unFocusedText: '#A5B3CD',
+        absoluteRed: "#FF0000",
+        appBg: '#F4F7FA',
+        onboardingBorder: '#D5DAE1',
+        disabledInput: '#F5F8FA',
+        secondaryButton: "#009851",
+        graySubtext: '#718096',
+      },
+      boxShadow: {
+        username: '0px 14px 54px 0px #0000000F'
       }
     },
   },

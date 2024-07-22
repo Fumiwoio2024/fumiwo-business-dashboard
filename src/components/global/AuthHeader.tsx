@@ -6,7 +6,7 @@ const AuthHeader = ({ title, description }: { title: string; description?: strin
 			<H3>
 				{title}
 			</H3>
-			{description && <P className='font-normal text-base'>{description}</P>}
+			{description && <P small className='font-normal text-base'>{description}</P>}
 		</div>
 	)
 }
