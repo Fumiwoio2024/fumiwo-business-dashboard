@@ -1,4 +1,4 @@
-import { Link, Outlet, redirect } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import logo from '@images/fumiwo-logo.png'
 import { useAuthProvider } from '@/store/context/useAuthProvider'
 import api from '@/config/axios'
@@ -6,16 +6,17 @@ import { useLayoutEffect } from 'react'
 
 const AuthLayout = () => {
 	const { showLogo } = useAuthProvider()
+	const location = useLocation()
 
+	// if change auth route, set or remove token if exists
 	useLayoutEffect(() => {
 		const token = localStorage.getItem('fmw_business_auth_token')
 		if (token) {
 			api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 		} else {
 			api.defaults.headers.common['Authorization'] = ''
-			redirect('/login')
 		}
-	}, [])
+	}, [location.pathname])
 
 
 	return (

@@ -73,7 +73,7 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
 
 		return (
 			<div key={index} style={{ ...focusedStyle, ...errorStyle }}>
-				<P
+				<P small
 					className={`text-center text-xl ${error ? "text-[#FF0000]" : 'text-[#404F65]'}`}
 				>
 					{displayValue || (fillEmptyBoxes && '-')}
@@ -126,7 +126,7 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
 				Submit
 			</PrimaryButton>
 
-			<P className="w-fit mx-auto text-center">
+			<P small className="w-fit mx-auto text-center">
 				Didn't receive code? <button onClick={handleResend} type='button' className="text-textHeader">Resend</button>
 			</P>
 

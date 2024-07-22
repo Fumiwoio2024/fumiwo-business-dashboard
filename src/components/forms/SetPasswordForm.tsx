@@ -20,16 +20,16 @@ const PasswordCheck = ({ isStrong, title }: { isStrong: boolean, title: string }
 				? (
 					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<rect width="16" height="16" rx="8" fill="#0BE781" />
-						<path d="M5 8L7 10L11 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+						<path d="M5 8L7 10L11 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 					</svg>
 				)
 				: (
 					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<rect width="16" height="16" rx="8" fill="#D0D5DD" />
-						<path d="M5 8L7 10L11 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+						<path d="M5 8L7 10L11 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 					</svg>
 				)}
-			<P className="!text-sm">{title}</P>
+			<P small className="!text-sm">{title}</P>
 		</div>
 	)
 
@@ -90,7 +90,7 @@ const SetPasswordForm = ({ setStatus, tokenState, flow }: {
 			mutateChange(payload, {
 				onSuccess: () => {
 					reset()
-					navigate('/dashboard')
+					navigate('/dashboard/overview')
 					setStatus?.()
 				},
 				onError: (error) => {
@@ -133,7 +133,7 @@ const SetPasswordForm = ({ setStatus, tokenState, flow }: {
 			/>
 
 			<div className="space-y-">
-				<P>Password Must contain:</P>
+				<P small>Password Must contain:</P>
 				<PasswordCheck
 					isStrong={newPassword.length >= 8}
 					title="At least 8 characters"

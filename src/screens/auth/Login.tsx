@@ -12,7 +12,7 @@ const Login = () => {
 	return (
 		<div className='space-y-8'>
 			{isSetPassword ? (
-				<SetPassword description='Enter new password' tokenState={tokenState} />
+				<SetPassword description="For security reasons, you&apos;re required to change your password to proceed" tokenState={tokenState} />
 			) : (
 				<>
 					<AuthHeader

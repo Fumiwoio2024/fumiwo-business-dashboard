@@ -2,11 +2,25 @@ import { ReactNode } from 'react'
 
 export const H1 = ({ children, className }: { children: ReactNode, className?: string }) => {
 	return (
-		<h1 className={`font-bold text-3xl lg:text-5xl leading-[48px] md:leading-[58px] text-textHeader  ${className}`}>
-			{children}
-		</h1>
-	)
+    <h1 className={`text-2xl font-semibold text-textHeader ${className}`}>
+      {children}
+    </h1>
+  );
 }
+export const H2 = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <h1 className={`text-2xl font-semibold text-textHeader ${className}`}>
+      {children}
+    </h1>
+  );
+};
+
 export const H3 = ({ children, className }: { children: ReactNode, className?: string }) => {
 	return (
 		<h3 className={`font-semibold text-lg md:text-2xl text-primaryBlack  ${className}`}>
@@ -17,26 +31,41 @@ export const H3 = ({ children, className }: { children: ReactNode, className?: s
 
 export const H4 = ({ children, className }: { children: ReactNode, className?: string }) => {
 	return (
-		<h4 className={`font-bold text-3xl lg:text-5xl leading-[48px] md:leading-[58px] text-textHeader  ${className}`}>
-			{children}
-		</h4>
-	)
+    <h4 className={`text-xl font-semibold text-textHeader ${className}`}>
+      {children}
+    </h4>
+  );
 }
 
-export const H5 = ({ children, className }: { children: ReactNode, className?: string }) => {
-	return (
-		<h5 className={`font-semibold text-lg md:text-2xl text-textHeader  ${className}`}>
-			{children}
-		</h5>
-	)
-}
+export const H5 = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <h5 className={`text-lg font-medium text-textHeader ${className}`}>
+      {children}
+    </h5>
+  );
+};
 
-
-export const P = ({ children, className }: { children: ReactNode, className?: string }) => {
-	return (
-		<p className={`font-medium md:text-sm text-paraGray/70 ${className?.includes('leading') ? className : `!leading-8 ${className}`}`}>
-			{children}
-		</p>
-	)
-}
+export const P = ({
+  children,
+  className,
+  small,
+}: {
+  children: ReactNode;
+  className?: string;
+  small?: boolean;
+}) => {
+  return (
+    <p
+      className={` ${small ? "text-sm font-medium" : "text-md font-normal"} text-paraGray/70 ${className?.includes("leading") ? className : `leading-6 ${className}`}`}
+    >
+      {children}
+    </p>
+  );
+};
 
