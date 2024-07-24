@@ -1,9 +1,12 @@
+
+export type TMfa = {
+	enabled: boolean;
+	hasAuthenticatedWithPassword: boolean;
+	secret: string;
+};
+
 export type TUser = {
-	mfa: {
-		enabled: boolean,
-		hasAuthenticatedWithPassword: boolean,
-		secret: string | null
-	},
+	mfa: TMfa,
 	isDefaultPasswordUsed: boolean,
 	passwordChangedAt: string | null,
 	resetPasswordToken: string | null,
@@ -102,4 +105,12 @@ export type TUser = {
 	businessId: string,
 	userType: string,
 	id: string
+}
+
+export type TGeneralRes = {
+	success: boolean;
+	statusCode: number;
+	message: string;
+	links: string[];
+
 }

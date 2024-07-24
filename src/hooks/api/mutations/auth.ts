@@ -1,13 +1,6 @@
 import api from "@/config/axios"
-import { TUser } from "@type/global.types"
+import { TGeneralRes, TUser } from "@type/global.types"
 import { useMutation } from "@tanstack/react-query"
-type GeneralRes = {
-	success: boolean;
-	statusCode: number;
-	message: string;
-	links: string[];
-
-}
 
 
 type TSignInReq = {
@@ -18,7 +11,7 @@ type TSignInReq = {
 
 
 
-type TSignInRes = GeneralRes & {
+type TSignInRes = TGeneralRes & {
 	data: {
 		token: string,
 		expires: number,

@@ -1,12 +1,11 @@
 import api from "@/config/axios"
+import { handleGenericError } from "@/helpers/functions/handleGenericError"
 import { useMSignIn } from "@/hooks/api/mutations/auth"
 import { PrimaryButton } from "@components/global/Buttons"
 import Input from "@components/global/Input"
 import { P } from "@components/global/Typography"
-import { AxiosError } from "axios"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
 
 const defaultValues = {
 	email: '',
@@ -34,34 +33,31 @@ const LoginForm = ({ setIsSetPassword, setTokenState }: { setIsSetPassword: (sta
 		}
 
 		mutate(payload, {
-			onSuccess: (data) => {
-				// if for some reason the token isn't sent
-				if (!data.data.data.token) {
-					setError('password', {
-						type: 'custom',
-						message: 'An error occurred during sign up, please try again'
-					})
-					return
-				}
-				reset()
+      onSuccess: (data) => {
+        // if for some reason the token isn't sent
+        if (!data.data.data.token) {
+          setError("password", {
+            type: "custom",
+            message: "An error occurred during sign up, please try again",
+          });
+          return;
+        }
+        reset();
 
-				localStorage.setItem('fmw_business_auth_token', data.data.data.token)
-				api.defaults.headers.common['Authorization'] = `Bearer ${data.data.data.token}`
-				if (data.data?.data.user.isDefaultPassword === true) {
-					setTokenState?.(formData.password)
-					setIsSetPassword(true)
-				} else if (!data.data?.data.user.contactPersonInfo._id) {
-					navigate("/dashboard/settings/onboarding/contact-details")
-				} else {
-					navigate('/dashboard')
-				}
-			},
-			onError: (error) => {
-				if (error instanceof AxiosError) {
-					toast.error(error.response?.data?.message)
-				}
-			}
-		})
+        localStorage.setItem("fmw_business_auth_token", data.data.data.token);
+        api.defaults.headers.common["Authorization"] =
+          `Bearer ${data.data.data.token}`;
+        if (data.data?.data.user.isDefaultPassword === true) {
+          setTokenState?.(formData.password);
+          setIsSetPassword(true);
+        } else if (!data.data?.data.user.contactPersonInfo._id) {
+          navigate("/dashboard/settings/onboarding/contact-details");
+        } else {
+          navigate("/dashboard");
+        }
+      },
+      onError: (error) => handleGenericError(error),
+    });
 	}
 
 

@@ -22,62 +22,64 @@ const Sidebar = () => {
 
 
 	return (
-		<div className="h-screen bg-white flex flex-col w-[276px] border-r border-sidebarBorder ">
-			<section className='pl-12 flex items-center border-b border-otpBox h-20 '>
-				<Link to='/dashboard/overview'>
-					<img
-						src={logo}
-						alt="fumiwo logo"
-						className="max-w-[124px] max-h-10"
-					/>
-				</Link>
-			</section>
+    <div className="flex h-screen min-w-[276px] flex-col border-r border-sidebarBorder bg-white">
+      <section className="flex h-20 items-center border-b border-otpBox pl-12">
+        <Link to="/dashboard/overview">
+          <img
+            src={logo}
+            alt="fumiwo logo"
+            className="max-h-10 max-w-[124px]"
+          />
+        </Link>
+      </section>
 
-			<section className='pl-8 pt-7 pb-14 flex-1 flex flex-col justify-between'>
-				<nav className="w-fit flex flex-col space-y-2">
-					{navLinks.map((link, index) => (
-						<NavLink
-							key={index}
-							to={`/dashboard${link.link}`}
-							className={({ isActive }) => `py-3 px-4 flex gap-4 items-center text-lg duration-300 ${isActive ? 'text-sideBarText font-semibold' : 'text-unFocusedText font-medium'}`}
-						>
-							{({ isActive }) => (
-								<>
-									<div> {isActive ? link.ActiveIcon : link.InactiveIcon} </div>
-									<p >{link.name}</p>
-								</>
-							)}
-						</NavLink>
-					))}
-				</nav>
+      <section className="flex flex-1 flex-col justify-between pb-14 pl-8 pt-7">
+        <nav className="flex w-fit flex-col space-y-2">
+          {navLinks.map((link, index) => (
+            <NavLink
+              key={index}
+              to={`/dashboard${link.link}`}
+              className={({ isActive }) =>
+                `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "text-primaryBlue font-semibold" : "font-medium text-unFocusedText"}`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <div> {isActive ? link.ActiveIcon : link.InactiveIcon} </div>
+                  <p>{link.name}</p>
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
 
-				<nav>
-					{bottomNavLinks.map((link, index) => (
-						<button
-							key={index}
-							className={`py-3 px-4 flex gap-4 items-center text-lg duration-300 text-absoluteRed font-medium`}
-							// onClick={() => {
-							// 	console.log('logging out...');
-							// 	localStorage.clear();
-							// 	api.defaults.headers.common['Authorization'] = undefined
-							// 	redirect('/login')
-							// }}
-							onClick={() => {
-								console.log('logging out...');
+        <nav>
+          {bottomNavLinks.map((link, index) => (
+            <button
+              key={index}
+              className={`flex items-center gap-4 px-4 py-3 text-lg font-medium text-absoluteRed duration-300`}
+              // onClick={() => {
+              // 	console.log('logging out...');
+              // 	localStorage.clear();
+              // 	api.defaults.headers.common['Authorization'] = undefined
+              // 	redirect('/login')
+              // }}
+              onClick={() => {
+                console.log("logging out...");
 
-								localStorage.clear();
-								api.defaults.headers.common['Authorization'] = undefined
-								return navigate('/login', { replace: true })
-							}}
-						>
-							<div> {link.Icon} </div>
-							<p>{link.name}</p>
-						</button>
-					))}
-				</nav>
-			</section>
-		</div>
-	)
+                localStorage.clear();
+                api.defaults.headers.common["Authorization"] = undefined;
+                return navigate("/login", { replace: true });
+              }}
+            >
+              <div> {link.Icon} </div>
+              <p>{link.name}</p>
+            </button>
+          ))}
+        </nav>
+      </section>
+    </div>
+  );
 }
 
 export default Sidebar

@@ -4,6 +4,17 @@ import Input from "@components/global/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+
+type TBusinessInfoForm = {
+  businessName?: string; // optional
+  type?: string; // optional
+  registrationNumber?: string; // optional
+  country: string;
+  address: string;
+  state: string;
+  city: string;
+};
+
 const defaultValues = {
   // contactPersonInfo: {
   // firstName: '',
@@ -28,17 +39,23 @@ const defaultValues = {
 };
 
 const BusinessDetailsForm = () => {
+  const data = sessionStorage.getItem("fmw_onbd_business_form_dt");
+  const savedBusinessDetails: TBusinessInfoForm = JSON.parse(data || "{}");
+  const savedDefaultValues = savedBusinessDetails?.businessName
+    ? savedBusinessDetails
+    : defaultValues;
+
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues,
+    defaultValues: savedDefaultValues,
     mode: "onBlur",
   });
 
-  const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
+  const submitForm: SubmitHandler<TBusinessInfoForm> = async (data) => {
     const payload = {
       name: data.businessName,
       type: data.type,
@@ -51,7 +68,6 @@ const BusinessDetailsForm = () => {
       },
     };
 
-    console.log(payload);
     sessionStorage.setItem("fmw_onbd_business_form_dt", JSON.stringify(data));
     navigate("/dashboard/settings/onboarding/contact-details", {
       state: {

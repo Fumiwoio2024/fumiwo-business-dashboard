@@ -18,6 +18,7 @@ export default {
       },
       colors: {
         primaryBlack: '#18191F',
+        primaryBlue: '#011D7B',
         // primaryBlack: '#12141D',
         textHeader: '#011456',
         primaryGreen: '#0BE781',
@@ -34,7 +35,6 @@ export default {
         bottomFooterBorder: '#8A8A8A',
         otpBox: "#EAECF0",
         sidebarBorder: '#EEF1F6',
-        sideBarText: '#011D7B',
         unFocusedText: '#A5B3CD',
         absoluteRed: "#FF0000",
         appBg: '#F4F7FA',

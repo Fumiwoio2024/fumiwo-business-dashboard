@@ -1,8 +1,19 @@
+import { handleGenericError } from "@/helpers/functions/handleGenericError";
+import { useMUpdatePassword } from "@/hooks/api/mutations/app/onboarding.mutatuions";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import Divider from "@components/global/Divider";
 import Input from "@components/global/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+
+type TContactPersonForm = {
+  firstName: string;
+  lastName: string;
+  role?: string; // optional
+  email: string;
+  countryCode: string;
+  mobile: string;
+};
 
 const defaultValues = {
   // contactPersonInfo: {
@@ -42,18 +53,29 @@ type TBusinessInfo = {
 };
 
 const ContactPersonForm = () => {
+  const data = sessionStorage.getItem("fmw_onbd_contact_person_form_dt");
+  const savedContactPersonDetails: TContactPersonForm = JSON.parse(
+    data || "{}",
+  );
+  const savedDefaultValues = savedContactPersonDetails?.firstName
+    ? savedContactPersonDetails
+    : defaultValues;
+
   const navigate = useNavigate();
   const location = useLocation();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
+    reset,
   } = useForm({
-    defaultValues,
+    defaultValues: savedDefaultValues,
     mode: "onBlur",
   });
 
-  const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
+  const { mutate, isPending } = useMUpdatePassword();
+  const submitForm: SubmitHandler<TContactPersonForm> = async (data) => {
     const businessInfo: TBusinessInfo = location.state?.businessDetails;
 
     const payload = {
@@ -70,13 +92,34 @@ const ContactPersonForm = () => {
       },
     };
 
-    console.log(payload);
-    // sessionStorage.setItem('fmw_onbd_business_form_dt', JSON.stringify(payload))
-    navigate("/dashboard/settings/onboarding/select-product", {
-      state: {
-        businessDetails: payload,
+    mutate(payload, {
+      onSuccess: () => {
+        reset();
+        sessionStorage.setItem("fmw_onbd_business_form_dt", JSON.stringify({}));
+        sessionStorage.setItem(
+          "fmw_onbd_contact_person_form_dt",
+          JSON.stringify({}),
+        );
+
+        navigate("/dashboard/settings/onboarding/select-product", {
+          state: {
+            businessDetails: payload,
+          },
+        });
+      },
+      onError: (error) => {
+        handleGenericError(error);
       },
     });
+  };
+
+  const goBack = async () => {
+    sessionStorage.setItem(
+      "fmw_onbd_contact_person_form_dt",
+      JSON.stringify(getValues()),
+    );
+
+    navigate("/dashboard/settings/onboarding/business-details");
   };
 
   return (
@@ -182,14 +225,10 @@ const ContactPersonForm = () => {
 
       <Divider />
 
-      <PrimaryButton
-        // loading={isPending}
-        className="w-full"
-        type="submit"
-      >
+      <PrimaryButton loading={isPending} className="w-full" type="submit">
         Continue
       </PrimaryButton>
-      <BorderlessButton className="w-full" onClick={() => navigate(-1)}>
+      <BorderlessButton className="w-full" onClick={goBack}>
         Go back
       </BorderlessButton>
     </form>

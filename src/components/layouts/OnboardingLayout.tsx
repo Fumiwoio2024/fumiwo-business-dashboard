@@ -2,10 +2,10 @@ import useChangeRoute from "@/hooks/custom/useChangeRoute";
 import Card from "@components/global/Card";
 import { H1, P } from "@components/global/Typography";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const statusIcons = {
-  success: (
+  complete: (
     <svg
       width="26"
       height="26"
@@ -204,31 +204,33 @@ const StatusItem = ({
   title,
   index,
   link,
+  activeStep,
 }: {
   index: number;
   link: string;
-  storageId: string;
+  activeStep: number;
   className?: string;
   title?: string;
 }) => {
-  const [status, setStatus] = useState<keyof typeof statusIcons>("inComplete");
-  // type TStatus = keyof typeof statusIcons
-  // const storageItem = sessionStorage.getItem(storageId)
-  // const status: { status: TStatus } = !storageItem ? { status: 'inComplete' } : JSON.parse(storageItem)
+  const navigate = useNavigate();
+  const status =
+    index < activeStep
+      ? "complete"
+      : index === activeStep
+        ? "inProgress"
+        : "inComplete";
 
-  useChangeRoute((pathname) => {
-    // const isActiveIndex = pathname.includes(link) ? index : false;
-    if (pathname.includes(link)) {
-      setStatus("inProgress");
-    } else if (index === 0) {
-      setStatus("success");
-    } else {
-      setStatus("inComplete");
+  const goToNextStep = () => {
+    if (index !== 2) {
+      navigate(`/dashboard/settings/onboarding/${link}`);
     }
-  });
-
+  };
   return (
-    <div className="flex items-center border-b border-onboardingBorder/60 pb-4 last:border-none">
+    <div
+      role={index !== 2 ? "button" : undefined}
+      onClick={goToNextStep}
+      className="cursor-point flex items-center border-b border-onboardingBorder/60 pb-4 last:border-none"
+    >
       <div
         className={`flex h-10 w-10 items-center justify-center rounded-full ${className}`}
       >
@@ -258,6 +260,16 @@ const onboardingSteps = [
 ];
 
 const OnboardingLayout = () => {
+  const [activeStep, setActiveStep] = useState<number>(0);
+
+  useChangeRoute((pathname) => {
+    for (const key in onboardingSteps) {
+      if (pathname.includes(onboardingSteps[key].link)) {
+        setActiveStep(Number(key));
+        break;
+      }
+    }
+  });
   return (
     <div className="space-y-10 px-9 py-12">
       <div className="space-y-3">
@@ -271,8 +283,9 @@ const OnboardingLayout = () => {
             <StatusItem
               key={index}
               index={index}
+              activeStep={activeStep}
               link={step.link}
-              storageId={step.storageId}
+              // storageId={step.storageId}
               title={step.title}
             />
           ))}
