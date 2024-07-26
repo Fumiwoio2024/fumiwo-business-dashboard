@@ -1,8 +1,10 @@
+import SaveCardForm from "@components/forms/SaveCardForm";
 import { PrimaryButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
 import Divider from "@components/global/Divider";
+import ModalContainer from "@components/global/ModalContainer";
 import { H2, H5, P } from "@components/global/Typography";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 type TSingleProductProps = {
   title: string;
@@ -117,23 +119,22 @@ const PaymentDefaultScore = [
 ];
 
 const SelectProduct = () => {
-  const navigate = useNavigate();
-  function sendEmail(recipient: string) {
-    // function sendEmail(recipient:string, subject, body) {
-    // // Encode the subject and body to handle special characters and spaces
-    // const encodedSubject = encodeURIComponent(subject);
-    // const encodedBody = encodeURIComponent(body);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-    // Construct the mailto URL
-    // const mailtoLink = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
-    const mailtoLink = `mailto:${recipient}`;
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
 
-    // Open the mailto link
-    window.location.href = mailtoLink;
-  }
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <Card className="flex-1 px-6 pb-20">
+      <ModalContainer isVisible={isModalVisible} onClose={handleCloseModal}>
+        <SaveCardForm onClose={handleCloseModal} />
+      </ModalContainer>
+
       <div className="space-y-3">
         <H2>Select a product</H2>
         <P>Complete the following steps to fully get onboarded</P>
@@ -148,7 +149,7 @@ const SelectProduct = () => {
           description="Get reliable insights through smartphone usage analysis and get precise data to identify valuable customers."
           pros={smartphoneInsightPros}
           extraInfo=""
-          action={() => navigate("/dashboard/settings/save-card")}
+          action={handleOpenModal}
         />
         <SingleProduct
           title="Payment default score"
@@ -157,7 +158,7 @@ const SelectProduct = () => {
           description="Explore the power of our AI Predictive model and uncover deeper customer insights and probability of customers to default on repayment"
           pros={PaymentDefaultScore}
           extraInfo="This solution requires validation and is not available from day one. 12 months minimum commitment. No hidden fees."
-          action={() => sendEmail("mailto:support@fumiwo.io")}
+          action={handleOpenModal}
         />
       </div>
     </Card>

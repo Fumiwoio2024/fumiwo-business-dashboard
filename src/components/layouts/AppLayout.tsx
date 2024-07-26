@@ -20,16 +20,16 @@ const AppLayout = () => {
 	}, [location.pathname, navigate])
 
 	return (
-		<div className='w-screen h-screen bg-appBg flex overflow-hidden'>
-			<Sidebar />
-			<div className='flex-1 flex flex-col'>
-				<TopNav />
-				<div className='flex-1 overflow-y-auto'>
-					<Outlet />
-				</div>
-			</div>
-		</div>
-	)
+    <div className="relative flex h-screen w-screen overflow-hidden bg-appBg">
+      <Sidebar />
+      <div className="flex flex-1 flex-col">
+        <TopNav />
+        <div className="flex-1 overflow-y-auto">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default AppLayout

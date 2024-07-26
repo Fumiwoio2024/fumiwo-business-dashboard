@@ -1,3 +1,4 @@
+import { formatCardNumber } from "@/helpers/functions/formatCardNumber";
 import { PrimaryButton } from "@components/global/Buttons";
 import Divider from "@components/global/Divider";
 import Input from "@components/global/Input";
@@ -11,16 +12,28 @@ const defaultValues = {
   expiryDate: "",
 };
 
-const SaveCardForm = () => {
-  // const navigate = useNavigate();
+const SaveCardForm = ({ onClose }: { onClose: () => void }) => {
+  // const [cardNumber, setCardNumber] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    reset,
   } = useForm({
     defaultValues,
     mode: "onBlur",
   });
+
+  const handleCardInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedValue = formatCardNumber(e.target.value.slice(0, 19));
+    setValue("cardNumber", formattedValue, { shouldValidate: true });
+  };
+
+  const handleCvcInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue("cvc", e.target.value.slice(0, 3), { shouldValidate: true });
+  };
 
   const submitForm: SubmitHandler<typeof defaultValues> = async () => {
     // console.log(payload);
@@ -30,6 +43,8 @@ const SaveCardForm = () => {
     //     businessDetails: payload,
     //   },
     // });
+    onClose();
+    reset();
   };
 
   return (
@@ -47,17 +62,16 @@ const SaveCardForm = () => {
           label=" Card number"
           placeholder="0000 0000 0000 0000"
           type="text"
+          min={3}
           error={errors.cardNumber?.message}
           {...register("cardNumber", {
-            required: "Business name is required",
-            pattern: {
-              value: /^[A-Za-z0-9 ]+$/,
-              message: "Invalid Company name",
-            },
+            onChange: handleCardInputChange,
+            required: "Debit card number is required",
             minLength: {
-              value: 3,
-              message: "Business name must be at least 3 characters",
+              value: 19,
+              message: "Invalid debit card number",
             },
+            maxLength: 19,
           })}
         />
 
@@ -68,7 +82,7 @@ const SaveCardForm = () => {
             type="date"
             error={errors.expiryDate?.message}
             {...register("expiryDate", {
-              required: "Registration number is required",
+              required: "Expiry date is required",
             })}
           />
 
@@ -78,7 +92,13 @@ const SaveCardForm = () => {
             type="text"
             error={errors.cvc?.message}
             {...register("cvc", {
+              onChange: handleCvcInputChange,
               required: "CVC is required",
+              minLength: {
+                value: 3,
+                message: "Invalid CVC",
+              },
+              maxLength: 3,
             })}
           />
         </div>

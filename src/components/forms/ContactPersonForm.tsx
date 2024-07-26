@@ -1,3 +1,5 @@
+import { formatCardNumber } from "@/helpers/functions/formatCardNumber";
+import { formatPhoneNumber } from "@/helpers/functions/formatPhone";
 import { handleGenericError } from "@/helpers/functions/handleGenericError";
 import { useMUpdatePassword } from "@/hooks/api/mutations/app/onboarding.mutatuions";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
@@ -67,12 +69,19 @@ const ContactPersonForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
     getValues,
     reset,
+    watch,
   } = useForm({
     defaultValues: savedDefaultValues,
     mode: "onBlur",
   });
+
+  const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedValue = formatPhoneNumber(e.target.value.slice(0, 12));
+    setValue("mobile", formattedValue, { shouldValidate: true });
+  };
 
   const { mutate, isPending } = useMUpdatePassword();
   const submitForm: SubmitHandler<TContactPersonForm> = async (data) => {
@@ -121,6 +130,8 @@ const ContactPersonForm = () => {
 
     navigate("/dashboard/settings/onboarding/business-details");
   };
+
+  console.log(watch("mobile"));
 
   return (
     <form
@@ -206,8 +217,7 @@ const ContactPersonForm = () => {
 
       <Input
         label="Phone number"
-        placeholder="903 645 6463"
-        type="number"
+        placeholder="903 123 4567"
         error={errors.mobile?.message}
         leftComponent={
           <div className="flex min-w-max items-center self-stretch border bg-disabledInput px-3">
@@ -216,9 +226,10 @@ const ContactPersonForm = () => {
         }
         {...register("mobile", {
           required: "Phone number is required",
-          minLength: {
-            value: 9,
-            message: "Invalid phone",
+          onChange: handlePhoneInputChange,
+          pattern: {
+            value: /^(\d{3} \d{3} \d{4})$/,
+            message: "Invalid phone number",
           },
         })}
       />
