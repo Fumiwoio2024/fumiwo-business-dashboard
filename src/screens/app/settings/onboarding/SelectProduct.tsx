@@ -1,4 +1,4 @@
-import { PrimaryButton, SecondaryButton } from "@components/global/Buttons";
+import { PrimaryButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
 import Divider from "@components/global/Divider";
 import { H2, H5, P } from "@components/global/Typography";
@@ -26,7 +26,7 @@ const SingleProduct = ({
   return (
     <Card
       className={`flex-1 !rounded-2xl border ${
-        interval ? "text-graySubtext" : "bg-primaryBlue text-whit"
+        interval ? "text-graySubtext" : "text-whit !bg-primaryBlue"
       }`}
     >
       <div className="min-h-[560px]">
@@ -75,7 +75,6 @@ const SingleProduct = ({
                   stroke-linejoin="round"
                 />
               </svg>
-
               <P className={` ${!interval && "text-white"}`}>{pro}</P>
             </div>
           ))}

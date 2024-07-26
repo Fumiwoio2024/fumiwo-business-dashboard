@@ -3,7 +3,7 @@ import Divider from "@components/global/Divider";
 import Input from "@components/global/Input";
 import { H2, P } from "@components/global/Typography";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const defaultValues = {
   cardNumber: "",
@@ -12,7 +12,7 @@ const defaultValues = {
 };
 
 const SaveCardForm = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,7 +22,7 @@ const SaveCardForm = () => {
     mode: "onBlur",
   });
 
-  const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
+  const submitForm: SubmitHandler<typeof defaultValues> = async () => {
     // console.log(payload);
     // sessionStorage.setItem("fmw_onbd_business_form_dt", JSON.stringify(data));
     // navigate("/dashboard/settings/onboarding/contact-details", {

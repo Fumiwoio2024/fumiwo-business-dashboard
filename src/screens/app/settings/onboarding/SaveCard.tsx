@@ -1,6 +1,5 @@
 import SaveCardForm from "@components/forms/SaveCardForm";
 import Card from "@components/global/Card";
-import React from "react";
 
 const SaveCard = () => {
   return (
