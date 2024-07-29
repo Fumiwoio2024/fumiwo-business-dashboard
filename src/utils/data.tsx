@@ -227,7 +227,7 @@ export const navLinks: TNavLinks[] = [
         />
       </svg>
     ),
-    link: "/billings",
+    link: "/billing",
   },
   {
     name: "Teams",

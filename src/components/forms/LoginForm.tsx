@@ -51,10 +51,11 @@ const LoginForm = ({ setIsSetPassword, setTokenState }: { setIsSetPassword: (sta
         );
         api.defaults.headers.common["Authorization"] =
           `Bearer ${data.data.data.token}`;
+
         if (data.data?.data.user.isDefaultPassword === true) {
           setTokenState?.(formData.password);
           setIsSetPassword(true);
-        } else if (!data.data?.data.user.contactPersonInfo._id) {
+        } else if (data.data?.data.user.status === "incomplete_profile") {
           navigate("/dashboard/settings/onboarding/contact-details");
         } else {
           navigate("/dashboard");

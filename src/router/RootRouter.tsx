@@ -15,7 +15,7 @@ import OnboardingLayout from "@components/layouts/OnboardingLayout";
 import BusinessDetails from "@app-screens/settings/onboarding/BusinessDetails";
 import ContactDetails from "@app-screens/settings/onboarding/ContactDetails";
 import SelectProduct from "@app-screens/settings/onboarding/SelectProduct";
-import SaveCard from "@app-screens/settings/onboarding/SaveCard";
+import BillingHome from "@app-screens/billing/Home";
 
 const router = createBrowserRouter([
   {
@@ -53,16 +53,22 @@ const router = createBrowserRouter([
         element: <Overview />,
       },
       {
+        path: "billing",
+        // element: <SaveCard />,
+        children: [
+          {
+            index: true,
+            element: <BillingHome />,
+          },
+        ],
+      },
+      {
         path: "settings",
         element: <SettingsLayout />,
         children: [
           {
             index: true,
             element: <Settings />,
-          },
-          {
-            path: "save-card",
-            element: <SaveCard />,
           },
           {
             path: "onboarding",

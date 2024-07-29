@@ -29,13 +29,19 @@ export const H3 = ({ children, className }: { children: ReactNode, className?: s
 	)
 }
 
-export const H4 = ({ children, className }: { children: ReactNode, className?: string }) => {
-	return (
-    <h4 className={`text-xl font-semibold text-textHeader ${className}`}>
+export const H4 = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <h4 className={`text-base font-medium text-textHeader ${className}`}>
       {children}
     </h4>
   );
-}
+};
 
 export const H5 = ({
   children,
@@ -48,6 +54,20 @@ export const H5 = ({
     <h5 className={`text-lg font-medium text-textHeader ${className}`}>
       {children}
     </h5>
+  );
+};
+
+export const H6 = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <h6 className={`text-xs font-normal text-paraGray ${className}`}>
+      {children}
+    </h6>
   );
 };
 

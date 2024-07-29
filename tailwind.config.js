@@ -42,6 +42,7 @@ export default {
         disabledInput: '#F5F8FA',
         secondaryButton: "#009851",
         graySubtext: '#718096',
+        bannerWarning: '#FDB022',
       },
       boxShadow: {
         username: '0px 14px 54px 0px #0000000F'
