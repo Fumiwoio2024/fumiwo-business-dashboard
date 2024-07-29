@@ -4,59 +4,59 @@ import Card from "@components/global/Card";
 import Divider from "@components/global/Divider";
 import { H4, H6 } from "@components/global/Typography";
 import mastercardLogo from "@images/mastercard-logo.png";
-import Tables from "@components/global/Tables.jsx";
-import { createColumnHelper } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
-import moment from "moment";
+// import Tables from "@components/global/Tables.jsx";
+// import { createColumnHelper } from "@tanstack/react-table";
+// import { Link } from "react-router-dom";
+// import moment from "moment";
 
 const BillingHome = () => {
-  const columnHelper = createColumnHelper();
+  // const columnHelper = createColumnHelper();
 
-  const columns = [
-    columnHelper.accessor((row) => "user", {
-      id: "Name of user",
-      cell: (info) => {
-        const value = info.row.original;
-        const name = value?.username;
-        const userId = value?.user_id;
+  // const columns = [
+  //   columnHelper.accessor((row) => "user", {
+  //     id: "Name of user",
+  //     cell: (info) => {
+  //       const value = info.row.original;
+  //       const name = value?.username;
+  //       const userId = value?.user_id;
 
-        return (
-          <Link to={`/dashboard/customers/${userId}/profile`}>
-            <div className="text-primary-blue cursor-pointer font-normal capitalize hover:underline">
-              <span className="text-sm">{name}</span>
-            </div>
-          </Link>
-        );
-      },
-    }),
+  //       return (
+  //         <Link to={`/dashboard/customers/${userId}/profile`}>
+  //           <div className="text-primary-blue cursor-pointer font-normal capitalize hover:underline">
+  //             <span className="text-sm">{name}</span>
+  //           </div>
+  //         </Link>
+  //       );
+  //     },
+  //   }),
 
-    columnHelper.accessor((row) => row.description, {
-      id: "description",
-      cell: (info) => (
-        <span className="text-renaissance-black text-sm">
-          {info.getValue()}
-        </span>
-      ),
-    }),
+  //   columnHelper.accessor((row) => row.description, {
+  //     id: "description",
+  //     cell: (info) => (
+  //       <span className="text-renaissance-black text-sm">
+  //         {info.getValue()}
+  //       </span>
+  //     ),
+  //   }),
 
-    columnHelper.accessor((row) => "date", {
-      id: "date",
-      cell: (info) => {
-        const value = info.row.original;
+  //   columnHelper.accessor((row) => "date", {
+  //     id: "date",
+  //     cell: (info) => {
+  //       const value = info.row.original;
 
-        return (
-          <div className="text-renaissance-black capitalize">
-            <span className="block text-sm">
-              {moment(value?.created_at).format("DD MMM yyyy")}
-            </span>
-            <span className="text-gray-2 text-[10px]">
-              {moment(value?.created_at).format("hh:mm Z")}
-            </span>
-          </div>
-        );
-      },
-    }),
-  ];
+  //       return (
+  //         <div className="text-renaissance-black capitalize">
+  //           <span className="block text-sm">
+  //             {moment(value?.created_at).format("DD MMM yyyy")}
+  //           </span>
+  //           <span className="text-gray-2 text-[10px]">
+  //             {moment(value?.created_at).format("hh:mm Z")}
+  //           </span>
+  //         </div>
+  //       );
+  //     },
+  //   }),
+  // ];
 
   return (
     <div className="w-full p-8">
@@ -147,7 +147,7 @@ const BillingHome = () => {
       </div>
 
       <div>
-        <Tables />
+        {/* <Tables /> */}
       </div>
     </div>
   );
