@@ -106,11 +106,11 @@ const ClientHome = () => {
         <TableOptions
           options={[
             {
-              title: "Edit",
+              title: "Download",
               action: () => {},
             },
             {
-              title: "Delete",
+              title: "Make Payment",
               action: () => {},
             },
           ]}

@@ -94,7 +94,7 @@ const ContactPersonForm = () => {
         role: data.role,
         email: data.email,
         phone: {
-          countryCode: data.countryCode,
+          countryCode: data.countryCode.replace("+", ""),
           mobile: data.mobile,
         },
       },
@@ -130,7 +130,6 @@ const ContactPersonForm = () => {
     navigate("/dashboard/settings/onboarding/business-details");
   };
 
-  console.log(watch("mobile"));
 
   return (
     <form

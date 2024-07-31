@@ -61,7 +61,7 @@ const BusinessDetailsForm = () => {
       type: data.type,
       registrationNumber: data.registrationNumber,
       addressInfo: {
-        country: data.country,
+        country: "NG",
         address: data.address,
         state: data.state,
         city: data.city,

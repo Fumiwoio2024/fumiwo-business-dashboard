@@ -52,7 +52,7 @@ const Tables = <T,>({
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="text-dark-1 whitespace-nowrap !px-5 py-3 text-left text-xs font-semibold uppercase"
+                    className="text-dark-1 whitespace-nowrap !px-5 py-3 text-left text-xs font-semibold"
                   >
                     {header.isPlaceholder
                       ? null
