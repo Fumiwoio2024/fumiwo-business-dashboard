@@ -21,7 +21,7 @@ const AuthLayout = () => {
 
 	return (
     <div className="flex h-screen w-screen p-4">
-      <section className="flex w-5/12 flex-col justify-between rounded-xl bg-authBg bg-cover bg-center py-24 text-center">
+      <section className="hidden w-5/12 flex-col justify-between rounded-xl bg-authBg bg-cover bg-center py-24 text-center lg:flex">
         <div className="text-white">
           <h4 className="text-[40px] font-bold">Welcome to Fumiwo</h4>
           <p className="mt-1 text-[20px]">For better credit decisions</p>
@@ -33,7 +33,7 @@ const AuthLayout = () => {
           </p>
         </div>
       </section>
-      <section className="w-7/12 overflow-y-auto">
+      <section className="overflow-y-auto px-5 lg:w-7/12">
         <div className="flex h-full flex-col justify-between">
           <div className="mx-auto my-[7%] w-[480px] space-y-8 px-6 text-center">
             {showLogo && (

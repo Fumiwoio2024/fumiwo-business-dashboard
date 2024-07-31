@@ -22,7 +22,7 @@ const Sidebar = () => {
 
 
 	return (
-    <div className="flex h-screen min-w-[276px] flex-col border-r border-sidebarBorder bg-white">
+    <div className="hidden h-screen min-w-[276px] flex-col border-r border-sidebarBorder bg-white lg:flex">
       <section className="flex h-20 items-center border-b border-otpBox pl-12">
         <Link to="/dashboard/overview">
           <img
@@ -40,7 +40,7 @@ const Sidebar = () => {
               key={index}
               to={`/dashboard${link.link}`}
               className={({ isActive }) =>
-                `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "text-primaryBlue font-semibold" : "font-medium text-unFocusedText"}`
+                `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
               }
             >
               {({ isActive }) => (

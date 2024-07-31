@@ -112,8 +112,8 @@ const BusinessDetailsForm = () => {
               message: "Invalid Company name",
             },
             minLength: {
-              value: 3,
-              message: "Registration number must be at least 3 characters",
+              value: 7,
+              message: "Registration number must be at least 7 characters",
             },
           })}
         />

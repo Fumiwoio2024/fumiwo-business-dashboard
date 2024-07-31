@@ -15,7 +15,8 @@ import OnboardingLayout from "@components/layouts/OnboardingLayout";
 import BusinessDetails from "@app-screens/settings/onboarding/BusinessDetails";
 import ContactDetails from "@app-screens/settings/onboarding/ContactDetails";
 import SelectProduct from "@app-screens/settings/onboarding/SelectProduct";
-import BillingHome from "@app-screens/billing/Home";
+import BillingHome from "@app-screens/billing/BillingHome";
+import ClientHome from "@app-screens/clients/ClientHome";
 
 const router = createBrowserRouter([
   {
@@ -54,11 +55,19 @@ const router = createBrowserRouter([
       },
       {
         path: "billing",
-        // element: <SaveCard />,
         children: [
           {
             index: true,
             element: <BillingHome />,
+          },
+        ],
+      },
+      {
+        path: "clients",
+        children: [
+          {
+            index: true,
+            element: <ClientHome />,
           },
         ],
       },

@@ -114,3 +114,40 @@ export type TGeneralRes = {
 	links: string[];
 
 }
+
+type ProductBilled = {
+	fixedFee: number;
+	_id: string;
+	apiCallsMade: number;
+	type: string;
+	apiCallsAllowed: number;
+	feeType: string;
+	currency: string;
+	variableFees: number[]; // Adjust type if there is more information about variableFees
+}
+
+export type Invoice = {
+	cardCharged: string;
+	transactionId: string;
+	amountPaid: number;
+	status: string;
+	dateDue: string; // Could be Date if parsing is needed
+	datePaid: string; // Could be Date if parsing is needed
+	paymentLink: string;
+	pdfDownloadLink: string;
+	discount: number;
+	discountReason: string | null;
+	additionalCost: number;
+	additionalCostReason: string | null;
+	business: string;
+	plan: string;
+	productsBilled: ProductBilled[];
+	currency: string;
+	amountDue: number;
+	type: string;
+	createdAt: string; // Could be Date if parsing is needed
+	lastModifiedAt: string; // Could be Date if parsing is needed
+	_createdAt: string; // Could be Date if parsing is needed
+	_lastModifiedAt: string; // Could be Date if parsing is needed
+	id: string;
+}

@@ -6,10 +6,10 @@ type TCardProps = {
 }
 const Card = ({ className, children }: TCardProps) => {
 	return (
-		<section className={`bg-white rounded-md p-8 ${className}`}>
-			{children}
-		</section>
-	)
+    <section className={`rounded-md bg-white p-6 ${className}`}>
+      {children}
+    </section>
+  );
 }
 
 export default Card

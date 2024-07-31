@@ -13,7 +13,7 @@ const ModalContainer = ({
     <div
       role="dialog"
       onClick={onClose}
-      className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
+      className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 transition-opacity duration-300 ${
         isVisible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >

@@ -48,7 +48,7 @@ const SaveCardForm = ({ onClose }: { onClose: () => void }) => {
   };
 
   return (
-    <div>
+    <div className="min-w-[710px]">
       <div className="space-y-3">
         <H2>Enter card details</H2>
         <P>Your card details are fully sceured</P>

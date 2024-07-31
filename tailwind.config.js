@@ -11,7 +11,8 @@ export default {
       },
 
       fontSize: {
-        xxs: '10px'
+        xxs: '10px',
+        semiNormal: '15px',
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif']
@@ -43,6 +44,7 @@ export default {
         secondaryButton: "#009851",
         graySubtext: '#718096',
         bannerWarning: '#FDB022',
+        tableHeader: '#F1F4F9',
       },
       boxShadow: {
         username: '0px 14px 54px 0px #0000000F'

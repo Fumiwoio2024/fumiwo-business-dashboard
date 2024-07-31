@@ -2,72 +2,95 @@ import Banner from "@components/global/Banner";
 import { PrimaryButton, SecondaryButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
 import Divider from "@components/global/Divider";
+import Tables from "@components/global/Tables";
 import { H4, H6 } from "@components/global/Typography";
 import mastercardLogo from "@images/mastercard-logo.png";
-// import Tables from "@components/global/Tables.jsx";
-// import { createColumnHelper } from "@tanstack/react-table";
-// import { Link } from "react-router-dom";
-// import moment from "moment";
+import { createColumnHelper } from "@tanstack/react-table";
+import { dummyInvoice } from "@/utils/data";
+import { Invoice } from "@type/global.types";
+import moment from "moment";
+import TableOptions from "@components/global/TableOptions";
+import Badge from "@components/global/Badge";
 
 const BillingHome = () => {
-  // const columnHelper = createColumnHelper();
+  const columnHelper = createColumnHelper<Invoice>();
 
-  // const columns = [
-  //   columnHelper.accessor((row) => "user", {
-  //     id: "Name of user",
-  //     cell: (info) => {
-  //       const value = info.row.original;
-  //       const name = value?.username;
-  //       const userId = value?.user_id;
+  const columns = [
+    columnHelper.accessor("id", {
+      header: "#",
+    }),
+    columnHelper.accessor("productsBilled.type", {
+      header: "Plan name",
+      cell: (info) => info.row.original.productsBilled[0].type,
+    }),
+    columnHelper.accessor("productsBilled.apiCallsMade", {
+      header: "API calls made",
+      cell: (info) => String(info.row.original.productsBilled[0].apiCallsMade),
+    }),
+    columnHelper.accessor("amountDue", {
+      header: "Amount",
+      cell: (info) =>
+        `${info.row.original.productsBilled[0].currency} ${info.getValue()}`,
+    }),
+    columnHelper.accessor("_createdAt", {
+      header: "Date created",
+      cell: (info) =>
+        moment(
+          new Date(
+            info
+              .getValue()
+              .replace(/(\d{2}:\d{2}:\d{2})\d{2}([+-]\d{2}:\d{2})/, "$1$2"),
+          ),
+        ).format("MMM DD, YYYY"),
+    }),
+    columnHelper.accessor("status", {
+      header: "Status",
+      cell: (info) => {
+        const status = info.getValue();
+        let type: "success" | "error" = "success";
+        switch (status) {
+          case "paid":
+            type = "success";
+            break;
 
-  //       return (
-  //         <Link to={`/dashboard/customers/${userId}/profile`}>
-  //           <div className="text-primary-blue cursor-pointer font-normal capitalize hover:underline">
-  //             <span className="text-sm">{name}</span>
-  //           </div>
-  //         </Link>
-  //       );
-  //     },
-  //   }),
-
-  //   columnHelper.accessor((row) => row.description, {
-  //     id: "description",
-  //     cell: (info) => (
-  //       <span className="text-renaissance-black text-sm">
-  //         {info.getValue()}
-  //       </span>
-  //     ),
-  //   }),
-
-  //   columnHelper.accessor((row) => "date", {
-  //     id: "date",
-  //     cell: (info) => {
-  //       const value = info.row.original;
-
-  //       return (
-  //         <div className="text-renaissance-black capitalize">
-  //           <span className="block text-sm">
-  //             {moment(value?.created_at).format("DD MMM yyyy")}
-  //           </span>
-  //           <span className="text-gray-2 text-[10px]">
-  //             {moment(value?.created_at).format("hh:mm Z")}
-  //           </span>
-  //         </div>
-  //       );
-  //     },
-  //   }),
-  // ];
+          default:
+            type = "error";
+            break;
+        }
+        return <Badge type={type}>{status}</Badge>;
+      },
+    }),
+    columnHelper.accessor(() => "action", {
+      header: "Action",
+      cell: () => (
+        <div>
+          <TableOptions
+            options={[
+              {
+                title: "Edit",
+                action: () => {},
+              },
+              {
+                title: "Delete",
+                action: () => {},
+              },
+            ]}
+          />
+        </div>
+      ),
+    }),
+  ];
 
   return (
     <div className="w-full p-8">
-      <div className="grid grid-cols-10 items-stretch gap-7 text-paraGray">
-        <section className="col-span-7 space-y-4">
+      <div className="grid grid-cols-3 grid-rows-1 gap-7 text-paraGray">
+        <section className="col-span-2 space-y-4">
           <div className="flex h-12 items-center justify-between">
             <H4>Current Product Summary</H4>
             <PrimaryButton small>Upgrade</PrimaryButton>
           </div>
 
-          <Card className="h-4/5 !p-6">
+          <Card className="h-4/5">
             <div className="grid grid-cols-3 justify-between gap-28">
               <div className="text-xs text-paraGray">
                 <H6>PRODUCT NAME</H6>
@@ -92,12 +115,12 @@ const BillingHome = () => {
           </Card>
         </section>
 
-        <section className="col-span-3 space-y-4">
+        <section className="col-span-1 space-y-4">
           <div className="flex h-12 items-center">
             <H4>Payment Method</H4>
           </div>
 
-          <Card className="space-y-5 !p-6">
+          <Card className="space-y-5">
             <div className="flex gap-4">
               <div className="">
                 <img
@@ -146,8 +169,8 @@ const BillingHome = () => {
         </section>
       </div>
 
-      <div>
-        {/* <Tables /> */}
+      <div className="mt-8">
+        <Tables columns={columns} data={dummyInvoice} />
       </div>
     </div>
   );
