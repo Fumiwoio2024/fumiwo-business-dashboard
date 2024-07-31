@@ -43,9 +43,9 @@ const Tables = <T,>({
   });
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full">
       <div className="overflow-x-auto">
-        <table className="w-full text-black">
+        <table className="mb-40 w-full text-black">
           <thead className="bg-tableHeader">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="w-full">

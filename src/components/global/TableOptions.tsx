@@ -9,10 +9,7 @@ const Dropdown = ({
 }) => {
   return (
     <div
-      className={`absolute z-50 ${
-        // lastUser?.id === user?.id ? "bottom-2" :
-        "top-10"
-      } border-dark-6 shadow-3xl right-4 w-52 border bg-white`}
+      className={`border-dark-6 shadow-3xl absolute right-4 top-10 z-10 w-52 rounded-lg border bg-white`}
     >
       {options.map((option) =>
         option.title ? (
