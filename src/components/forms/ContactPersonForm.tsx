@@ -71,7 +71,6 @@ const ContactPersonForm = () => {
     setValue,
     getValues,
     reset,
-    watch,
   } = useForm({
     defaultValues: savedDefaultValues,
     mode: "onBlur",

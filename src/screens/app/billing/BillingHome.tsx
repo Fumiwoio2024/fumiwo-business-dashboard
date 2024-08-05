@@ -62,16 +62,17 @@ const BillingHome = () => {
     }),
     columnHelper.accessor(() => "action", {
       header: "Action",
-      cell: () => (
+      cell: (info) => (
         <div>
           <TableOptions
             options={[
               {
-                title: "Edit",
+                title: "Download",
                 action: () => {},
               },
               {
-                title: "Delete",
+                title:
+                  info.row.original.status !== "paid" ? "Retry" : undefined,
                 action: () => {},
               },
             ]}
@@ -94,17 +95,17 @@ const BillingHome = () => {
             <div className="grid grid-cols-3 justify-between gap-28">
               <div className="text-xs text-paraGray">
                 <H6>PRODUCT NAME</H6>
-                <p className="text-lg font-medium text-textHeader">
+                <p className="text-header text-lg font-medium">
                   Payment default score
                 </p>
               </div>
               <div className="text-xs text-paraGray">
                 <H6>BILLING CYCLE</H6>
-                <p className="text-lg font-medium text-textHeader">Monthly</p>
+                <p className="text-header text-lg font-medium">Monthly</p>
               </div>
               <div className="text-xs text-paraGray">
                 <H6>COST</H6>
-                <p className="text-lg font-medium text-textHeader">$5698</p>
+                <p className="text-header text-lg font-medium">$5698</p>
               </div>
             </div>
             <Divider height={24} />
@@ -169,7 +170,8 @@ const BillingHome = () => {
         </section>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 space-y-6">
+        <h4 className="text-header text-base font-normal">Invoices</h4>
         <Tables columns={columns} data={dummyInvoice} />
       </div>
     </div>

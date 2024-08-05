@@ -71,7 +71,7 @@ const Tables = <T,>({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="whitespace-nowrap px-5 py-4 text-sm capitalize text-paraGray"
+                    className="whitespace-nowrap px-5 py-4 text-sm text-paraGray"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>

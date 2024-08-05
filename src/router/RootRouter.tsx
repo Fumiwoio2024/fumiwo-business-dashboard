@@ -17,6 +17,7 @@ import ContactDetails from "@app-screens/settings/onboarding/ContactDetails";
 import SelectProduct from "@app-screens/settings/onboarding/SelectProduct";
 import BillingHome from "@app-screens/billing/BillingHome";
 import ClientHome from "@app-screens/clients/ClientHome";
+import TeamHome from "@app-screens/teams/TeamHome";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,15 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <BillingHome />,
+          },
+        ],
+      },
+      {
+        path: "teams",
+        children: [
+          {
+            index: true,
+            element: <TeamHome />,
           },
         ],
       },

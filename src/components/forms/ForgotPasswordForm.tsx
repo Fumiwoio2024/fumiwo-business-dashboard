@@ -44,34 +44,32 @@ const ForgotPasswordForm = () => {
 
 
 	return (
-		<form onSubmit={handleSubmit(submitForm)} className="text-left space-y-4">
-			<Input
-				label='Email'
-				placeholder="Enter your email"
-				type='email'
-				error={errors.email?.message}
-				{...register('email',
-					{
-						required: 'Email is required',
-						pattern: {
-							value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-							message: 'Invalid email address'
-						}
-					}
-				)}
-			/>
-			<PrimaryButton
-				loading={isPending}
-				className="w-full"
-				type="submit"
-			>
-				Submit
-			</PrimaryButton>
+    <form onSubmit={handleSubmit(submitForm)} className="space-y-4 text-left">
+      <Input
+        label="Email"
+        placeholder="Enter your email"
+        type="email"
+        error={errors.email?.message}
+        {...register("email", {
+          required: "Email is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "Invalid email address",
+          },
+        })}
+      />
+      <PrimaryButton loading={isPending} className="w-full" type="submit">
+        Submit
+      </PrimaryButton>
 
-			<P small className="w-fit mx-auto text-center">Remember Password? <Link to='/forgot-password' className="text-textHeader">Login</Link></P>
-
-		</form>
-	)
+      <P small className="mx-auto w-fit text-center">
+        Remember Password?{" "}
+        <Link to="/forgot-password" className="text-header">
+          Login
+        </Link>
+      </P>
+    </form>
+  );
 }
 
 export default ForgotPasswordForm

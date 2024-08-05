@@ -99,40 +99,45 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
 
 
 	return (
-		<div className="text-left space-y-6" >
-			<div className="items-center relative w-fit mx-auto">
-				<div className="flex" onClick={handleOnPress} style={{ ...style.splitOtpBoxesContainer, flexDirection: 'row' }}>
-					{boxArray.map(boxDigit)}
-				</div>
-				<input
-					className="h-full absolute w-full opacity-0"
-					contextMenu="false"
-					autoFocus
-					ref={inputRef}
-					autoComplete="sms-otp"
-					onBlur={handleBlur}
-					value={code}
-					maxLength={maximumLength}
-					onChange={(e) => setCode(e.target.value)}
-				/>
-			</div>
+    <div className="space-y-6 text-left">
+      <div className="relative mx-auto w-fit items-center">
+        <div
+          className="flex"
+          onClick={handleOnPress}
+          style={{ ...style.splitOtpBoxesContainer, flexDirection: "row" }}
+        >
+          {boxArray.map(boxDigit)}
+        </div>
+        <input
+          className="absolute h-full w-full opacity-0"
+          contextMenu="false"
+          autoFocus
+          ref={inputRef}
+          autoComplete="sms-otp"
+          onBlur={handleBlur}
+          value={code}
+          maxLength={maximumLength}
+          onChange={(e) => setCode(e.target.value)}
+        />
+      </div>
 
-			<PrimaryButton
-				onClick={submitForm}
-				disabled={!isPinReady || isPending}
-				className="w-full"
-				type="submit"
-			>
-				Submit
-			</PrimaryButton>
+      <PrimaryButton
+        onClick={submitForm}
+        disabled={!isPinReady || isPending}
+        className="w-full"
+        type="submit"
+      >
+        Submit
+      </PrimaryButton>
 
-			<P small className="w-fit mx-auto text-center">
-				Didn't receive code? <button onClick={handleResend} type='button' className="text-textHeader">Resend</button>
-			</P>
-
-		</div>
-
-	);
+      <P small className="mx-auto w-fit text-center">
+        Didn't receive code?{" "}
+        <button onClick={handleResend} type="button" className="text-header">
+          Resend
+        </button>
+      </P>
+    </div>
+  );
 };
 export default OTPForm
 

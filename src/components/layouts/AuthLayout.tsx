@@ -50,7 +50,7 @@ const AuthLayout = () => {
             <Outlet />
           </div>
 
-          <div className="mx-auto mb-3.5 flex w-fit space-x-1.5 text-center text-paraGray hover:text-textHeader">
+          <div className="hover:text-header mx-auto mb-3.5 flex w-fit space-x-1.5 text-center text-paraGray">
             <Link to="https://fumiwo-website.vercel.app/terms-conditions">
               Terms of Use
             </Link>

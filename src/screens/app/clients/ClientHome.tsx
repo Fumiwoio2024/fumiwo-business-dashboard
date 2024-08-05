@@ -1,6 +1,8 @@
 import { dummyInvoice } from "@/utils/data";
 import Badge from "@components/global/Badge";
+import { PrimaryButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
+import Input from "@components/global/Input";
 import TableOptions from "@components/global/TableOptions";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -45,8 +47,12 @@ const ClientCard = ({
         </div>
         {Icon}
       </div>
-      <p className="text-xs">
-        <span className={color}>{percentage}%</span> from {dateString}
+      <p className="text-xs text-graySubtext">
+        <span className={color}>
+          {Math.sign(percentage) === 1 && "+"}
+          {percentage}%
+        </span>{" "}
+        from {dateString}
       </p>
     </Card>
   );
@@ -106,13 +112,13 @@ const ClientHome = () => {
         <TableOptions
           options={[
             {
-              title: "Download",
+              title: "View More",
               action: () => {},
             },
-            {
-              title: "Make Payment",
-              action: () => {},
-            },
+            // {
+            //   title: "Make Payment",
+            //   action: () => {},
+            // },
           ]}
         />
       ),
@@ -120,8 +126,8 @@ const ClientHome = () => {
   ];
 
   return (
-    <div className="w-full p-8">
-      <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+    <div className="w-full space-y-8 p-8">
+      <section className="grid grid-cols-1 gap-3.5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
         <ClientCard
           Icon={
             <svg
@@ -578,12 +584,35 @@ const ClientHome = () => {
           title="Total devices assesed"
           value="0"
         />
-      </div>
-      <div>
-        <div className="mt-8">
+      </section>
+
+      <section className="flex items-center justify-between">
+        <div className="flex max-w-xs items-center gap-4">
+          <Input isSearch placeholder="Search clients" />
+
+          <button>
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 28.5H21V25.5H15V28.5ZM9 19.5H27V16.5H9V19.5ZM4.5 7.5V10.5H31.5V7.5H4.5Z"
+                fill="#718096"
+              />
+            </svg>
+          </button>
+        </div>
+        <PrimaryButton size="medium">Export CSV</PrimaryButton>
+      </section>
+
+      <section>
+        <div className="">
           <Tables columns={columns} data={dummyInvoice} />
         </div>
-      </div>
+      </section>
     </div>
   );
 };

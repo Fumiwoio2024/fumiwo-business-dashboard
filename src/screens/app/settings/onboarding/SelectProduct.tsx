@@ -131,7 +131,7 @@ const SelectProduct = () => {
 
   return (
     <Card className="flex-1 px-6 pb-20">
-      <ModalContainer isVisible={isModalVisible} onClose={handleCloseModal}>
+      <ModalContainer title="Save card" isVisible={isModalVisible} onClose={handleCloseModal}>
         <SaveCardForm onClose={handleCloseModal} />
       </ModalContainer>
 
