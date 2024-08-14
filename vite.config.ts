@@ -27,29 +27,3 @@ export default defineConfig({
     },
   },
 })
-
-
-// "@/*": [
-//   "src/*"
-// ],
-//   "@assets/*": [
-//     "src/assets/*"
-//   ],
-//     "images/*": [
-//       "src/assets/images/*"
-//     ],
-//       "@router/*": [
-//         "src/router/*"
-//       ],
-//         "@components/*": [
-//           "src/components/*"
-//         ],
-//           "@layouts/*": [
-//             "src/components/layouts/*"
-//           ],
-//             "@auth-screens/*": [
-//               "src/screens/auth/*"
-//             ],
-//               "@app-screens/*": [
-//                 "src/screens/app/*"
-//               ],

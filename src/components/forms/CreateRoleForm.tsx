@@ -65,13 +65,17 @@ const CreateRoleForm = ({ onClose }: TCreateRoleFormProps) => {
 
           <div className="space-y-3">
             {dummyTeamMembers[0].role.permissions.map((permissions) => (
-              <div role="button" className="flex items-center space-x-2">
+              <div
+                key={permissions}
+                role="button"
+                className="flex items-center space-x-2"
+              >
                 <input
                   id={permissions}
                   name={permissions}
                   value={permissions}
                   type="checkbox"
-                  className="outline-header h-5 w-5 rounded border text-indigo-600 accent-[#F9F5FF] focus:ring-indigo-300"
+                  className="h-5 w-5 rounded border text-indigo-600 accent-[#F9F5FF] outline-header focus:ring-indigo-300"
                 />
                 <label
                   htmlFor={permissions}
