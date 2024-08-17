@@ -4,11 +4,11 @@ import Input from "@components/global/Input";
 import ModalContainer from "@components/global/ModalContainer";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
-import { TUser } from "@type/global.types";
+// import { TUser } from "@type/global.types";
 import { useState } from "react";
-import AddTeamMemberForm from "@components/forms/AddTeamMemberForm";
-import DeleteTeamMember from "@components/modals/DeleteTeamMember";
-import CreateRoleForm from "@components/forms/CreateRoleForm";
+// import AddTeamMemberForm from "@components/forms/AddTeamMemberForm";
+// import DeleteTeamMember from "@components/modals/DeleteTeamMember";
+// import CreateRoleForm from "@components/forms/CreateRoleForm";
 import Switch from "@components/global/Switch";
 import moment from "moment";
 
@@ -18,9 +18,9 @@ const Rules = () => {
   const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
   const [isDeleteMemberModalVisible, setIsDeleteMemberModalVisible] =
     useState(false);
-  const [selectedUser, setSelectedUser] = useState<
-    (typeof dummyRules)[0] | null
-  >(null);
+  // const [selectedUser, setSelectedUser] = useState<
+  //   (typeof dummyRules)[0] | null
+  // >(null);
   const [enabled, setEnabled] = useState(true);
 
   const columnHelper = createColumnHelper<(typeof dummyRules)[0]>();
@@ -50,7 +50,7 @@ const Rules = () => {
     }),
     columnHelper.accessor(() => "action", {
       header: "Action",
-      cell: (info) => (
+      cell: () => (
         <div className="flex gap-6">
           <button
             onClick={() => setIsDeleteMemberModalVisible(true)}
@@ -89,7 +89,7 @@ const Rules = () => {
           <button
             onClick={() => {
               setIsAddMemberModalVisible(true);
-              setSelectedUser(info.row.original);
+              // setSelectedUser(info.row.original);
             }}
             className="text-graySubtext/30 hover:text-graySubtext"
           >
@@ -173,7 +173,10 @@ const Rules = () => {
 
         <section>
           <div className="">
-            <Tables columns={columns} data={dummyRules as unknown as TUser[]} />
+            <Tables
+              columns={columns}
+              data={dummyRules as unknown as (typeof dummyRules)[0][]}
+            />
           </div>
         </section>
       </div>
