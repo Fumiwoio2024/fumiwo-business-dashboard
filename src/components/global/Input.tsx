@@ -7,11 +7,6 @@ import {
 } from "react";
 import Divider from "./Divider";
 
-// type TInputProps = ({
-// 	label: string;
-// 	textareaProps?: TextareaHTMLAttributes<HTMLTextAreaElement>;
-// } & InputHTMLAttributes<HTMLInputElement>)
-
 type TInputProps = {
   label?: string;
   error?: string | undefined;
@@ -30,7 +25,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, TInputProps>(
     const isLargeInput = "isLargeInput" in props;
 
     return (
-      <div className="text-header w-full">
+      <div className="w-full text-header">
         {label && (
           <>
             <label htmlFor={props.name} className="text-sm font-normal">
@@ -41,7 +36,9 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, TInputProps>(
         )}
         <div
           className={`flex w-full items-center overflow-hidden rounded-md border border-inputBorder focus-within:outline ${[
-            props.disabled ? "!bg-disabledInput" : "bg-white",
+            props.disabled
+              ? "text-disabledInputText !bg-disabledInput"
+              : "bg-white",
             error
               ? "focus-within:outline-red-500"
               : "focus-within:outline-primaryGreen",

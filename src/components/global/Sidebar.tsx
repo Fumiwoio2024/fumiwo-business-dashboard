@@ -1,6 +1,6 @@
 import { navLinks } from "@/utils/data";
 import logo from "@images/fumiwo-logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const bottomNavLinks = [
   {
@@ -52,7 +52,7 @@ const bottomNavLinks = [
 ];
 
 const Sidebar = () => {
-  // const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div className="hidden h-screen min-w-[276px] flex-col border-r border-sidebarBorder bg-white lg:flex">
@@ -68,22 +68,25 @@ const Sidebar = () => {
 
       <section className="flex flex-1 flex-col justify-between pb-14 pl-8 pt-7">
         <nav className="flex w-fit flex-col space-y-2">
-          {navLinks.map((link, index) => (
-            <NavLink
-              key={index}
-              to={`/dashboard${link.link}`}
-              className={({ isActive }) =>
-                `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  <div> {isActive ? link.ActiveIcon : link.InactiveIcon} </div>
-                  <p>{link.name}</p>
-                </>
-              )}
-            </NavLink>
-          ))}
+          {navLinks.map((link, index) => {
+            const isActive = location.pathname.includes(link.link);
+            return (
+              <NavLink
+                key={index}
+                to={`/dashboard${link.initialRoute || link.link}`}
+                className={() =>
+                  `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
+                }
+              >
+                {() => (
+                  <>
+                    <div>{isActive ? link.ActiveIcon : link.InactiveIcon}</div>
+                    <p>{link.name}</p>
+                  </>
+                )}
+              </NavLink>
+            );
+          })}
         </nav>
 
         <nav>

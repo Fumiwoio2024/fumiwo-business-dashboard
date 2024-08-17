@@ -10,7 +10,6 @@ import AppLayout from "@components/layouts/AppLayout";
 import Overview from "@app-screens/Overview";
 
 import SettingsLayout from "@components/layouts/SettingsLayout";
-import Settings from "@app-screens/settings/Settings";
 import OnboardingLayout from "@components/layouts/OnboardingLayout";
 import BusinessDetails from "@app-screens/settings/onboarding/BusinessDetails";
 import ContactDetails from "@app-screens/settings/onboarding/ContactDetails";
@@ -18,6 +17,11 @@ import SelectProduct from "@app-screens/settings/onboarding/SelectProduct";
 import BillingHome from "@app-screens/billing/BillingHome";
 import ClientHome from "@app-screens/clients/ClientHome";
 import TeamHome from "@app-screens/teams/TeamHome";
+import Profile from "@app-screens/settings/Profile";
+import Business from "@app-screens/settings/Business";
+import Security from "@app-screens/settings/Security";
+import KeysWebhooks from "@app-screens/settings/KeysWebhooks";
+import Rules from "@app-screens/settings/Rules";
 
 const router = createBrowserRouter([
   {
@@ -87,7 +91,27 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Settings />,
+            element: <Profile />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "business",
+            element: <Business />,
+          },
+          {
+            path: "security",
+            element: <Security />,
+          },
+          {
+            path: "keys-webhooks",
+            element: <KeysWebhooks />,
+          },
+          {
+            path: "rules",
+            element: <Rules />,
           },
           {
             path: "onboarding",

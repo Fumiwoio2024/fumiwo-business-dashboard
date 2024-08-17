@@ -43,7 +43,8 @@ export default {
         // appBg: '#FCFCFD',
         appBg: '#F4F7FA',
         onboardingBorder: '#D5DAE1',
-        disabledInput: '#F5F8FA',
+        disabledInput: '#D0D5DD40',
+        disabledInputText: '#71809673',
         secondaryButton: "#009851",
         graySubtext: '#718096',
         bannerWarning: '#FDB022',
@@ -51,7 +52,8 @@ export default {
         warning: "#FDB100",
         warningBg: '#FCFCFD',
         warningBorder: '#FFEDC3',
-        placeholder: '#A9A9A9'
+        placeholder: '#A9A9A9',
+        switchGreen: '#27AE60',
       },
       boxShadow: {
         username: '0px 14px 54px 0px #0000000F'
