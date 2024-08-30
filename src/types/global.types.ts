@@ -5600,7 +5600,7 @@ const appInfo = {
 	}
 }
 
-const testrrrr = {
+export const testrrrr = {
 	"sdkVersion": "1.3",
 	"permissions": [
 		{

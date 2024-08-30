@@ -1,14 +1,12 @@
 import { useQClients } from "@/hooks/api/queries/client.queries";
-import { PrimaryButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
 import Input from "@components/global/Input";
-import TableOptions from "@components/global/TableOptions";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TClient } from "@type/global.types";
 import moment from "moment";
 import { ReactNode } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import BreadCrumb from "@components/global/BreadCrumb";
 import { H4 } from "@components/global/Typography";
 import Badge from "@components/global/Badge";
@@ -65,7 +63,6 @@ const ClientHome = () => {
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const { result: clients } = useQClients({});
   const result = clients?.[0];
-  const navigate = useNavigate();
   const location = useLocation();
   console.log(location.search);
 
