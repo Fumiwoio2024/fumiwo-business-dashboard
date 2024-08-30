@@ -1,11 +1,13 @@
 import api from '@/config/axios'
 import { useQuery, } from '@tanstack/react-query'
-import { TDoc, TGeneralRes, TPagination } from '@type/global.types'
+import { TClient, TGeneralRes, TPagination } from '@type/global.types'
 
 
-export type TClient = TGeneralRes & {
-	docs: TDoc[];
-	pagination: TPagination;
+export type TClientRes = TGeneralRes & {
+	data: {
+		docs: TClient[];
+		pagination: TPagination;
+	}
 };
 
 
@@ -21,7 +23,7 @@ export const useQClients = ({
 	const query = useQuery({
 		queryKey: ['clients'],
 		queryFn: () => {
-			return api.get<TClient>('/clients', {
+			return api.get<TClientRes>('/clients', {
 				params: {
 					pageNumber,
 					pageSize,
@@ -33,6 +35,6 @@ export const useQClients = ({
 	})
 	return {
 		...query,
-		result: query.data?.data.docs
+		result: query.data?.data.data.docs
 	}
 }

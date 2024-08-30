@@ -8,9 +8,12 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { TClient } from "@type/global.types";
 import moment from "moment";
 import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import BreadCrumb from "@components/global/BreadCrumb";
+import { H4 } from "@components/global/Typography";
+import Badge from "@components/global/Badge";
 
-const ClientCard = ({
+const SingleClient = ({
   title,
   value,
   percentage,
@@ -59,28 +62,28 @@ const ClientCard = ({
 };
 
 const ClientHome = () => {
-  const columnHelper = createColumnHelper<TClient>();
-  const { result } = useQClients({});
+  const columnHelper = createColumnHelper<TClient["phones"][0]>();
+  const { result: clients } = useQClients({});
+  const result = clients?.[0];
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.search);
 
   const columns = [
-    columnHelper.accessor("clientId", {
-      header: "Ext ref id",
+    columnHelper.accessor("_id", {
+      header: "ID No.",
     }),
-    columnHelper.accessor("phones", {
-      header: "No. of applications",
-      cell: (info) => info.getValue().length || 0,
+    columnHelper.accessor("analyzedData.deviceInfo.manufacturer", {
+      header: "Device",
+      cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("lastModifiedAt", {
-      header: "Last application date",
-      cell: (info) =>
-        info.getValue()
-          ? moment(new Date(info.getValue())).format("MMM DD, YYYY - hh:mm A")
-          : "",
+    columnHelper.accessor("analyzedData.ipInfo.city", {
+      header: "Location",
+      cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("digitalCreditInfoHistory", {
-      header: "Credit score evolution",
-      cell: (info) => (info.getValue().length > 0 ? "stable" : "N/A"),
+    columnHelper.accessor("__v", {
+      header: "Credit score",
+      cell: () => "N/A",
     }),
     // columnHelper.accessor("amountDue", {
     //   header: "amount",
@@ -98,49 +101,51 @@ const ClientHome = () => {
     //       ),
     //     ).format("MMM DD, YYYY"),
     // }),
-    // columnHelper.accessor("status", {
-    //   header: "Status",
-    //   cell: (info) => {
-    //     const status = info.getValue();
-    //     let type: "success" | "error" = "success";
-    //     switch (status) {
-    //       case "paid":
-    //         type = "success";
-    //         break;
+    columnHelper.accessor("sdkVersion", {
+      header: "Recommendation",
+      cell: () => {
+        // const status = info.getValue();
+        let type: "success" | "error" = "success";
+        switch (status) {
+          case "paid":
+            type = "success";
+            break;
 
-    //       default:
-    //         type = "error";
-    //         break;
-    //     }
-    //     return <Badge type={type}>{status}</Badge>;
-    //   },
-    // }),
-    columnHelper.accessor(() => "action", {
-      header: "Action",
-      cell: (info) => {
-        return (
-          <TableOptions
-            options={[
-              {
-                title: "View More",
-                action: () =>
-                  navigate(`/dashboard/clients/${info.row.original.clientId}`),
-              },
-              // {
-              //   title: "Make Payment",
-              //   action: () => {},
-              // },
-            ]}
-          />
-        );
+          default:
+            type = "error";
+            break;
+        }
+        return <Badge type={type}>{"Nil"}</Badge>;
       },
     }),
+    // columnHelper.accessor(() => "action", {
+    //   header: "Action",
+    //   cell: (info) => {
+    //     return (
+    //       <TableOptions
+    //         options={[
+    //           {
+    //             title: "View More",
+    //             action: () =>
+    //               navigate(`/dashboard/clients/${info.row.original.clientId}`),
+    //           },
+    //           // {
+    //           //   title: "Make Payment",
+    //           //   action: () => {},
+    //           // },
+    //         ]}
+    //       />
+    //     );
+    //   },
+    // }),
   ];
 
   return (
     <div className="w-full space-y-8 p-8">
+      <BreadCrumb />
+
       <section className="grid grid-cols-1 gap-3.5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
-        <ClientCard
+        <SingleClient
           Icon={
             <svg
               width="24"
@@ -251,10 +256,10 @@ const ClientHome = () => {
           }
           dateString="yesterday"
           percentage={0}
-          title="Total Clients"
-          value={`${result?.length || 0}`}
+          title="Total number of appl"
+          value={`${result?.phones.length || 0}`}
         />
-        <ClientCard
+        <SingleClient
           Icon={
             <svg
               width="24"
@@ -365,10 +370,10 @@ const ClientHome = () => {
           }
           dateString="yesterday"
           percentage={0}
-          title="Total assesed devices"
-          value={`${result?.[0]?.datasetsCountAllFromIp || 0}`}
+          title="First appl date"
+          value={`${result?.createdAt ? moment(new Date(result?.createdAt)).format("DD.MM.YY") : "Nil"}`}
         />
-        <ClientCard
+        <SingleClient
           Icon={
             <svg
               width="24"
@@ -479,10 +484,11 @@ const ClientHome = () => {
           }
           dateString="yesterday"
           percentage={0}
-          title="Avg credit score"
-          value="Nil"
+          title="Initial credit score"
+          value={`${result?.digitalCreditInfoHistory?.[0] || "Nil"}`}
+          // value="Nil"
         />
-        <ClientCard
+        <SingleClient
           Icon={
             <svg
               width="24"
@@ -593,38 +599,21 @@ const ClientHome = () => {
           }
           dateString="yesterday"
           percentage={0}
-          title="Highest credit score"
-          value="Nil"
+          title="Last credit score"
+          value={`${result?.latestDigitalCreditInfo || "Nil"}`}
         />
       </section>
 
       <section className="flex items-center justify-between">
-        <div className="flex max-w-xs items-center gap-4">
-          <Input isSearch placeholder="Search clients" />
-
-          <button>
-            <svg
-              width="36"
-              height="36"
-              viewBox="0 0 36 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 28.5H21V25.5H15V28.5ZM9 19.5H27V16.5H9V19.5ZM4.5 7.5V10.5H31.5V7.5H4.5Z"
-                fill="#718096"
-              />
-            </svg>
-          </button>
+        <H4>Devices used</H4>
+        <div className="w-72">
+          <Input isSearch placeholder="Search applications" />
         </div>
-        <PrimaryButton size="medium" disabled={result?.length === 0}>
-          Export CSV
-        </PrimaryButton>
       </section>
 
       <section>
         <div className="">
-          <Tables columns={columns} data={result || []} />
+          <Tables columns={columns} data={result?.phones || []} />
         </div>
       </section>
     </div>

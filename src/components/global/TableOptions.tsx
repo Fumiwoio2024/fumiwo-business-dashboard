@@ -9,7 +9,7 @@ const Dropdown = ({
 }) => {
   return (
     <div
-      className={`border-dark-6 shadow-3xl absolute right-4 top-10 z-10 w-52 rounded-lg border bg-white`}
+      className={`border-dark-6 shadow-3xl absolute right-4 top-10 z-20 w-52 rounded-lg border bg-white`}
     >
       {options.map((option) =>
         option.title ? (
@@ -68,7 +68,7 @@ const TableOptions = ({
       <div
         className={
           isOpened
-            ? "fixed left-0 top-0 z-30 block h-full w-full bg-transparent"
+            ? "fixed left-0 top-0 z-10 block h-full w-full bg-transparent"
             : "hidden"
         }
         onClick={() => setIsOpened(false)}

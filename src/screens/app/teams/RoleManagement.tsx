@@ -4,7 +4,7 @@ import { SecondaryButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
 import GoBack from "@components/global/GoBack";
 import ModalContainer from "@components/global/ModalContainer";
-import { H4, H5 } from "@components/global/Typography";
+import { H5 } from "@components/global/Typography";
 import ConfirmDeleteModal from "@components/modals/ConfirmDeleteModal";
 import { TUser } from "@type/global.types";
 import { Fragment, useState } from "react";

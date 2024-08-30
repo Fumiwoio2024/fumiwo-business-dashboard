@@ -9,12 +9,9 @@ import { TUser } from "@type/global.types";
 import { useState } from "react";
 import AddTeamMemberForm from "@components/forms/AddTeamMemberForm";
 import ConfirmDeleteModal from "@components/modals/ConfirmDeleteModal";
-import CreateRoleForm from "@components/forms/CreateRoleForm";
 import { Link } from "react-router-dom";
 
 const TeamHome = () => {
-  const [isCreateRoleModalVisible, setIsCreateRoleModalVisible] =
-    useState(false);
   const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
   const [isDeleteMemberModalVisible, setIsDeleteMemberModalVisible] =
     useState(false);
@@ -37,11 +34,11 @@ const TeamHome = () => {
               {info.row.original.email}
             </p>
           </div>
-          <Badge type="warning" className="h-fit font-semibold">
-            Invited
-          </Badge>
-          {/* {info.row.original.business?.logo && (
-          )} */}
+          {info.getValue()?.includes("p") && (
+            <Badge type="warning" className="h-fit font-semibold">
+              Invited
+            </Badge>
+          )}
         </div>
       ),
     }),
@@ -132,8 +129,6 @@ const TeamHome = () => {
 
   return (
     <>
-
-
       <ModalContainer
         title="Add member"
         onClose={() => setIsAddMemberModalVisible(false)}
@@ -160,9 +155,9 @@ const TeamHome = () => {
       <div className="w-full space-y-8 p-8">
         <section className="flex items-center justify-between">
           <div className="flex max-w-xs items-center gap-4">
-            <Input isSearch placeholder="Search clients" />
+            <Input isSearch placeholder="Search Team" />
 
-            <button>
+            {/* <button>
               <svg
                 width="36"
                 height="36"
@@ -175,20 +170,18 @@ const TeamHome = () => {
                   fill="currentColor"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
 
           <div className="flex gap-4.5">
             <Link to="manage-roles">
-              <SecondaryButton
-                onClick={() => setIsCreateRoleModalVisible(true)}
-                size="medium"
-              >
-                Manage Role
-              </SecondaryButton>
+              <SecondaryButton size="medium">Manage Role</SecondaryButton>
             </Link>
             <PrimaryButton
-              onClick={() => setIsAddMemberModalVisible(true)}
+              onClick={() => {
+                setSelectedUser(null);
+                setIsAddMemberModalVisible(true);
+              }}
               size="medium"
             >
               Add member
