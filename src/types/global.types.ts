@@ -6,7 +6,7 @@ export type TMfa = {
 	secret: string | null;
 };
 
-type TRole = {
+export type TRole = {
 	isCustom: boolean;
 	isAdminRole: boolean;
 	permissions: string[];
@@ -80,6 +80,7 @@ export type TUser = {
 	testPublicKey: string;
 	expectedChecksPerMonth: number;
 	email: string;
+	name: string;
 	firstName: string;
 	lastName: string,
 	type: string;
@@ -181,3 +182,77 @@ export type Invoice = {
 	_lastModifiedAt: string; // Could be Date if parsing is needed
 	id: string;
 }
+
+
+
+type CurrencyAmount = {
+	_id: string;
+	amount: number;
+	currency: string;
+};
+
+type InstallmentRepayment = {
+	amountPaid: CurrencyAmount | null;
+	_id: string;
+	dueDate: string;
+	datePaid: string | null;
+	amountDue: CurrencyAmount;
+	status: 'fully_paid' | 'not_paid';
+	dateAdded: string;
+	lastModifiedAt: string;
+};
+
+type Loan = {
+	tenure: {
+		value: number;
+		interval: string;
+	};
+	dateLoanIsSettled: string | null;
+	_id: string;
+	loanReferenceId: string;
+	applicationDate: string;
+	dateLoanWasGranted: string;
+	applicationStatus: 'approved' | 'pending' | 'rejected';
+	amount: number;
+	currency: string;
+	totalInstallments: number;
+	installmentRepayments: InstallmentRepayment[];
+	loanRepaymentStatus: 'in_progress' | 'completed' | 'defaulted';
+	dateLastInstallmentIsDue: string;
+	client: string;
+	businessId: string;
+	createdAt: string;
+	lastModifiedAt: string;
+	__v: number;
+	_createdAt: string;
+	_lastModifiedAt: string;
+	id: string;
+};
+
+export type TDoc = {
+	loans: Loan[];
+	latestDigitalCreditInfo: null; // Adjust this type based on actual structure if available
+	digitalCreditInfoHistory: null; // Adjust this type based on actual structure if available
+	externalReferenceId: string;
+	businessId: string;
+	createdAt: string;
+	lastModifiedAt: string;
+	_createdAt: string;
+	_lastModifiedAt: string;
+	clientId: string;
+	id: string;
+};
+
+export type TPagination = {
+	totalDocs: number;
+	perPage: number;
+	totalPages: number;
+	currentPage: number;
+	serialNo: number;
+	hasPrevPage: boolean;
+	hasNextPage: boolean;
+	prevPage: number | null;
+	nextPage: number | null;
+};
+
+

@@ -28,7 +28,7 @@ const SettingsLayout = () => {
               <Link
                 key={link.path}
                 to={`/dashboard/settings${link.path}`}
-                className={`block border-b-2 p-2.5 ${[
+                className={`block border-b-2 p-2.5 transition-colors duration-300 ${[
                   location.pathname.includes(link.path)
                     ? "border-primaryGreen font-medium text-header"
                     : "border-transparent text-paraGray",

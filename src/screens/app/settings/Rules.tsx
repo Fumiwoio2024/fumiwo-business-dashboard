@@ -1,27 +1,25 @@
 import { dummyRules } from "@/utils/data";
-import { PrimaryButton } from "@components/global/Buttons";
+import { PrimaryButton, SecondaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
 import ModalContainer from "@components/global/ModalContainer";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
-// import { TUser } from "@type/global.types";
 import { useState } from "react";
-// import AddTeamMemberForm from "@components/forms/AddTeamMemberForm";
-// import DeleteTeamMember from "@components/modals/DeleteTeamMember";
-// import CreateRoleForm from "@components/forms/CreateRoleForm";
-import Switch from "@components/global/Switch";
 import moment from "moment";
+import ConfirmDeleteModal from "@components/modals/ConfirmDeleteModal";
+import AddRecommendationRuleForm from "@components/forms/AddRecommendationRuleForm";
+import UpdateScoringRulesForm from "@components/forms/UpdateScoringRulesForm";
 
 const Rules = () => {
-  const [isCreateRoleModalVisible, setIsCreateRoleModalVisible] =
+  const [scoringPreferenceModalVisible, setScoringPreferenceModalVisible] =
     useState(false);
-  const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
-  const [isDeleteMemberModalVisible, setIsDeleteMemberModalVisible] =
+  const [addRecommendationModalVisible, setAddRecommendationModalVisible] =
     useState(false);
-  // const [selectedUser, setSelectedUser] = useState<
-  //   (typeof dummyRules)[0] | null
-  // >(null);
-  const [enabled, setEnabled] = useState(true);
+  const [deleteRuleModalVisible, setDeleteRuleModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<
+    (typeof dummyRules)[0] | null
+  >(null);
+  // const [enabled, setEnabled] = useState(true);
 
   const columnHelper = createColumnHelper<(typeof dummyRules)[0]>();
 
@@ -36,24 +34,24 @@ const Rules = () => {
       header: "Date Created",
       cell: (info) => moment(info.getValue()).format("MMM DD, YYYY"),
     }),
-    columnHelper.accessor("status", {
-      header: "Status",
-      cell: () => {
-        return (
-          <div className="flex items-center gap-2">
-            <p>Active</p>
-            <Switch enabled={enabled} onChange={setEnabled} />
-            <p className="text-graySubtext">Inactive</p>
-          </div>
-        );
-      },
-    }),
+    // columnHelper.accessor("status", {
+    //   header: "Status",
+    //   cell: () => {
+    //     return (
+    //       <div className="flex items-center gap-2">
+    //         <p>Active</p>
+    //         <Switch enabled={enabled} onChange={setEnabled} />
+    //         <p className="text-graySubtext">Inactive</p>
+    //       </div>
+    //     );
+    //   },
+    // }),
     columnHelper.accessor(() => "action", {
       header: "Action",
-      cell: () => (
+      cell: (info) => (
         <div className="flex gap-6">
           <button
-            onClick={() => setIsDeleteMemberModalVisible(true)}
+            onClick={() => setDeleteRuleModalVisible(true)}
             className="text-graySubtext/30 hover:text-red-500"
           >
             <svg
@@ -88,8 +86,8 @@ const Rules = () => {
 
           <button
             onClick={() => {
-              setIsAddMemberModalVisible(true);
-              // setSelectedUser(info.row.original);
+              setAddRecommendationModalVisible(true);
+              setSelectedUser(info.row.original);
             }}
             className="text-graySubtext/30 hover:text-graySubtext"
           >
@@ -126,49 +124,67 @@ const Rules = () => {
   return (
     <>
       <ModalContainer
-        title="Create Rule"
-        onClose={() => setIsCreateRoleModalVisible(false)}
-        isVisible={isCreateRoleModalVisible}
+        title="Update scoring preferences"
+        onClose={() => setScoringPreferenceModalVisible(false)}
+        isVisible={scoringPreferenceModalVisible}
       >
-        {/* <CreateRoleForm onClose={() => setIsCreateRoleModalVisible(false)} /> */}
-        <></>
+        <UpdateScoringRulesForm
+          key={selectedUser?.id}
+          // @ts-expect-error -- unknown type
+          details={selectedUser}
+          onClose={() => setScoringPreferenceModalVisible(false)}
+        />
       </ModalContainer>
 
       <ModalContainer
         title="Add Rule"
-        onClose={() => setIsAddMemberModalVisible(false)}
-        isVisible={isAddMemberModalVisible}
+        onClose={() => setAddRecommendationModalVisible(false)}
+        isVisible={addRecommendationModalVisible}
       >
-        {/* <AddTeamMemberForm
+        <AddRecommendationRuleForm
           key={selectedUser?.id}
+          // @ts-expect-error -- unknown type
           details={selectedUser}
-          onClose={() => setIsAddMemberModalVisible(false)}
-        /> */}
+          onClose={() => setAddRecommendationModalVisible(false)}
+        />
         <></>
       </ModalContainer>
 
       <ModalContainer
         title="Delete Rule"
-        onClose={() => setIsDeleteMemberModalVisible(false)}
-        isVisible={isDeleteMemberModalVisible}
+        onClose={() => setDeleteRuleModalVisible(false)}
+        isVisible={deleteRuleModalVisible}
       >
-        {/* <DeleteTeamMember
-          onClose={() => setIsDeleteMemberModalVisible(false)}
-        /> */}
-        <></>
+        <ConfirmDeleteModal
+          description="You are about to remove this user from your team. Are you sure about this?"
+          onClose={() => setDeleteRuleModalVisible(false)}
+          onConfirmDelete={() => setDeleteRuleModalVisible(false)}
+        />
       </ModalContainer>
+
       <div className="w-full space-y-8 p-8">
         <section className="flex items-center justify-between">
           <div className="flex max-w-xs items-center gap-4">
             <Input isSearch placeholder="Search rules" />
           </div>
 
-          <PrimaryButton
-            onClick={() => setIsAddMemberModalVisible(true)}
-            size="medium"
-          >
-            Set new rule
-          </PrimaryButton>
+          <div className="flex gap-4.5">
+            <SecondaryButton
+              onClick={() => setScoringPreferenceModalVisible(true)}
+              size="medium"
+            >
+              Update scoring preferences
+            </SecondaryButton>
+            <PrimaryButton
+              onClick={() => {
+                setSelectedUser(null);
+                setAddRecommendationModalVisible(true);
+              }}
+              size="medium"
+            >
+              New recommendation rule
+            </PrimaryButton>
+          </div>
         </section>
 
         <section>

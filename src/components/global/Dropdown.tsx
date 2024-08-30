@@ -5,6 +5,7 @@ type TDropdown = {
   value: string;
   name: string;
   disabled?: boolean;
+  noMessage?: boolean;
   error?: string | undefined;
   label: string;
   placeholder?: string;
@@ -23,13 +24,14 @@ const Dropdown = forwardRef<HTMLSelectElement, TDropdown>(
       disabled,
       name,
       error,
+      noMessage,
       ...props
     },
     ref,
   ) => {
     const selected = options?.find((option) => option.value === value)?.name;
     return (
-      <div className="text-header w-full">
+      <div className="w-full text-header">
         {label && (
           <>
             <label htmlFor={name} className="text-sm font-normal">
@@ -80,7 +82,9 @@ const Dropdown = forwardRef<HTMLSelectElement, TDropdown>(
           </select>
         </div>
 
-        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+        {error && !noMessage && (
+          <p className="mt-1 text-xs text-red-500">{error}</p>
+        )}
       </div>
     );
   },

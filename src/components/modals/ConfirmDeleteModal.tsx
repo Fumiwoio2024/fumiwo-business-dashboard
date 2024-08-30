@@ -1,16 +1,23 @@
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import { P } from "@components/global/Typography";
 
-const DeleteTeamMember = ({ onClose }: { onClose: () => void }) => {
+const ConfirmDeleteModal = ({
+  onClose,
+  description,
+  onConfirmDelete,
+}: {
+  onClose: () => void;
+  description: string;
+  onConfirmDelete: () => void;
+}) => {
   const submitForm = () => {
-    onClose();
+    onConfirmDelete();
   };
 
   return (
     <div className="w-[370px] space-y-12">
       <P>
-        You are about to remove this user from your team. Are you sure about
-        this?
+        {description }
       </P>
 
       <div className="space-y-3">
@@ -34,4 +41,4 @@ const DeleteTeamMember = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export default DeleteTeamMember;
+export default ConfirmDeleteModal;

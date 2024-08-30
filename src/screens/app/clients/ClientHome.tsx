@@ -1,3 +1,4 @@
+import { useQClients } from "@/hooks/api/queries/client.queries";
 import { dummyInvoice } from "@/utils/data";
 import Badge from "@components/global/Badge";
 import { PrimaryButton } from "@components/global/Buttons";
@@ -6,7 +7,7 @@ import Input from "@components/global/Input";
 import TableOptions from "@components/global/TableOptions";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Invoice } from "@type/global.types";
+import { Invoice, TDoc } from "@type/global.types";
 import moment from "moment";
 import { ReactNode } from "react";
 
@@ -59,7 +60,8 @@ const ClientCard = ({
 };
 
 const ClientHome = () => {
-  const columnHelper = createColumnHelper<Invoice>();
+  const columnHelper = createColumnHelper<TDoc>();
+  const { result } = useQClients({});
 
   const columns = [
     columnHelper.accessor("id", {
@@ -238,7 +240,7 @@ const ClientHome = () => {
             </svg>
           }
           dateString="yesterday"
-          percentage={-5}
+          percentage={0}
           title="Total devices assesed"
           value="0"
         />
@@ -352,8 +354,8 @@ const ClientHome = () => {
             </svg>
           }
           dateString="yesterday"
-          percentage={-5}
-          title="Total devices assesed"
+          percentage={0}
+          title="Total assesed applications"
           value="0"
         />
         <ClientCard
@@ -466,8 +468,8 @@ const ClientHome = () => {
             </svg>
           }
           dateString="yesterday"
-          percentage={+5}
-          title="Total devices assesed"
+          percentage={0}
+          title="Avg credit score"
           value="0"
         />
         <ClientCard
@@ -580,7 +582,7 @@ const ClientHome = () => {
             </svg>
           }
           dateString="yesterday"
-          percentage={+5}
+          percentage={0}
           title="Total devices assesed"
           value="0"
         />
@@ -605,12 +607,14 @@ const ClientHome = () => {
             </svg>
           </button>
         </div>
-        <PrimaryButton size="medium">Export CSV</PrimaryButton>
+        <PrimaryButton size="medium" disabled={result?.length === 0}>
+          Export CSV
+        </PrimaryButton>
       </section>
 
       <section>
         <div className="">
-          <Tables columns={columns} data={dummyInvoice} />
+          <Tables columns={columns} data={result || []} />
         </div>
       </section>
     </div>

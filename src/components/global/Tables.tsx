@@ -4,6 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { H4 } from "./Typography";
 // import { ReactNode } from "react";
 
 // import { Pagination } from "./elements";
@@ -65,21 +66,36 @@ const Tables = <T,>({
               </tr>
             ))}
           </thead>
-          <tbody className="bg-white">
-            {table?.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="relative border-b-2 border-[#F5F8FA]">
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="whitespace-nowrap px-5 py-4 text-sm text-paraGray"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
+
+          {data.length > 0 && (
+            <tbody className="bg-white">
+              {table?.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="relative border-b-2 border-[#F5F8FA]"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className="whitespace-nowrap px-5 py-4 text-sm text-paraGray"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
+
+        {!(data.length > 0) && (
+          <div className="flex w-full items-center justify-center">
+            <H4>No information to show</H4>
+          </div>
+        )}
 
         {/* pagination
         {isPaginated && (

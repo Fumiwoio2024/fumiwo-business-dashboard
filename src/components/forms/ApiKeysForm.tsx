@@ -28,8 +28,8 @@ const ApiKeyInputActions = ({
 }) => (
   <div className="flex items-center gap-3 pr-5">
     {secretShown ? (
-      <button
-        type="button"
+      <div
+        role="button"
         className="flex items-center gap-1 text-sm text-header/50"
         onClick={hideSecret}
       >
@@ -58,10 +58,10 @@ const ApiKeyInputActions = ({
           </g>
         </svg>
         <p className="inline">Hide</p>
-      </button>
+      </div>
     ) : (
-      <button
-        type="button"
+      <div
+        role="button"
         className="flex items-center gap-1 text-sm text-header/50"
         onClick={showSecret}
       >
@@ -85,11 +85,11 @@ const ApiKeyInputActions = ({
           </defs>
         </svg>
         <p className="inline">Show</p>
-      </button>
+      </div>
     )}
 
-    <button
-      type="button"
+    <div
+      role="button"
       className="flex items-center gap-1 text-sm text-header/50"
       onClick={copySecret}
     >
@@ -114,7 +114,7 @@ const ApiKeyInputActions = ({
       </svg>
 
       <p className="inline">Copy</p>
-    </button>
+    </div>
   </div>
 );
 
@@ -170,26 +170,49 @@ const ApiKeysForm = () => {
       <form onSubmit={handleSubmit(submitForm)} className="space-y-8 text-left">
         <section className="space-y-4">
           <H2 className="mb-6">API Keys</H2>
-          <Input
-            disabled
-            isSecretInput
-            label="Live secret key"
-            placeholder="Enter your old password"
-            type={liveSecretShown ? "text" : "password"}
-            error={errors.live_secret?.message}
-            rightComponent={
-              <ApiKeyInputActions
-                secretShown={liveSecretShown}
-                copySecret={() => copySecret(liveSecret)}
-                hideSecret={() => setLiveSecretShown(false)}
-                showSecret={() => setIsEnterPassword("live-secret")}
-              />
-            }
-            {...register("live_secret", {
-              required: "Old Password is required",
-            })}
-          />
+          <div>
+            <Input
+              disabled
+              isSecretInput
+              label="Live secret key"
+              placeholder="Enter your old password"
+              type={liveSecretShown ? "text" : "password"}
+              error={errors.live_secret?.message}
+              rightComponent={
+                <ApiKeyInputActions
+                  secretShown={liveSecretShown}
+                  copySecret={() => copySecret(liveSecret)}
+                  hideSecret={() => setLiveSecretShown(false)}
+                  showSecret={() => setIsEnterPassword("live-secret")}
+                />
+              }
+              {...register("live_secret", {
+                required: "Old Password is required",
+              })}
+            />
+            <button
+              type="button"
+              className="mt-3.5 flex items-center gap-1 font-medium text-switchGreen"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
+                  stroke="#0BB466"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
 
+              <p>Generate new key</p>
+            </button>
+          </div>
           <Input
             label="Live public key"
             placeholder="Enter your new password"
@@ -203,23 +226,47 @@ const ApiKeysForm = () => {
             })}
           />
 
-          <Input
-            label="Test secret key"
-            placeholder=""
-            type={testSecretShown ? "text" : "password"}
-            error={errors.test_secret?.message}
-            disabled
-            isSecretInput
-            rightComponent={
-              <ApiKeyInputActions
-                secretShown={testSecretShown}
-                copySecret={() => copySecret(testSecret)}
-                hideSecret={() => setTestSecretShown(false)}
-                showSecret={() => setIsEnterPassword("test-secret")}
-              />
-            }
-            {...register("test_secret")}
-          />
+          <div>
+            <Input
+              label="Test secret key"
+              placeholder=""
+              type={testSecretShown ? "text" : "password"}
+              error={errors.test_secret?.message}
+              disabled
+              isSecretInput
+              rightComponent={
+                <ApiKeyInputActions
+                  secretShown={testSecretShown}
+                  copySecret={() => copySecret(testSecret)}
+                  hideSecret={() => setTestSecretShown(false)}
+                  showSecret={() => setIsEnterPassword("test-secret")}
+                />
+              }
+              {...register("test_secret")}
+            />
+            <button
+              type="button"
+              className="mt-3.5 flex items-center gap-1 font-medium text-switchGreen"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
+                  stroke="#0BB466"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+              <p>Generate new key</p>
+            </button>
+          </div>
 
           <Input
             label="Test public key"
