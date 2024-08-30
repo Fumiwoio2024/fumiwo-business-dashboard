@@ -22,6 +22,8 @@ import Business from "@app-screens/settings/Business";
 import Security from "@app-screens/settings/Security";
 import KeysWebhooks from "@app-screens/settings/KeysWebhooks";
 import Rules from "@app-screens/settings/Rules";
+import RoleManagement from "@app-screens/teams/RoleManagement";
+import SingleClient from "@app-screens/clients/SingleClient";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +76,10 @@ const router = createBrowserRouter([
             index: true,
             element: <TeamHome />,
           },
+          {
+            path: "manage-roles",
+            element: <RoleManagement />,
+          },
         ],
       },
       {
@@ -82,6 +88,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <ClientHome />,
+          },
+          {
+            path: ":clientId",
+            element: <SingleClient />,
           },
         ],
       },

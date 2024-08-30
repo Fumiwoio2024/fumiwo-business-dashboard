@@ -1,25 +1,28 @@
 import { dummyTeamMembers } from "@/utils/data";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
+// import { TRole } from "@type/global.types";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-type TCreateRoleFormProps = {
-  onClose: () => void;
-};
-
 const defaultValues = {
   role_name: "",
   role_description: "",
 };
 
-const CreateRoleForm = ({ onClose }: TCreateRoleFormProps) => {
+type TCreateRoleFormProps = {
+  onClose: () => void;
+  isEdit: boolean;
+  // details: TRole;
+  details?: typeof defaultValues;
+};
+
+const CreateRoleForm = ({ onClose, details, isEdit }: TCreateRoleFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
-    defaultValues: defaultValues,
+    defaultValues: isEdit ? details : defaultValues,
     mode: "onBlur",
   });
 
@@ -63,7 +66,7 @@ const CreateRoleForm = ({ onClose }: TCreateRoleFormProps) => {
             Permissions
           </h4>
 
-          <div className="space-y-3">
+          <div className="space-y-6">
             {dummyTeamMembers[0].role.permissions.map((permissions) => (
               <div
                 key={permissions}
@@ -75,7 +78,7 @@ const CreateRoleForm = ({ onClose }: TCreateRoleFormProps) => {
                   name={permissions}
                   value={permissions}
                   type="checkbox"
-                  className="h-5 w-5 rounded border text-indigo-600 accent-[#F9F5FF] outline-header focus:ring-indigo-300"
+                  className="h-4 w-4 rounded border text-indigo-600 accent-[#F9F5FF] outline-header focus:ring-indigo-300"
                 />
                 <label
                   htmlFor={permissions}

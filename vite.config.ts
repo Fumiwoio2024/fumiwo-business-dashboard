@@ -14,6 +14,7 @@ export default defineConfig({
     alias: {
       "@": root(''),
       '@assets': root('/assets'),
+      '@utils': root('/utils'),
       '@type': root('/types'),
       '@store': root('/store'),
       '@images': root('/assets/images'),

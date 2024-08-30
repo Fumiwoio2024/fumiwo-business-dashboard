@@ -1055,6 +1055,10 @@ export const dummyTeamMembers = [
 
 export const dummyRoles = [
   {
+    name: "Owner",
+    value: "owner",
+  },
+  {
     name: "Super Admin",
     value: "super-admin",
   },
@@ -1065,10 +1069,6 @@ export const dummyRoles = [
   {
     name: "Developer",
     value: "developer",
-  },
-  {
-    name: "Admin",
-    value: "admin",
   },
   {
     name: "Analyst",

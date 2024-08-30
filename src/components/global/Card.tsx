@@ -6,7 +6,7 @@ type TCardProps = {
 }
 const Card = ({ className, children }: TCardProps) => {
 	return (
-    <section className={`rounded-md bg-white p-6 ${className}`}>
+    <section className={`rounded-md bg-white p-6 border ${className}`}>
       {children}
     </section>
   );
