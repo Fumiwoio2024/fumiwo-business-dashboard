@@ -1,7 +1,7 @@
 import Card from "@components/global/Card";
 import { SessionCardItemName, SessionCardTitle } from "./SessionCardTypography";
 import { TClient } from "@type/global.types";
-import { useState } from "react";
+// import { useState } from "react";
 const good = (
   <svg
     width="18"
@@ -39,8 +39,7 @@ const Permissioninformation = ({
 }: {
   permissionData: TClient["phones"][0]["permissions"] | undefined;
 }) => {
-  const [showAll] = useState(false);
-  const sliceFigure = showAll ? permissionData?.length : 6;
+  const sliceFigure = permissionData?.length;
 
   return (
     <Card className="space-y-8 transition">

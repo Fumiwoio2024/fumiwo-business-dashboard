@@ -68,25 +68,29 @@ const Sidebar = () => {
 
       <section className="flex flex-1 flex-col justify-between pb-14 pl-8 pt-7">
         <nav className="flex w-fit flex-col space-y-2">
-          {navLinks.map((link, index) => {
-            const isActive = location.pathname.includes(link.link);
-            return (
-              <NavLink
-                key={index}
-                to={`/dashboard${link.initialRoute || link.link}`}
-                className={() =>
-                  `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
-                }
-              >
-                {() => (
-                  <>
-                    <div>{isActive ? link.ActiveIcon : link.InactiveIcon}</div>
-                    <p>{link.name}</p>
-                  </>
-                )}
-              </NavLink>
-            );
-          })}
+          {navLinks
+            .filter((link) => !link.hidden)
+            .map((link, index) => {
+              const isActive = location.pathname.includes(link.link);
+              return (
+                <NavLink
+                  key={index}
+                  to={`/dashboard${link.initialRoute || link.link}`}
+                  className={() =>
+                    `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
+                  }
+                >
+                  {() => (
+                    <>
+                      <div>
+                        {isActive ? link.ActiveIcon : link.InactiveIcon}
+                      </div>
+                      <p>{link.name}</p>
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
         </nav>
 
         <nav>

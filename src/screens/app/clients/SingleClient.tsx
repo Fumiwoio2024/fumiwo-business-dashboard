@@ -6,10 +6,11 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { TClient } from "@type/global.types";
 import moment from "moment";
 import { ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BreadCrumb from "@components/global/BreadCrumb";
 import { H4 } from "@components/global/Typography";
 import Badge from "@components/global/Badge";
+import TableOptions from "@components/global/TableOptions";
 
 const SingleClient = ({
   title,
@@ -63,8 +64,7 @@ const ClientHome = () => {
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const { result: clients } = useQClients({});
   const result = clients?.[0];
-  const location = useLocation();
-  console.log(location.search);
+const navigate = useNavigate();
 
   const columns = [
     columnHelper.accessor("_id", {
@@ -115,26 +115,25 @@ const ClientHome = () => {
         return <Badge type={type}>{"N/A"}</Badge>;
       },
     }),
-    // columnHelper.accessor(() => "action", {
-    //   header: "Action",
-    //   cell: (info) => {
-    //     return (
-    //       <TableOptions
-    //         options={[
-    //           {
-    //             title: "View More",
-    //             action: () =>
-    //               navigate(`/dashboard/clients/${info.row.original.clientId}`),
-    //           },
-    //           // {
-    //           //   title: "Make Payment",
-    //           //   action: () => {},
-    //           // },
-    //         ]}
-    //       />
-    //     );
-    //   },
-    // }),
+    columnHelper.accessor(() => "action", {
+      header: "Action",
+      cell: (info) => {
+        return (
+          <TableOptions
+            options={[
+              {
+                title: "View More",
+                action: () => navigate(info.row.original.id),
+              },
+              // {
+              //   title: "Make Payment",
+              //   action: () => {},
+              // },
+            ]}
+          />
+        );
+      },
+    }),
   ];
 
   return (
