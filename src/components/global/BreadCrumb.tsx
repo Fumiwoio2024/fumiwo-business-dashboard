@@ -2,13 +2,16 @@ import { Link, useLocation } from "react-router-dom";
 
 const BreadCrumb = () => {
   const location = useLocation();
-  const locationArray: string[] = location.pathname.split("/").filter((x) => x);
+  const locationArray: string[] = location.pathname
+    .split("/")
+    .filter((x) => x)
+    .filter((x) => x !== "dashboard");
 
   return (
     <div className="flex items-center gap-2 text-sm">
       {locationArray.map((item, index) => (
         <Link
-          to={`/${locationArray.slice(0, index + 1).join("/")}`}
+          to={`/dashboard/${locationArray.slice(0, index + 1).join("/")}`}
           className={`flex items-center gap-2 ${index === locationArray.length - 1 ? "text-textBlue" : "text-textGray"}`}
           key={index}
         >

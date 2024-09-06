@@ -24,6 +24,8 @@ import KeysWebhooks from "@app-screens/settings/KeysWebhooks";
 import Rules from "@app-screens/settings/Rules";
 import RoleManagement from "@app-screens/teams/RoleManagement";
 import SingleClient from "@app-screens/clients/SingleClient";
+import ApplicationSession from "@app-screens/clients/ApplicationSession";
+import AuditLogs from "@app-screens/reports/AuditLogs";
 
 const router = createBrowserRouter([
   {
@@ -91,7 +93,25 @@ const router = createBrowserRouter([
           },
           {
             path: ":clientId",
-            element: <SingleClient />,
+            children: [
+              {
+                index: true,
+                element: <SingleClient />,
+              },
+              {
+                path: ":sessionId",
+                element: <ApplicationSession />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "reports",
+        children: [
+          {
+            index: true,
+            element: <AuditLogs />,
           },
         ],
       },

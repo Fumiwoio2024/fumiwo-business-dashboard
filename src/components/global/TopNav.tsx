@@ -2,11 +2,38 @@ import { H1 } from "./Typography";
 import { useState } from "react";
 import { navLinks } from "@/utils/data";
 import useChangeRoute from "@/hooks/custom/useChangeRoute";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import useClickOutside from "@hooks/custom/useClickOutside";
+
+const options = ({ navigate }: { navigate: NavigateFunction }) => [
+  {
+    title: "Audit Logs",
+    action: () => {
+      navigate("/dashboard/reports");
+    },
+
+    colorClass: "text-header",
+  },
+  {
+    title: "Log out",
+    action: () => {
+      localStorage.clear();
+      sessionStorage.clear();
+      navigate("/", { replace: true });
+    },
+
+    colorClass: "text-red-500",
+  },
+];
 
 const TopNav = () => {
   const [pageName, setPageName] = useState("");
-
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+  const dropdownRef = useClickOutside(setShowDropdown);
   const user = JSON.parse(localStorage.getItem("fmw_business_user") || "{}");
+
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   useChangeRoute((pathname) => {
     // check current page and set page name
@@ -47,23 +74,44 @@ const TopNav = () => {
             </svg>
           </div>
 
-          <svg
-            className="cursor-pointer"
-            width="18"
-            height="18"
-            viewBox="0 0 24 25"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M19.9181 9.4502L13.3981 15.9702C12.6281 16.7402 11.3681 16.7402 10.5981 15.9702L4.07812 9.4502"
-              stroke="#18191F"
-              strokeWidth="1.5"
-              strokeMiterlimit="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <div className="relative">
+            <button onClick={toggleDropdown}>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19.9181 9.4502L13.3981 15.9702C12.6281 16.7402 11.3681 16.7402 10.5981 15.9702L4.07812 9.4502"
+                  stroke="#18191F"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div
+              ref={dropdownRef}
+              className={`border-dark-6 shadow-3xl absolute -right-4 top-10 w-52 rounded-lg border bg-white p-1 ${showDropdown ? "block" : "hidden"}`}
+            >
+              {options({ navigate }).map((option) => (
+                <div
+                  key={option.title}
+                  className={`cursor-pointer p-3 text-sm font-medium hover:bg-linkGray/10 ${option.colorClass || "text-renaissance-black"}`}
+                  onClick={() => {
+                    toggleDropdown();
+                    option.action();
+                  }}
+                >
+                  {option.title}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

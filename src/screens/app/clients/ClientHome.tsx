@@ -60,7 +60,7 @@ const ClientCard = ({
 
 const ClientHome = () => {
   const columnHelper = createColumnHelper<TClient>();
-  const { result } = useQClients({});
+  const { result,isLoading } = useQClients({});
   const navigate = useNavigate();
 
   const columns = [
@@ -480,7 +480,7 @@ const ClientHome = () => {
           dateString="yesterday"
           percentage={0}
           title="Avg credit score"
-          value="Nil"
+          value="N/A"
         />
         <ClientCard
           Icon={
@@ -594,7 +594,7 @@ const ClientHome = () => {
           dateString="yesterday"
           percentage={0}
           title="Highest credit score"
-          value="Nil"
+          value="N/A"
         />
       </section>
 
@@ -624,7 +624,7 @@ const ClientHome = () => {
 
       <section>
         <div className="">
-          <Tables columns={columns} data={result || []} />
+          <Tables columns={columns} data={result || []} loading={isLoading} />
         </div>
       </section>
     </div>

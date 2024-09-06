@@ -112,7 +112,7 @@ const ClientHome = () => {
             type = "error";
             break;
         }
-        return <Badge type={type}>{"Nil"}</Badge>;
+        return <Badge type={type}>{"N/A"}</Badge>;
       },
     }),
     // columnHelper.accessor(() => "action", {
@@ -368,7 +368,7 @@ const ClientHome = () => {
           dateString="yesterday"
           percentage={0}
           title="First appl date"
-          value={`${result?.createdAt ? moment(new Date(result?.createdAt)).format("DD.MM.YY") : "Nil"}`}
+          value={`${result?.createdAt ? moment(new Date(result?.createdAt)).format("DD.MM.YY") : "N/A"}`}
         />
         <SingleClient
           Icon={
@@ -482,8 +482,8 @@ const ClientHome = () => {
           dateString="yesterday"
           percentage={0}
           title="Initial credit score"
-          value={`${result?.digitalCreditInfoHistory?.[0] || "Nil"}`}
-          // value="Nil"
+          value={`${result?.digitalCreditInfoHistory?.[0] || "N/A"}`}
+          // value="N/A"
         />
         <SingleClient
           Icon={
@@ -597,7 +597,7 @@ const ClientHome = () => {
           dateString="yesterday"
           percentage={0}
           title="Last credit score"
-          value={`${result?.latestDigitalCreditInfo || "Nil"}`}
+          value={`${result?.latestDigitalCreditInfo || "N/A"}`}
         />
       </section>
 

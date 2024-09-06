@@ -32,6 +32,7 @@ type TTableProps<T> = {
 const Tables = <T,>({
   columns,
   data,
+  loading,
   // currentPage,
   // setCurrentPage,
   // totalPage,
@@ -69,32 +70,41 @@ const Tables = <T,>({
 
           {data.length > 0 && (
             <tbody className="bg-white">
-              {table?.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className="relative border-b-2 border-[#F5F8FA]"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="whitespace-nowrap px-5 py-4 text-sm text-paraGray"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {table.getRowModel().rows.map((row) => {
+                return (
+                  <tr
+                    key={row.id}
+                    // onClick={() =>
+                    // navigate(`/dashboard/clients/${row.original.}`)
+                    // }
+                    className={`relative cursor-pointer border-b-2 border-[#F5F8FA] hover:bg-linkGray/10`}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="whitespace-nowrap px-5 py-4 text-sm text-paraGray"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           )}
         </table>
 
-        {!(data.length > 0) && (
-          <div className="flex w-full items-center justify-center">
-            <H4>No information to show</H4>
-          </div>
+        {loading ? (
+          <div className="w-full text-center"> Loading... </div>
+        ) : (
+          !(data.length > 0) && (
+            <div className="flex w-full items-center justify-center">
+              <H4>No information to show</H4>
+            </div>
+          )
         )}
 
         {/* pagination

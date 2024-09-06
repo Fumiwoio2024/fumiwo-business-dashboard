@@ -138,6 +138,100 @@ export const navLinks: TNavLinks[] = [
     link: "/clients",
   },
   // {
+  //   name: "Reports",
+  //   InactiveIcon: (
+  //     <svg
+  //       width="24"
+  //       height="25"
+  //       viewBox="0 0 24 25"
+  //       fill="none"
+  //       xmlns="http://www.w3.org/2000/svg"
+  //     >
+  //       <path
+  //         d="M12.3701 9.37891H17.6201"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M6.37988 9.37891L7.12988 10.1289L9.37988 7.87891"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M12.3701 16.3789H17.6201"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M6.37988 16.3789L7.12988 17.1289L9.37988 14.8789"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M9 22.5H15C20 22.5 22 20.5 22 15.5V9.5C22 4.5 20 2.5 15 2.5H9C4 2.5 2 4.5 2 9.5V15.5C2 20.5 4 22.5 9 22.5Z"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //     </svg>
+  //   ),
+  //   ActiveIcon: (
+  //     <svg
+  //       width="24"
+  //       height="25"
+  //       viewBox="0 0 24 25"
+  //       fill="none"
+  //       xmlns="http://www.w3.org/2000/svg"
+  //     >
+  //       <path
+  //         d="M12.3701 9.37891H17.6201"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M6.37988 9.37891L7.12988 10.1289L9.37988 7.87891"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M12.3701 16.3789H17.6201"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M6.37988 16.3789L7.12988 17.1289L9.37988 14.8789"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //       <path
+  //         d="M9 22.5H15C20 22.5 22 20.5 22 15.5V9.5C22 4.5 20 2.5 15 2.5H9C4 2.5 2 4.5 2 9.5V15.5C2 20.5 4 22.5 9 22.5Z"
+  //         stroke="#A5B3CD"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       />
+  //     </svg>
+  //   ),
+  //   link: "/reports",
+  // },
+  // {
   // 	name: 'Reports',
   // 	InactiveIcon: <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
   // 		<path d="M12.37 9.37988H17.62" stroke="#A5B3CD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

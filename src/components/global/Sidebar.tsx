@@ -15,7 +15,7 @@ const bottomNavLinks = [
       >
         <path
           d="M11 22.5H16C19.5 22.5 21 20.5 21 17.5V7.5C21 4.5 19.5 2.5 16 2.5H8C4.5 2.5 3 4.5 3 7.5V14.5"
-          stroke="#A5B3CD"
+          stroke="currentColor"
           stroke-width="1.5"
           stroke-miterlimit="10"
           stroke-linecap="round"
@@ -23,7 +23,7 @@ const bottomNavLinks = [
         />
         <path
           d="M14.5 5V7C14.5 8.1 15.4 9 16.5 9H18.5"
-          stroke="#A5B3CD"
+          stroke="currentColor"
           stroke-width="1.5"
           stroke-miterlimit="10"
           stroke-linecap="round"
@@ -31,7 +31,7 @@ const bottomNavLinks = [
         />
         <path
           d="M4 17.5L2 19.5L4 21.5"
-          stroke="#A5B3CD"
+          stroke="currentColor"
           stroke-width="1.5"
           stroke-miterlimit="10"
           stroke-linecap="round"
@@ -39,7 +39,7 @@ const bottomNavLinks = [
         />
         <path
           d="M7 17.5L9 19.5L7 21.5"
-          stroke="#A5B3CD"
+          stroke="currentColor"
           stroke-width="1.5"
           stroke-miterlimit="10"
           stroke-linecap="round"
@@ -47,7 +47,7 @@ const bottomNavLinks = [
         />
       </svg>
     ),
-    link: "",
+    link: "https://www.notion.so/fd24a857f83a4603b9bcf1f54eaf31c1?v=51bfa4b349124440b9cc537f249c0a67&p=34e09652fe5c43d594df498ff10eec1a&pm=s",
   },
 ];
 
@@ -91,13 +91,16 @@ const Sidebar = () => {
 
         <nav>
           {bottomNavLinks.map((link, index) => (
-            <button
+            <Link
+              to={link.link}
+              target="_blank"
+              rel="noopener noreferrer"
               key={index}
-              className={`flex items-center gap-4 px-4 py-3 text-lg font-medium text-unFocusedText duration-300`}
+              className={`flex items-center gap-4 px-4 py-3 text-lg font-medium text-primaryBlue duration-300`}
             >
               <div> {link.Icon} </div>
               <p>{link.name}</p>
-            </button>
+            </Link>
           ))}
         </nav>
       </section>

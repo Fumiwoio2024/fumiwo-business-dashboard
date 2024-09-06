@@ -1,21 +1,25 @@
-import { useState } from "react";
+import useClickOutside from "@hooks/custom/useClickOutside";
+import { RefObject, useState } from "react";
 
 const Dropdown = ({
   close,
   options,
+  dropdownRef,
 }: {
   close: () => void;
+  dropdownRef: RefObject<HTMLDivElement>;
   options: { title: string | undefined; action: () => void | undefined }[];
 }) => {
   return (
     <div
-      className={`border-dark-6 shadow-3xl absolute right-4 top-10 z-20 w-52 rounded-lg border bg-white`}
+      ref={dropdownRef}
+      className={`border-dark-6 shadow-3xl absolute right-4 z-10 w-52 rounded-lg border bg-white p-1`}
     >
       {options.map((option) =>
         option.title ? (
           <div
             key={option.title}
-            className="hover:bg-gray-6 text-renaissance-black cursor-pointer p-3 text-sm font-medium"
+            className="text-renaissance-black cursor-pointer p-3 text-sm font-medium hover:bg-linkGray/10"
             onClick={() => {
               close();
               option.action();
@@ -35,9 +39,10 @@ const TableOptions = ({
   options: { title: string | undefined; action: () => void | undefined }[];
 }) => {
   const [isOpened, setIsOpened] = useState(false);
+  const dropdownRef = useClickOutside(setIsOpened);
 
   return (
-    <>
+    <div className="relative">
       <div className="h-6 w-6">
         <button
           className="relative block w-full"
@@ -61,19 +66,13 @@ const TableOptions = ({
       </div>
 
       {isOpened && (
-        <Dropdown options={options} close={() => setIsOpened(false)} />
+        <Dropdown
+          dropdownRef={dropdownRef}
+          options={options}
+          close={() => setIsOpened(false)}
+        />
       )}
-
-      {/* overlay */}
-      <div
-        className={
-          isOpened
-            ? "fixed left-0 top-0 z-10 block h-full w-full bg-transparent"
-            : "hidden"
-        }
-        onClick={() => setIsOpened(false)}
-      ></div>
-    </>
+    </div>
   );
 };
 
