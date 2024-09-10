@@ -1,7 +1,8 @@
 import { SessionCardTitle } from "@components/applicationSession/SessionCardTypography";
 import { OverviewButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
-import { BarChart, PieChart } from "@mui/x-charts";
+import { gridClasses } from "@mui/material/Grid";
+import { BarChart, pieArcLabelClasses, PieChart } from "@mui/x-charts";
 
 const uData = [40000, 30000, 20000, 27800, 18900, 23900, 34900];
 const pData = [24000, 13980, 98000, 39080, 48000, 38000, 43000];
@@ -14,16 +15,81 @@ const xLabels = [
   "Saturday",
   "Sunday",
 ];
+const data = [
+  { id: 1, value: 10, label: "Pending", color: "#FCBE2D" },
+  { id: 2, value: 20, label: "Rejected", color: "#FF0000" },
+  { id: 0, value: 70, label: "Approved", color: "#0BE781" },
+];
+
+const barData = [
+  {
+    data: pData,
+    label: "Very Poor",
+    id: "vPoor",
+    stack: "total",
+    color: "#E70033",
+  },
+  {
+    data: uData,
+    label: "Poor",
+    id: "poor",
+    stack: "total",
+    color: "#FF7643",
+  },
+  {
+    data: pData,
+    label: "Fair",
+    id: "fair",
+    stack: "total",
+    color: "#F6F002",
+  },
+  {
+    data: uData,
+    label: "Good",
+    id: "good",
+    stack: "total",
+    color: "#7ED957",
+  },
+  {
+    data: pData,
+    label: "Excellent",
+    id: "excellent",
+    stack: "total",
+    color: "#2B8F3C",
+  },
+];
 
 const Metrics = () => {
   return (
-    <section className="grid grid-cols-5 gap-7">
-      <Card className="col-span-3 space-y-8">
-        <div className="flex justify-between">
-          <SessionCardTitle
-            title="Avg credit score distribution"
-            description="Distribution of borrowers’ credit scores"
-          />
+    <section className="grid grid-cols-3 gap-7">
+      <Card className="col-span-2 space-y-8">
+        <div className="flex items-start justify-between">
+          {/* <OverviewButton className={`flex justify-between gap-5`}> */}
+          <>
+            <SessionCardTitle
+              title="Avg credit score distribution"
+              description="Distribution of borrowers’ credit scores"
+            />
+            {/* <svg
+              className="mt-2"
+              width="12"
+              height="13"
+              viewBox="0 0 12 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.96004 4.97461L6.70004 8.23461C6.31504 8.61961 5.68504 8.61961 5.30004 8.23461L2.04004 4.97461"
+                stroke="#718096"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg> */}
+          </>
+          {/* </OverviewButton> */}
+
           <OverviewButton>
             <div className="flex items-center">
               This week
@@ -53,50 +119,46 @@ const Metrics = () => {
           <BarChart
             width={650}
             height={400}
-            series={[
+            yAxis={[{ disableLine: true, disableTicks: true }]}
+            margin={{ left: 70 }}
+            grid={{ horizontal: true }}
+            slotProps={{ legend: { hidden: true } }}
+            series={barData}
+            xAxis={[
               {
-                data: pData,
-                label: "Very Poor",
-                id: "vPoor",
-                stack: "total",
-                color: "#E70033",
-              },
-              {
-                data: uData,
-                label: "Poor",
-                id: "poor",
-                stack: "total",
-                color: "#FF7643",
-              },
-              {
-                data: pData,
-                label: "Fair",
-                id: "fair",
-                stack: "total",
-                color: "#F6F002",
-              },
-              {
-                data: uData,
-                label: "Good",
-                id: "good",
-                stack: "total",
-                color: "#7ED957",
-              },
-              {
-                data: pData,
-                label: "Excellent",
-                id: "excellent",
-                stack: "total",
-                color: "#2B8F3C",
+                data: xLabels,
+                scaleType: "band",
+                disableLine: true,
+                disableTicks: true,
               },
             ]}
-            xAxis={[{ data: xLabels, scaleType: "band" }]}
-            margin={{ left: 70 }}
+            sx={{
+              [`& .${gridClasses.root}`]: {
+                fill: "red",
+                fontSize: 14,
+                fontWeight: 500,
+                fontFamily: "Poppins",
+                borderColor: "red",
+                backGroundColor: "#FF0000",
+              },
+            }}
           />
+
+          <div className="flex justify-center gap-3">
+            {barData.map((item) => (
+              <div className="flex items-center gap-1.5 text-xxs">
+                <div
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: item.color }}
+                />
+                <p>{item.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
 
-      <Card className="col-span-2">
+      <Card className="flex flex-col pb-0">
         <div className="flex justify-between">
           <SessionCardTitle
             title="Applications"
@@ -130,27 +192,66 @@ const Metrics = () => {
           </OverviewButton>
         </div>
 
-        <div>
-          <PieChart
-            height={400}
-            margin={{ right: 120 }}
-            series={[
-              {
-                data: [
-                  { id: 1, value: 10, label: "Pending", color: "#FCBE2D" },
-                  { id: 2, value: 20, label: "Rejected", color: "#FF0000" },
-                  { id: 0, value: 70, label: "Approved", color: "#0BE781" },
-                ],
-                innerRadius: 60,
-
-                arcLabel: (params) =>
-                  params.value ? String(params.value) + "%" : "",
-                arcLabelMinAngle: 20,
-                // valueFormatter,
-              },
-            ]}
-            // skipAnimation={skipAnimation}
-          />
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <div>
+            <div className="relative h-fit w-fit">
+              <PieChart
+                margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                height={270}
+                width={270}
+                title="Applications"
+                slotProps={{ legend: { hidden: true } }}
+                series={[
+                  {
+                    data,
+                    innerRadius: 75,
+                    arcLabel: (params) =>
+                      params.value ? String(params.value) + "%" : "",
+                  },
+                ]}
+                sx={{
+                  [`& .${pieArcLabelClasses.root}`]: {
+                    fill: "white",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: "Poppins",
+                  },
+                }}
+              ></PieChart>
+              <div className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F8F8FC]" />
+            </div>
+            <div className="mt-8 flex justify-between">
+              {data.map((item, index) => (
+                <>
+                  <div className="text-center">
+                    <p
+                      style={{ color: item.color }}
+                      className="text-lg font-medium"
+                    >
+                      {item.value}%
+                    </p>
+                    <h5 style={{ color: item.color }} className="text-sm">
+                      {item.label}
+                    </h5>
+                  </div>
+                  {index !== data.length - 1 && (
+                    <svg
+                      width="1"
+                      height="57"
+                      viewBox="0 0 1 57"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 56.1787L0 0.678707H0.566327L0.566327 56.1787H0Z"
+                        fill="#E7E8F2"
+                      />
+                    </svg>
+                  )}
+                </>
+              ))}
+            </div>
+          </div>
         </div>
       </Card>
     </section>
