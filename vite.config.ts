@@ -1,11 +1,8 @@
-// @ts-expect-error: path module is not typed
 import path from 'path'
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// @ts-expect-error: path module is not typed
-const root = (route: string) => (path.resolve(__dirname, 'src') + route);
+const root = (route: string) => path.resolve(__dirname, `./src${route}`);
 
 // https://vitejs.dev/config/
 export default defineConfig({
