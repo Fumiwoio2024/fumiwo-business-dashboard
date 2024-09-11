@@ -2,12 +2,11 @@ import { SessionCardTitle } from "@components/applicationSession/SessionCardTypo
 import { OverviewButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
 import { gridClasses } from "@mui/material/Grid";
-import {
-  BarChart,
-  pieArcLabelClasses,
-  PieChart,
-  SparkLineChart,
-} from "@mui/x-charts";
+import { BarChart, pieArcLabelClasses, PieChart } from "@mui/x-charts";
+import { SparkLine } from "./SparkLine";
+import Legend from "./Legend";
+import { useState } from "react";
+import useClickOutside from "@hooks/custom/useClickOutside";
 
 const uData = [40000, 30000, 20000, 278, 18900, 23900, 34900];
 const pData = [24000, 13980, 98000, 39080, 48000, 38000, 43000];
@@ -64,190 +63,48 @@ const barData = [
   },
 ];
 
-const roundedBarData = [
-  {
-    data: pData,
-    // label: "Very Poor",
-    // id: "vPoor",
-    // stack: "total",
-    color: "#011D7B",
-  },
-];
-
 const AvgScoreBarChart = () => {
   return (
-    <>
-      <div className="flex items-start justify-between">
-        <SessionCardTitle
-          title="Avg credit score distribution"
-          description="Distribution of borrowers’ credit scores"
-        />
+    <div>
+      <BarChart
+        width={650}
+        height={400}
+        margin={{ left: 70 }}
+        grid={{ horizontal: true }}
+        slotProps={{ legend: { hidden: true } }}
+        series={barData}
+        yAxis={[
+          {
+            disableLine: true,
+            disableTicks: true,
+            valueFormatter: (value) =>
+              value > 1000
+                ? `${(value / 1000).toLocaleString("en-NG", { maximumFractionDigits: 1 })}K`
+                : value,
+          },
+        ]}
+        xAxis={[
+          {
+            data: xLabels,
+            scaleType: "band",
+            disableLine: true,
+            disableTicks: true,
+          },
+        ]}
+        sx={{
+          [`& .${gridClasses.root}`]: {
+            fill: "red",
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Poppins",
+            borderColor: "red",
+            backGroundColor: "#FF0000",
+          },
+        }}
+      />
 
-        <OverviewButton>
-          <div className="flex items-center">
-            This week
-            <span className="ml-2.5 text-paraGray/70">
-              <svg
-                width="12"
-                height="13"
-                viewBox="0 0 12 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.96004 4.97461L6.70004 8.23461C6.31504 8.61961 5.68504 8.61961 5.30004 8.23461L2.04004 4.97461"
-                  stroke="#718096"
-                  stroke-width="1.5"
-                  stroke-miterlimit="10"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
-        </OverviewButton>
-      </div>
-
-      <div>
-        <BarChart
-          width={650}
-          height={400}
-          margin={{ left: 70 }}
-          grid={{ horizontal: true }}
-          slotProps={{ legend: { hidden: true } }}
-          series={barData}
-          yAxis={[
-            {
-              disableLine: true,
-              disableTicks: true,
-              valueFormatter: (value) =>
-                value > 1000
-                  ? `${(value / 1000).toLocaleString("en-NG", { maximumFractionDigits: 1 })}K`
-                  : value,
-            },
-          ]}
-          xAxis={[
-            {
-              data: xLabels,
-              scaleType: "band",
-              disableLine: true,
-              disableTicks: true,
-            },
-          ]}
-          sx={{
-            [`& .${gridClasses.root}`]: {
-              fill: "red",
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Poppins",
-              borderColor: "red",
-              backGroundColor: "#FF0000",
-            },
-          }}
-        />
-
-        <div className="flex justify-center gap-3">
-          {barData.map((item) => (
-            <div className="flex items-center gap-1.5 text-xxs">
-              <div
-                className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: item.color }}
-              />
-              <p>{item.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-};
-
-const AvgScoreDistributionBarChart = () => {
-  return (
-    <>
-      <div className="flex items-start justify-between">
-        <SessionCardTitle
-          title="Avg credit score distribution"
-          description="Distribution of borrowers’ credit scores"
-        />
-
-        <OverviewButton>
-          <div className="flex items-center">
-            This week
-            <span className="ml-2.5 text-paraGray/70">
-              <svg
-                width="12"
-                height="13"
-                viewBox="0 0 12 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.96004 4.97461L6.70004 8.23461C6.31504 8.61961 5.68504 8.61961 5.30004 8.23461L2.04004 4.97461"
-                  stroke="#718096"
-                  stroke-width="1.5"
-                  stroke-miterlimit="10"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
-        </OverviewButton>
-      </div>
-
-      <div className="">
-        <BarChart
-          width={650}
-          height={400}
-          borderRadius={20}
-          margin={{ left: 70 }}
-          grid={{ horizontal: true }}
-          slotProps={{ legend: { hidden: true }, bar: { radius: 20 } }}
-          series={roundedBarData}
-          yAxis={[
-            {
-              disableLine: true,
-              disableTicks: true,
-              valueFormatter: (value) =>
-                value > 1000
-                  ? `${(value / 1000).toLocaleString("en-NG", { maximumFractionDigits: 2 })}K`
-                  : value,
-            },
-          ]}
-          xAxis={[
-            {
-              data: xLabels,
-              scaleType: "band",
-              categoryGapRatio: 0.7,
-              disableLine: true,
-              disableTicks: true,
-            },
-          ]}
-          sx={{
-            [`& .rect`]: {
-              // fill: "red",
-              // fontSize: 14,
-              // fontWeight: 500,
-              // fontFamily: "Poppins",
-              // borderColor: "red",
-              // backGroundColor: "#FF0000",
-              borderBottomRightRadius: 20,
-            },
-          }}
-        />
-      </div>
-
-      <div>
-        <SparkLineChart
-          plotType="bar"
-          data={[1, 4, 2, 5, 7, 2, 4, 6]}
-          height={100}
-          showHighlight={true}
-          showTooltip={true}
-        />
-      </div>
-    </>
+      <Legend data={barData} />
+    </div>
   );
 };
 
@@ -312,7 +169,7 @@ const ApplicationsPieChart = () => {
                   fontFamily: "Poppins",
                 },
               }}
-            ></PieChart>
+            />
             <div className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F8F8FC]" />
           </div>
           <div className="mt-8 flex justify-between">
@@ -352,12 +209,59 @@ const ApplicationsPieChart = () => {
   );
 };
 
+const metricOptions = [
+  {
+    id: 1,
+    title: "Avg credit score distribution",
+    desc: "Distribution of borrowers’ credit scores",
+    Component: AvgScoreBarChart,
+  },
+  {
+    id: 2,
+    title: "Repayment data",
+    desc: "Distribution of borrowers’ repayment data",
+    Component: SparkLine,
+  },
+];
 const Metrics = () => {
+  const [selectedChart, setSelectedChart] = useState(metricOptions[0]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useClickOutside(setShowDropdown);
   return (
     <section className="grid grid-cols-3 gap-7">
-      <Card className="col-span-2">
-        {/* <AvgScoreBarChart /> */}
-        <AvgScoreDistributionBarChart />
+      <Card className="col-span-2 space-y-8">
+        <div className="relative w-fit">
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="flex cursor-pointer gap-5 text-left"
+          >
+            <SessionCardTitle
+              isDropdown
+              title={selectedChart.title}
+              description={selectedChart.desc}
+            />
+          </button>
+
+          <div
+            ref={dropdownRef}
+            className={`border-dark-6 shadow-3xl absolute right-0 top-8 z-10 w-full rounded-lg border bg-white p-1 ${showDropdown ? "block" : "hidden"}`}
+          >
+            {metricOptions.map((option) => (
+              <div
+                key={option.title}
+                className={`cursor-pointer p-3 text-sm font-medium text-paraGray/70 hover:bg-linkGray/10 ${selectedChart.id === option.id ? "bg-linkGray/10" : ""}`}
+                onClick={() => {
+                  setSelectedChart(option);
+                  setShowDropdown(false);
+                }}
+              >
+                {option.title}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <selectedChart.Component />
       </Card>
 
       <Card className="flex flex-col pb-0">
@@ -368,3 +272,100 @@ const Metrics = () => {
 };
 
 export default Metrics;
+
+
+
+
+
+
+
+
+
+// const AvgScoreDistributionBarChart = () => {
+//   return (
+//     <>
+//       <div className="flex items-start justify-between">
+//         <SessionCardTitle
+//           title="Avg credit score distribution"
+//           description="Distribution of borrowers’ credit scores"
+//         />
+
+//         <OverviewButton>
+//           <div className="flex items-center">
+//             This week
+//             <span className="ml-2.5 text-paraGray/70">
+//               <svg
+//                 width="12"
+//                 height="13"
+//                 viewBox="0 0 12 13"
+//                 fill="none"
+//                 xmlns="http://www.w3.org/2000/svg"
+//               >
+//                 <path
+//                   d="M9.96004 4.97461L6.70004 8.23461C6.31504 8.61961 5.68504 8.61961 5.30004 8.23461L2.04004 4.97461"
+//                   stroke="#718096"
+//                   stroke-width="1.5"
+//                   stroke-miterlimit="10"
+//                   stroke-linecap="round"
+//                   stroke-linejoin="round"
+//                 />
+//               </svg>
+//             </span>
+//           </div>
+//         </OverviewButton>
+//       </div>
+
+//       <div className="">
+//         <BarChart
+//           width={650}
+//           height={400}
+//           borderRadius={20}
+//           margin={{ left: 70 }}
+//           grid={{ horizontal: true }}
+//           slotProps={{ legend: { hidden: true }, bar: { radius: 20 } }}
+//           series={roundedBarData}
+//           yAxis={[
+//             {
+//               disableLine: true,
+//               disableTicks: true,
+//               valueFormatter: (value) =>
+//                 value > 1000
+//                   ? `${(value / 1000).toLocaleString("en-NG", { maximumFractionDigits: 2 })}K`
+//                   : value,
+//             },
+//           ]}
+//           xAxis={[
+//             {
+//               data: xLabels,
+//               scaleType: "band",
+//               categoryGapRatio: 0.7,
+//               disableLine: true,
+//               disableTicks: true,
+//             },
+//           ]}
+//           sx={{
+//             [`& .rect`]: {
+//               // fill: "red",
+//               // fontSize: 14,
+//               // fontWeight: 500,
+//               // fontFamily: "Poppins",
+//               // borderColor: "red",
+//               // backGroundColor: "#FF0000",
+//               borderBottomRightRadius: 20,
+//             },
+//           }}
+//         />
+//       </div>
+
+//       {/* <div>
+//         <SparkLineChart
+//           plotType="bar"
+//           data={[1, 4, 2, 5, 7, 2, 4, 6]}
+//           height={100}
+//           showHighlight={true}
+//           showTooltip={true}
+//         />
+//       </div> */}
+//     </>
+//   );
+// };

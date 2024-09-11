@@ -58,7 +58,7 @@ const LoginForm = ({ setIsSetPassword, setTokenState }: { setIsSetPassword: (sta
         } else if (data.data?.data.user.status === "incomplete_profile") {
           navigate("/dashboard/settings/onboarding/business-details");
         } else {
-          navigate("/dashboard");
+          navigate("/dashboard/overview");
         }
       },
       onError: (error) => handleGenericError(error),

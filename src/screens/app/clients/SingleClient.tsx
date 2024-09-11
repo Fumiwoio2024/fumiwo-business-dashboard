@@ -11,6 +11,7 @@ import BreadCrumb from "@components/global/BreadCrumb";
 import { H4 } from "@components/global/Typography";
 import Badge from "@components/global/Badge";
 import TableOptions from "@components/global/TableOptions";
+import { LineGradient } from "@components/applicationSession/LineGradient";
 
 const SingleClient = ({
   title,
@@ -64,7 +65,7 @@ const ClientHome = () => {
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const { result: clients } = useQClients({});
   const result = clients?.[0];
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const columns = [
     columnHelper.accessor("_id", {
@@ -599,6 +600,10 @@ const navigate = useNavigate();
           value={`${result?.latestDigitalCreditInfo || "N/A"}`}
         />
       </section>
+
+      <Card>
+        <LineGradient />
+      </Card>
 
       <section className="flex items-center justify-between">
         <H4>Devices used</H4>
