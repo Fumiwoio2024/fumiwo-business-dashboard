@@ -8,23 +8,24 @@ import {
 } from "@components/ui/chart";
 import { SessionCardTitle } from "@components/applicationSession/SessionCardTypography";
 import Legend from "../overviewScreen/Legend";
+import { TClient } from "@type/global.types";
 
 export const description = "A linear area chart";
 
-const chartData = [
-  { month: "January", score: 100 },
-  { month: "February", score: 50 },
-  { month: "March", score: 150 },
-  { month: "April", score: 100 },
-  { month: "May", score: 300 },
-  { month: "June", score: 200 },
-  { month: "July", score: 350 },
-  { month: "August", score: 280 },
-  { month: "September", score: 450 },
-  { month: "October", score: 390 },
-  { month: "November", score: 580 },
-  { month: "December", score: 540 },
-];
+// const chartData = [
+//   { month: "January", score: 100 },
+//   { month: "February", score: 50 },
+//   { month: "March", score: 150 },
+//   { month: "April", score: 100 },
+//   { month: "May", score: 300 },
+//   { month: "June", score: 200 },
+//   { month: "July", score: 350 },
+//   { month: "August", score: 280 },
+//   { month: "September", score: 450 },
+//   { month: "October", score: 390 },
+//   { month: "November", score: 580 },
+//   { month: "December", score: 540 },
+// ];
 
 const chartConfig = {
   score: {
@@ -33,7 +34,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export const LineGradient = () => {
+export const LineGradient = ({ data }: { data: TClient | undefined }) => {
+  const chartData = data?.digitalCreditInfoHistory.map((item, idx) => ({
+    session: `Session ${idx + 1}`,
+    score: item.creditScore,
+  }));
   return (
     <div className="space-y-10">
       <div className="mb-8 flex justify-between">
@@ -45,11 +50,11 @@ export const LineGradient = () => {
           <CartesianGrid vertical={false} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <XAxis
-            dataKey="month"
+            dataKey="session"
             tickLine={false}
             axisLine={false}
             tickMargin={8}
-            tickFormatter={(value) => value.slice(0, 3)}
+            // tickFormatter={(value) => value.slice(0, 3)}
           />
           <ChartTooltip
             cursor={false}

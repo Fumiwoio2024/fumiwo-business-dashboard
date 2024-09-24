@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 
 const bottomNavLinks = [
   {
-    name: "Documentation",
+    name: "Docs",
     Icon: (
       <svg
         width="24"
@@ -100,7 +100,7 @@ const Sidebar = () => {
               target="_blank"
               rel="noopener noreferrer"
               key={index}
-              className={`flex items-center gap-4 px-4 py-3 text-lg font-medium text-primaryBlue duration-300`}
+              className={`flex items-center gap-4 px-4 py-3 text-lg font-medium text-unFocusedText duration-300`}
             >
               <div> {link.Icon} </div>
               <p>{link.name}</p>

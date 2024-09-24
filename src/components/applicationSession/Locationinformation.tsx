@@ -29,7 +29,7 @@ const Locationinformation = ({
   const gpsSelectedData = {
     Latitude: ipData?.latitude ? toLat(ipData.latitude) : ipData?.latitude,
     Longitude: ipData?.longitude ? toLong(ipData.longitude) : ipData?.longitude,
-    "Network Type": gpsData?.wifiEnabled,
+    "Network Type": gpsData?.networkConnectionType,
     "Network Operator": gpsData?.networkOperatorName,
   };
 

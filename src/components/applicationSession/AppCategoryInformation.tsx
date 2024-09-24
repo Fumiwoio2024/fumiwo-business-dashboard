@@ -41,7 +41,7 @@ const AppCategoryInformation = ({
             },
           ]}
           width={600}
-          height={450}
+          height={470}
           margin={{ right: 250 }}
         />
       </div>

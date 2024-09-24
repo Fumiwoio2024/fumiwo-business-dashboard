@@ -17,7 +17,9 @@ export type TRole = {
 	slug: string;
 	businessId: string;
 	_createdAt: string;
+	createdAt: string;
 	_lastModifiedAt: string;
+	lastModifiedAt: string;
 	id: string
 }
 
@@ -158,7 +160,7 @@ type ProductBilled = {
 	variableFees: number[]; // Adjust type if there is more information about variableFees
 }
 
-export type Invoice = {
+export type TInvoice = {
 	cardCharged: string;
 	transactionId: string;
 	amountPaid: number;
@@ -262,6 +264,38 @@ export type TPagination = {
 	prevPage: number | null;
 	nextPage: number | null;
 };
+
+
+type TDeviceInfo = {
+	browser: string;
+	os: string;
+	version: string;
+};
+
+type Entity = {
+	name: string;
+	email: string;
+};
+
+export type TAuditLog = {
+	activity: string;
+	businessId: string;
+	createdAt: string;          // ISO 8601 Date String
+	deviceInfo: TDeviceInfo;
+	entity: Entity;
+	entityId: string;
+	entityType: string;
+	event: string;
+	eventDateTime: string;      // ISO 8601 Date String
+	id: string;
+	ipAddress: string;
+	lastModifiedAt: string;     // ISO 8601 Date String
+	resource: string;
+	_createdAt: string;         // ISO 8601 Date String with timezone
+	_lastModifiedAt: string;    // ISO 8601 Date String with timezone
+};
+
+
 
 
 // Phone types

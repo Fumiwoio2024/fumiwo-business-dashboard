@@ -15,7 +15,7 @@ const ModalContainer = ({
     <div
       role="dialog"
       onClick={onClose}
-      className={`absolute inset-0 z-10 flex items-center justify-center bg-black bg-opacity-70 transition-opacity duration-300 ${
+      className={`absolute inset-0 z-10 flex items-center justify-center overflow-y-auto bg-black bg-opacity-70 pb-5 pt-20 transition-opacity duration-300 ${
         isVisible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
@@ -26,7 +26,7 @@ const ModalContainer = ({
         }`}
       >
         <div className="mb-8 flex items-center justify-between">
-          <h3 className="text-header text-lg font-bold">{title}</h3>
+          <h3 className="text-lg font-bold text-header">{title}</h3>
           <button onClick={onClose}>
             <svg
               width="24"

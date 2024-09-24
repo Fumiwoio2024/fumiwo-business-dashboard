@@ -2,6 +2,7 @@ import { dummyRoles } from "@/utils/data";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import Dropdown from "@components/global/Dropdown";
 import Input from "@components/global/Input";
+import { useMInviteUser } from "@hooks/api/mutations/app/users.mutations";
 import { TUser } from "@type/global.types";
 import { SubmitHandler, useForm } from "react-hook-form";
 // import { useNavigate } from "react-router-dom";
@@ -32,10 +33,11 @@ const AddTeamMemberForm = ({ onClose, details }: TAddTeamMemberFormProps) => {
       : defaultValues,
     mode: "onBlur",
   });
+  const { mutate: inviteUser } = useMInviteUser();
 
-  const submitForm: SubmitHandler<typeof defaultValues> = async () => {
+  const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
     onClose();
-    !details && reset();
+    !details && (inviteUser(data), reset());
   };
 
   return (

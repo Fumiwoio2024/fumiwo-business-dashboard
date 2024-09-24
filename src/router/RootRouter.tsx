@@ -22,10 +22,11 @@ import Business from "@app-screens/settings/Business";
 import Security from "@app-screens/settings/Security";
 import KeysWebhooks from "@app-screens/settings/KeysWebhooks";
 import Rules from "@app-screens/settings/Rules";
-import RoleManagement from "@app-screens/teams/RoleManagement";
+// import RoleManagement from "@app-screens/teams/RoleManagement";
 import SingleClient from "@app-screens/clients/SingleClient";
 import ApplicationSession from "@app-screens/clients/ApplicationSession";
 import AuditLogs from "@app-screens/reports/AuditLogs";
+import NewRoleManagement from "@app-screens/teams/NewRoleManagement";
 
 const router = createBrowserRouter([
   {
@@ -80,7 +81,8 @@ const router = createBrowserRouter([
           },
           {
             path: "manage-roles",
-            element: <RoleManagement />,
+            element: <NewRoleManagement />,
+            // element: <RoleManagement />,
           },
         ],
       },

@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import logo from '@images/fumiwo-logo.png'
 import { useAuthProvider } from '@/store/context/useAuthProvider'
-import api from '@/config/axios'
+import api from "@config/axios";
 import useChangeRoute from '@/hooks/custom/useChangeRoute'
 
 const AuthLayout = () => {

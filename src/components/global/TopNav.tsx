@@ -96,7 +96,7 @@ const TopNav = () => {
 
             <div
               ref={dropdownRef}
-              className={`border-dark-6 shadow-3xl absolute -right-4 top-10 w-52 rounded-lg border bg-white p-1 ${showDropdown ? "block" : "hidden"}`}
+              className={`border-dark-6 shadow-3xl absolute -right-4 top-10 z-30 w-52 rounded-lg border bg-white p-1 duration-300 ${showDropdown ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"}`}
             >
               {options({ navigate }).map((option) => (
                 <div

@@ -1,4 +1,4 @@
-import api from "@/config/axios"
+import api from "@config/axios"
 import { TGeneralRes, TUser } from "@type/global.types"
 import { useMutation } from "@tanstack/react-query"
 

@@ -96,7 +96,7 @@ export const OverviewButton = ({
 
   return (
     <button
-      className={`rounded-[10px] border border-sidebarBorder bg-white p-3 text-sm font-medium text-paraGray transition duration-200 hover:bg-paraGray/5 active:bg-paraGray/20 ${[
+      className={`rounded-[10px] border border-sidebarBorder bg-white p-3 text-sm font-medium text-graySubtext transition duration-200 hover:bg-paraGray/5 active:bg-paraGray/20 ${[
         // size === "small" && "px-4 py-3 text-xs",
         // size === "medium" && "px-4.5 py-3 text-base",
         // size === "large" && "px-10 py-4.5 text-lg",

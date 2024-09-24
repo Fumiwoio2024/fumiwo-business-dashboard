@@ -1,6 +1,14 @@
-const Legend = ({ data }: { data: { label: string; color: string }[] }) => {
+const Legend = ({
+  data,
+  vertical,
+}: {
+  data: { label: string; color: string }[];
+  vertical?: boolean;
+}) => {
   return (
-    <div className="flex justify-center gap-3">
+    <div
+      className={`flex justify-center ${vertical ? "flex-col gap-1" : "gap-3"} `}
+    >
       {data.map((item) => (
         <div className="flex items-center gap-1.5 text-xxs">
           <div

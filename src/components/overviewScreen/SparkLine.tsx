@@ -7,44 +7,92 @@ import {
   ChartTooltipContent,
 } from "@components/ui/chart";
 import Legend from "./Legend";
+import {
+  useQLoanRepaymentSettlementStats,
+  useQLoanRepaymentStats,
+} from "@hooks/api/queries/analytics.queries";
+import moment from "moment";
 
 export const description = "A linear area chart";
 
-const chartData = [
-  { month: "January", newDevices: 100, oldDevices: 80 },
-  { month: "February", newDevices: 50, oldDevices: 30 },
-  { month: "March", newDevices: 150, oldDevices: 120 },
-  { month: "April", newDevices: 100, oldDevices: 90 },
-  { month: "May", newDevices: 300, oldDevices: 400 },
-  { month: "June", newDevices: 200, oldDevices: 280 },
-  { month: "July", newDevices: 350, oldDevices: 370 },
-  { month: "August", newDevices: 280, oldDevices: 220 },
-  { month: "September", newDevices: 450, oldDevices: 400 },
-  { month: "October", newDevices: 390, oldDevices: 320 },
-  { month: "November", newDevices: 580, oldDevices: 460 },
-  { month: "December", newDevices: 540, oldDevices: 480 },
-];
+// const chartData = [{ timeKey: "January", newDevices: 100, oldDevices: 80 }];
 
-const chartConfig = {
-  newDevices: {
-    label: "New Devices",
-    color: "#34B53A",
-  },
-  oldDevices: {
-    label: "Old Devices",
+const loanStatChartConfig = {
+  clientsWithLoans: {
+    label: "Clients with loans",
     color: "#011D7B",
+  },
+  clientsWithoutLoans: {
+    label: "Clients without loans",
+    color: "#009851",
   },
 } satisfies ChartConfig;
 
-export const SparkLine = () => {
+const settlementChartConfig = {
+  settledOnTime: {
+    label: "On-time payments",
+    color: "#009851",
+  },
+  settledLessThan30DaysLate: {
+    label: "Less than 30 days late",
+    color: "#011D7B",
+  },
+  settledMoreThan30DaysLate: {
+    label: "More than 30 days late",
+    color: "#FF9066",
+  },
+  settledMoreThan60DaysLate: {
+    label: "More than 60 days",
+    color: "#000000",
+  },
+  settledMoreThan90DaysLate: {
+    label: "More than 90 days late",
+    color: "#FF0000",
+  },
+} satisfies ChartConfig;
+
+export const SparkLine = ({
+  type,
+  startDate,
+  endDate,
+}: {
+  startDate: moment.Moment;
+  endDate: moment.Moment;
+  type?: string;
+}) => {
+  const Query =
+    type === "Repayment data"
+      ? useQLoanRepaymentStats
+      : useQLoanRepaymentSettlementStats;
+
+  const { result } = Query({ startDate, endDate });
+  if (!result) return <></>;
+
+  const isRepaymentData = type === "Repayment data" && "timeFormat" in result;
+
+  const activeConfig = isRepaymentData
+    ? loanStatChartConfig
+    : settlementChartConfig;
+
+  const chartData = isRepaymentData
+    ? result.stats.map((data) => ({
+        timeKey: moment()[result.timeFormat](data.timeUnit).format("MMM"),
+        clientsWithLoans: 1,
+        clientsWithoutLoans: 1,
+      }))
+    : Object.entries(result.stats).map(([timeKey, data]) => ({
+        timeKey,
+        ...data,
+      }));
+
   return (
-    <div className="">
-      <ChartContainer config={chartConfig} className="">
+    <div>
+      <ChartContainer config={activeConfig} className="">
         <AreaChart accessibilityLayer data={chartData} className="">
           <CartesianGrid vertical={false} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <XAxis
-            dataKey="month"
+            dataKey="timeKey"
             tickLine={false}
             axisLine={false}
             tickMargin={8}
@@ -54,28 +102,21 @@ export const SparkLine = () => {
             cursor={false}
             content={<ChartTooltipContent indicator="dot" hideLabel />}
           />
-          <Area
-            dataKey="newDevices"
-            type="linear"
-            // fill="var(--color-desktop)"
-            fillOpacity={0}
-            stroke="var(--color-newDevices)"
-            strokeWidth={2}
-          />
-          <Area
-            dataKey="oldDevices"
-            type="linear"
-            // fill="var(--color-desktop)"
-            fillOpacity={0}
-            stroke="var(--color-oldDevices)"
-            strokeWidth={2}
-          />
+          {Object.entries(activeConfig).map(([key, value]) => (
+            <Area
+              dataKey={key}
+              type="linear"
+              fillOpacity={0}
+              stroke={value.color}
+              strokeWidth={2}
+            />
+          ))}
         </AreaChart>
       </ChartContainer>
 
       <div className="mt-5">
         <Legend
-          data={Object.values(chartConfig).map((value) => ({
+          data={Object.values(activeConfig).map((value) => ({
             color: value.color,
             label: value.label,
           }))}

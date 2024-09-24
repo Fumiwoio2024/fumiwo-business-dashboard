@@ -1,6 +1,6 @@
-import api from '@/config/axios'
-import Sidebar from '@components/global/Sidebar'
-import TopNav from '@components/global/TopNav'
+import api from "@config/axios";
+import Sidebar from "@components/global/Sidebar";
+import TopNav from "@components/global/TopNav";
 import { H3 } from "@components/global/Typography";
 import { useLayoutEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -22,11 +22,11 @@ const AppLayout = () => {
 
   return (
     <>
-      <div className="relative hidden h-screen w-screen overflow-hidden bg-appBg md:flex">
+      <div className="relative hidden h-screen w-full overflow-hidden bg-appBg transition md:flex">
         <Sidebar />
         <div className="flex flex-1 flex-col">
           <TopNav />
-          <div className="flex-1 overflow-y-auto">
+          <div className="w-full overflow-y-auto">
             <Outlet />
           </div>
         </div>
@@ -38,4 +38,4 @@ const AppLayout = () => {
   );
 };
 
-export default AppLayout
+export default AppLayout;

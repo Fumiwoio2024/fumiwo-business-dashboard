@@ -1,4 +1,3 @@
-import { dummyTeamMembers } from "@/utils/data";
 import Badge from "@components/global/Badge";
 import { PrimaryButton, SecondaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
@@ -10,15 +9,23 @@ import { useState } from "react";
 import AddTeamMemberForm from "@components/forms/AddTeamMemberForm";
 import ConfirmDeleteModal from "@components/modals/ConfirmDeleteModal";
 import { Link } from "react-router-dom";
+import { useQUsers } from "@hooks/api/queries/users.queries";
+import { useMDeleteUser } from "@hooks/api/mutations/app/users.mutations";
+import moment from "moment";
+import { useDebounce } from "@hooks/custom/useDebounce";
 
 const TeamHome = () => {
   const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const [isDeleteMemberModalVisible, setIsDeleteMemberModalVisible] =
     useState(false);
   const [selectedUser, setSelectedUser] = useState<TUser | null>(null);
 
-  const columnHelper = createColumnHelper<TUser>();
+  const debouncedSearch = useDebounce(searchText);
+  const { result, isLoading } = useQUsers({ name: debouncedSearch });
+  const { mutate: deleteUser } = useMDeleteUser();
 
+  const columnHelper = createColumnHelper<TUser>();
   const columns = [
     columnHelper.accessor("firstName", {
       header: "Name",
@@ -34,7 +41,7 @@ const TeamHome = () => {
               {info.row.original.email}
             </p>
           </div>
-          {info.getValue()?.includes("p") && (
+          {info.row.original.status === "pending" && (
             <Badge type="warning" className="h-fit font-semibold">
               Invited
             </Badge>
@@ -46,18 +53,24 @@ const TeamHome = () => {
       header: "Role",
       cell: (info) => info.row.original.role.name,
     }),
-    columnHelper.accessor("_createdAt", {
+    columnHelper.accessor("createdAt", {
       header: "Date added",
+      cell: (info) => moment(new Date(info.getValue())).format("MMM DD, YYYY"),
     }),
     columnHelper.accessor("lastModifiedAt", {
       header: "Last activity",
+      cell: (info) =>
+        moment(new Date(info.getValue())).format("MMM DD, YYYY, hh:mm A"),
     }),
     columnHelper.accessor(() => "action", {
       header: "Action",
       cell: (info) => (
         <div className="flex gap-6">
           <button
-            onClick={() => setIsDeleteMemberModalVisible(true)}
+            onClick={() => {
+              setIsDeleteMemberModalVisible(true);
+              setSelectedUser(info.row.original);
+            }}
             className="text-graySubtext/30 hover:text-red-500"
           >
             <svg
@@ -149,13 +162,17 @@ const TeamHome = () => {
         <ConfirmDeleteModal
           description="You are about to remove this user from your team. Are you sure about this?"
           onClose={() => setIsDeleteMemberModalVisible(false)}
-          onConfirmDelete={() => setIsDeleteMemberModalVisible(false)}
+          onConfirmDelete={() => selectedUser && deleteUser(selectedUser.id)}
         />
       </ModalContainer>
       <div className="w-full space-y-8 p-8">
         <section className="flex items-center justify-between">
           <div className="flex max-w-xs items-center gap-4">
-            <Input isSearch placeholder="Search Team" />
+            <Input
+              isSearch
+              placeholder="Search Team"
+              onChange={(e) => setSearchText(e.target.value)}
+            />
 
             {/* <button>
               <svg
@@ -191,10 +208,7 @@ const TeamHome = () => {
 
         <section>
           <div className="">
-            <Tables
-              columns={columns}
-              data={dummyTeamMembers as unknown as TUser[]}
-            />
+            <Tables columns={columns} loading={isLoading} data={result || []} />
           </div>
         </section>
       </div>

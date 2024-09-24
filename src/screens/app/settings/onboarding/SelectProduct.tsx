@@ -16,7 +16,7 @@ type TSingleProductProps = {
   action: () => void;
 };
 
-const SingleProduct = ({
+export const SingleProduct = ({
   title,
   price,
   interval,
@@ -99,7 +99,7 @@ const SingleProduct = ({
   );
 };
 
-const smartphoneInsightPros = [
+export const smartphoneInsightPros = [
   "More than 50 data points",
   "360-degree view of consumer",
   "smartphone usage",
@@ -109,7 +109,7 @@ const smartphoneInsightPros = [
   // "5% fee per transaction",
 ];
 
-const PaymentDefaultScore = [
+export const PaymentDefaultScore = [
   "Lower cost of risk",
   "Higher predictive power",
   "Detect high-risk applicants",

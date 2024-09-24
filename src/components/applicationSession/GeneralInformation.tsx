@@ -6,16 +6,21 @@ import {
 } from "./SessionCardTypography";
 import { TClient } from "@type/global.types";
 import { useParams } from "react-router-dom";
+import { checkRecommendType } from "@/helpers/functions/checkRecommendedType";
+import { formatDays } from "@/helpers/functions/formatDays";
 
 const GeneralInformation = ({
   clientData,
+  recommendation,
+  age,
 }: {
   clientData: TClient["phones"][0]["analyzedData"]["deviceInfo"] | undefined;
+  recommendation: string | undefined;
+  age: number | undefined;
 }) => {
   const params = useParams();
 
   const data = {
-    Status: clientData?.brand && null,
     "Session ID": clientData?.osVersion
       ? params?.sessionId
       : clientData?.osVersion,
@@ -26,7 +31,7 @@ const GeneralInformation = ({
       ? "Android"
       : clientData?.osVersion,
     "Android Version": clientData?.osVersion,
-    "Device Age": clientData?.androidId,
+    "Device Age": `${age ? formatDays(age) : null} `,
   };
   return (
     <Card className="space-y-8">
@@ -35,6 +40,24 @@ const GeneralInformation = ({
         description="Basic information of the borrower’s device"
       />
       <div className="space-y-4">
+        <div className="flex justify-between">
+          <SessionCardItemName name={"Recommendation"} />
+          <p
+            className="font-semibold capitalize"
+            style={{
+              color:
+                recommendation &&
+                checkRecommendType(
+                  recommendation,
+                  "#FCBE2D",
+                  "#FF0000",
+                  "#0BE781",
+                ),
+            }}
+          >
+            {recommendation}
+          </p>
+        </div>
         {data &&
           Object.entries(data)
             .slice(0, 6)

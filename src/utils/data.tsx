@@ -1,5 +1,7 @@
 // import { TUser } from "@type/global.types";
 
+import moment from "moment";
+
 type TNavLinks = {
   name: string;
   InactiveIcon: JSX.Element;
@@ -442,6 +444,33 @@ export const navLinks: TNavLinks[] = [
     ),
     link: "/settings",
     initialRoute: "/settings/profile",
+  },
+];
+
+export const timeFilterOptions = [
+  {
+    id: "year",
+    title: "This year",
+    startDate: moment().startOf("year"),
+    endDate: moment().endOf("year"),
+  },
+  {
+    id: "quarter",
+    title: "Last 60 days",
+    startDate: moment().startOf("quarter"),
+    endDate: moment().endOf("quarter"),
+  },
+  {
+    id: "month",
+    title: "This month",
+    startDate: moment().startOf("month"),
+    endDate: moment().endOf("month"),
+  },
+  {
+    id: "day",
+    title: "Today",
+    startDate: moment().startOf("day"),
+    endDate: moment().endOf("day"),
   },
 ];
 

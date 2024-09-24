@@ -12,6 +12,7 @@ const ConfirmDeleteModal = ({
 }) => {
   const submitForm = () => {
     onConfirmDelete();
+    onClose();
   };
 
   return (

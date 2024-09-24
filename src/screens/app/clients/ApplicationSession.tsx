@@ -5,12 +5,14 @@ import InstalledAppsInformation from "@components/applicationSession/InstalledAp
 import Locationinformation from "@components/applicationSession/Locationinformation";
 import Permissioninformation from "@components/applicationSession/Permissioninformation";
 import BreadCrumb from "@components/global/BreadCrumb";
-import { useQClients } from "@hooks/api/queries/client.queries";
+import { useQSingleClient } from "@hooks/api/queries/client.queries";
 import moment from "moment";
+import { useParams } from "react-router-dom";
 
 const ApplicationSession = () => {
-  const { result: clients } = useQClients({});
-  const result = clients?.[0].phones[0];
+  const params = useParams();
+  const { result: client } = useQSingleClient(params?.clientId);
+  const result = client?.phones.find((phone) => phone.id === params?.sessionId);
   console.log(result);
 
   return (
@@ -25,8 +27,15 @@ const ApplicationSession = () => {
 
       <div className="grid grid-cols-3 gap-5">
         <div className="col-span-2 grid grid-cols-2 gap-5">
-          <GeneralInformation clientData={result?.analyzedData.deviceInfo} />
-          <CreditScoreInformation />
+          <GeneralInformation
+            clientData={result?.analyzedData.deviceInfo}
+            age={
+              result?.analyzedData.appsInfo.metadata
+                .deviceAgeSinceFirstAppInstallByUser
+            }
+            recommendation={result?.digitalCreditInfo.recommendation}
+          />
+          <CreditScoreInformation creditScoreData={result?.digitalCreditInfo} />
           <Locationinformation
             ipData={result?.analyzedData?.ipInfo}
             gpsData={result?.analyzedData?.deviceInfo}

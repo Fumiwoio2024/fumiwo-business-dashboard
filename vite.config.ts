@@ -12,6 +12,7 @@ export default defineConfig({
       "@": root(''),
       '@assets': root('/assets'),
       '@utils': root('/utils'),
+      '@config': root('/config'),
       '@type': root('/types'),
       '@store': root('/store'),
       '@images': root('/assets/images'),

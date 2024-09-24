@@ -6,17 +6,14 @@ import GoBack from "@components/global/GoBack";
 import ModalContainer from "@components/global/ModalContainer";
 import { H5 } from "@components/global/Typography";
 import ConfirmDeleteModal from "@components/modals/ConfirmDeleteModal";
-import { TUser } from "@type/global.types";
-import { Fragment, useState } from "react";
+import { useQRoles } from "@hooks/api/queries/role.queries";
+import { TRole, TUser } from "@type/global.types";
+import { Fragment, useEffect, useState } from "react";
 
-type TRole = {
-  name: string;
-  value: string;
-};
-
-const adminRoles = dummyRoles.slice(0, 2);
-const otherDefaultRoles = dummyRoles.slice(2, 7);
-const customRoles = dummyRoles.slice(7);
+// type TRole = {
+//   name: string;
+//   value: string;
+// };
 
 const SingleRole = ({
   role,
@@ -27,7 +24,7 @@ const SingleRole = ({
   selectedRole: TRole;
   setSelectedRole: (role: TRole) => void;
 }) => {
-  const isSelected = role.value === selectedRole.value;
+  const isSelected = role.slug === selectedRole.slug;
   return (
     <div
       role="button"
@@ -40,16 +37,30 @@ const SingleRole = ({
 };
 
 const RoleManagement = () => {
-  const [selectedRole, setSelectedRole] = useState(dummyRoles[0]);
+  const [selectedRole, setSelectedRole] = useState<TRole | null>(null);
   const [isCreateRoleModalVisible, setIsCreateRoleModalVisible] =
     useState(false);
   const [isDeleteMemberModalVisible, setIsDeleteMemberModalVisible] =
     useState(false);
   const [isEdit, setIsEdit] = useState(true);
+  const { result } = useQRoles();
+  const adminRoles = result?.filter((role) => role.slug === "super-admin");
+  const otherDefaultRoles = result?.filter((role) => role.isCustom);
+  const customRoles = result?.filter((role) => role.isCustom);
 
   const user: TUser = JSON.parse(
     localStorage.getItem("fmw_business_user") || "{}",
   );
+
+  useEffect(() => {
+    if (!adminRoles) return;
+    setSelectedRole(adminRoles[0]);
+  }, [result]);
+
+  console.log(selectedRole);
+
+  if (!selectedRole || !adminRoles || !otherDefaultRoles || !customRoles)
+    return <></>;
 
   return (
     <>
@@ -59,7 +70,7 @@ const RoleManagement = () => {
         isVisible={isCreateRoleModalVisible}
       >
         <CreateRoleForm
-          key={`${selectedRole.value + isEdit}`}
+          key={`${selectedRole.slug + isEdit}`}
           isEdit={isEdit}
           onClose={() => setIsCreateRoleModalVisible(false)}
           details={
@@ -88,46 +99,49 @@ const RoleManagement = () => {
       <div className="w-full space-y-8 p-8">
         <GoBack />
         <Card className="flex w-full items-center gap-10 p-8 !pr-0">
-          <div className="w-72 space-y-6">
-            <H5 className="px-0.5 font-semibold">Default roles</H5>
-            <div className="duration-300">
-              {adminRoles.map((role) => (
-                <Fragment key={role.value}>
+          <div className="flex w-72 flex-col justify-between space-y-6 self-stretch">
+            <div className="">
+              <H5 className="px-0.5 font-semibold">Default roles</H5>
+              <div className="duration-300">
+                {adminRoles.map((role) => (
+                  <Fragment key={role.slug}>
+                    <SingleRole
+                      role={role}
+                      selectedRole={selectedRole}
+                      setSelectedRole={setSelectedRole}
+                    />
+                    {adminRoles.length > 0 && <hr />}
+                  </Fragment>
+                ))}
+              </div>
+              <div className="duration-300">
+                {otherDefaultRoles.map((role) => (
                   <SingleRole
                     role={role}
+                    key={role.slug}
                     selectedRole={selectedRole}
                     setSelectedRole={setSelectedRole}
                   />
-                  <hr />
-                </Fragment>
-              ))}
-            </div>
-            <div className="duration-300">
-              {otherDefaultRoles.map((role) => (
-                <SingleRole
-                  role={role}
-                  key={role.value}
-                  selectedRole={selectedRole}
-                  setSelectedRole={setSelectedRole}
-                />
-              ))}
-              <hr />
-            </div>
+                ))}
+                {otherDefaultRoles.length > 0 && <hr />}
+              </div>
 
-            <div className="duration-300">
-              {customRoles.map((role) => (
-                <SingleRole
-                  role={role}
-                  key={role.value}
-                  selectedRole={selectedRole}
-                  setSelectedRole={setSelectedRole}
-                />
-              ))}
-              <hr />
+              <div className="duration-300">
+                {customRoles.map((role) => (
+                  <SingleRole
+                    role={role}
+                    key={role.slug}
+                    selectedRole={selectedRole}
+                    setSelectedRole={setSelectedRole}
+                  />
+                ))}
+                {customRoles.length > 0 && <hr />}
+              </div>
             </div>
 
             <SecondaryButton
               size="medium"
+              className={``}
               onClick={() => {
                 setIsEdit(false);
                 setIsCreateRoleModalVisible(true);
@@ -211,7 +225,7 @@ const RoleManagement = () => {
             </div>
             <div className="space-y-4.5">
               <p className="text-lg text-graySubtext">
-                This role has access to all admin functions
+                {selectedRole.description}
               </p>
               <hr />
               <div className="flex items-center gap-2">
@@ -276,7 +290,7 @@ const RoleManagement = () => {
                 </h4>
 
                 <div className="space-y-6">
-                  {dummyTeamMembers[0].role.permissions.map((permissions) => (
+                  {selectedRole.permissions.map((permissions) => (
                     <div
                       key={permissions}
                       role="button"

@@ -1,11 +1,36 @@
-import { dummyTeamMembers } from "@/utils/data";
 import Tables from "@components/global/Tables";
+import { H3 } from "@components/global/Typography";
+import { useQAuditLogs } from "@hooks/api/queries/auditLogs.queries";
+import useClickOutside from "@hooks/custom/useClickOutside";
 import { createColumnHelper } from "@tanstack/react-table";
-import { TUser } from "@type/global.types";
+import { TAuditLog } from "@type/global.types";
 import moment from "moment";
+import { ReactNode, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+
+export const SingleActivityItem = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string | ReactNode;
+}) => {
+  return (
+    <div className="space-y-1.5 text-sm text-paraGray/80">
+      <p className="">{title}</p>
+      <p className="font-semibold"> {description}</p>
+    </div>
+  );
+};
 
 const AuditLogs = () => {
-  const columnHelper = createColumnHelper<TUser>();
+  const { result, isLoading } = useQAuditLogs();
+  const [openSideBar, setOpenSideBar] = useState(false);
+  const [selectedLog, setSelectedLog] = useState<TAuditLog | null>(null);
+
+  // const navigate = useNavigate();
+  const columnHelper = createColumnHelper<TAuditLog>();
+  const ref = useClickOutside(setOpenSideBar);
 
   const columns = [
     columnHelper.accessor("lastModifiedAt", {
@@ -14,24 +39,29 @@ const AuditLogs = () => {
         `${moment(new Date(info.getValue())).format("MMM DD, YYYY - hh:mm A")}`,
     }),
 
-    columnHelper.accessor("firstName", {
+    columnHelper.accessor("activity", {
       header: "Activity",
-      cell: (info) => (
-        <div className="gap-5">
-          <span className="text-sm font-bold text-paraGray/80">
-            {info.getValue()
-              ? `${info.getValue()}`
-              : info.row.original.business?.name.split(" ")[0]}
-          </span>
-          <span> just added a new admin </span>
-        </div>
-      ),
+      cell: (info) => {
+        const name = info.row.original.entity.name;
+        return (
+          <div className="gap-5">
+            <span className="text-sm font-bold text-paraGray/80">{name}</span>
+            <span> {info.getValue().replace(name, "")}</span>
+          </div>
+        );
+      },
     }),
 
     columnHelper.accessor("lastModifiedAt", {
-      header: "Activity",
-      cell: () => (
-        <div className="gap-5 text-secondaryButton underline hover:no-underline">
+      header: "Action",
+      cell: (info) => (
+        <div
+          onClick={() => {
+            setOpenSideBar(true);
+            setSelectedLog(info.row.original);
+          }}
+          className="gap-5 text-secondaryButton underline hover:no-underline"
+        >
           View details
         </div>
       ),
@@ -85,11 +115,58 @@ const AuditLogs = () => {
           </svg>
         </button>
 
-        <div className="">
+        <div className="relative flex overflow-x-hidden">
           <Tables
+            // @ts-expect-error: columnHelper is not assignable to type 'ColumnHelper<TClient>'
             columns={columns}
-            data={dummyTeamMembers as unknown as TUser[]}
+            data={result?.slice(0, 12) || []}
+            loading={isLoading}
           />
+
+          <div
+            ref={ref}
+            className={`border- absolute right-0 min-h-[700px] w-[450px] border bg-white transition duration-300 ${openSideBar ? "translate-x-0" : "translate-x-[500px]"}`}
+          >
+            <div className="space-y-6 px-6 py-3.5">
+              <H3 className="text-sm">About this activity</H3>
+
+              {selectedLog && (
+                <div className="grid grid-cols-2 justify-between gap-y-8 pr-10">
+                  <SingleActivityItem
+                    title="User"
+                    description={selectedLog.entity.name}
+                  />
+                  <SingleActivityItem
+                    title="Email"
+                    description={selectedLog.entity.email}
+                  />
+
+                  <SingleActivityItem
+                    title="Event"
+                    description={selectedLog.event}
+                  />
+                  <SingleActivityItem
+                    title="Resource"
+                    description={selectedLog.resource}
+                  />
+                  <SingleActivityItem
+                    title="IP address"
+                    description={selectedLog.ipAddress}
+                  />
+                  <SingleActivityItem
+                    title="Device info"
+                    description={`${selectedLog.deviceInfo.browser} (v${selectedLog.deviceInfo.version})`}
+                  />
+                  <SingleActivityItem
+                    title="Date"
+                    description={moment(
+                      new Date(selectedLog.lastModifiedAt),
+                    ).format("MMM DD, YYYY hh:mmA")}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>

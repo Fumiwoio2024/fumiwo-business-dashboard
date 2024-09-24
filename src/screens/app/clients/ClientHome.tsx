@@ -2,25 +2,55 @@ import { useQClients } from "@/hooks/api/queries/client.queries";
 import { PrimaryButton } from "@components/global/Buttons";
 import Card from "@components/global/Card";
 import Input from "@components/global/Input";
-import TableOptions from "@components/global/TableOptions";
 import Tables from "@components/global/Tables";
+import { useQBusinessStats } from "@hooks/api/queries/analytics.queries";
+import { capitalize } from "@mui/material";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TClient } from "@type/global.types";
 import moment from "moment";
 import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+
+// const color = [
+//   {
+//     label: "Very Poor",
+//     id: "veryPoor",
+//     color: "#E70033",
+//   },
+//   {
+//     label: "Poor",
+//     id: "poor",
+//     color: "#FF7643",
+//   },
+//   {
+//     label: "Fair",
+//     id: "fair",
+//     color: "#F6F002",
+//   },
+//   {
+//     label: "Good",
+//     id: "good",
+//     color: "#7ED957",
+//   },
+//   {
+//     label: "Excellent",
+//     id: "excellent",
+//     color: "#2B8F3C",
+//   },
+// ];
 
 const ClientCard = ({
   title,
   value,
   percentage,
+  isLoading,
   // dateString,
   Icon,
 }: {
   title: string;
-  value: string;
+  value: number | string;
   percentage: number;
   dateString: string;
+  isLoading?: boolean;
   Icon: ReactNode;
 }) => {
   let color = "";
@@ -41,9 +71,9 @@ const ClientCard = ({
       <div className="flex justify-between">
         <div className="space-y-1">
           <h4 className="text-semiNormal font-normal text-graySubtext">
-            {title}
+            {isLoading ? "-" : title}
           </h4>
-          <p className="text-xl font-medium">{value}</p>
+          <p className="text-xl font-medium">{isLoading ? "..." : value}</p>
         </div>
         {Icon}
       </div>
@@ -60,8 +90,9 @@ const ClientCard = ({
 
 const ClientHome = () => {
   const columnHelper = createColumnHelper<TClient>();
-  const { result,isLoading } = useQClients({});
-  const navigate = useNavigate();
+  const { result, isLoading } = useQClients({});
+  const { result: businessStats, isLoading: isLoadingStats } =
+    useQBusinessStats();
 
   const columns = [
     columnHelper.accessor("clientId", {
@@ -78,63 +109,12 @@ const ClientHome = () => {
           ? moment(new Date(info.getValue())).format("MMM DD, YYYY - hh:mm A")
           : "",
     }),
-    columnHelper.accessor("digitalCreditInfoHistory", {
+    columnHelper.accessor("digitalCreditScoreEvolution", {
       header: "Credit score evolution",
-      cell: (info) => (info.getValue().length > 0 ? "stable" : "N/A"),
+      cell: (info) => capitalize(info.getValue().replace("_", " ")) || "N/A",
     }),
-    // columnHelper.accessor("amountDue", {
-    //   header: "amount",
-    //   cell: (info) => "",
-    //   // `${info.row.original.productsBilled[0].currency} ${info.getValue()}`,
-    // }),
-    // columnHelper.accessor("_createdAt", {
-    //   header: "Date created",
-    //   cell: (info) =>
-    //     moment(
-    //       new Date(
-    //         info
-    //           .getValue()
-    //           .replace(/(\d{2}:\d{2}:\d{2})\d{2}([+-]\d{2}:\d{2})/, "$1$2"),
-    //       ),
-    //     ).format("MMM DD, YYYY"),
-    // }),
-    // columnHelper.accessor("status", {
-    //   header: "Status",
-    //   cell: (info) => {
-    //     const status = info.getValue();
-    //     let type: "success" | "error" = "success";
-    //     switch (status) {
-    //       case "paid":
-    //         type = "success";
-    //         break;
 
-    //       default:
-    //         type = "error";
-    //         break;
-    //     }
-    //     return <Badge type={type}>{status}</Badge>;
-    //   },
-    // }),
-    columnHelper.accessor(() => "action", {
-      header: "Action",
-      cell: (info) => {
-        return (
-          <TableOptions
-            options={[
-              {
-                title: "View More",
-                action: () =>
-                  navigate(`/dashboard/clients/${info.row.original.clientId}`),
-              },
-              // {
-              //   title: "Make Payment",
-              //   action: () => {},
-              // },
-            ]}
-          />
-        );
-      },
-    }),
+    columnHelper.accessor("id", { header: "Id" }),
   ];
 
   return (
@@ -250,9 +230,10 @@ const ClientHome = () => {
             </svg>
           }
           dateString="yesterday"
+          isLoading={isLoadingStats}
           percentage={0}
           title="Total Clients"
-          value={`${result?.length || 0}`}
+          value={businessStats?.totalClients || "N/A"}
         />
         <ClientCard
           Icon={
@@ -363,10 +344,11 @@ const ClientHome = () => {
               />
             </svg>
           }
+          isLoading={isLoadingStats}
           dateString="yesterday"
           percentage={0}
           title="Total assesed devices"
-          value={`${result?.[0]?.datasetsCountAllFromIp || 0}`}
+          value={businessStats?.totalPhoneData || "N/A"}
         />
         <ClientCard
           Icon={
@@ -477,10 +459,11 @@ const ClientHome = () => {
               />
             </svg>
           }
+          isLoading={isLoadingStats}
           dateString="yesterday"
           percentage={0}
           title="Avg credit score"
-          value="N/A"
+          value={businessStats?.averageCreditScore || "N/A"}
         />
         <ClientCard
           Icon={
@@ -591,10 +574,11 @@ const ClientHome = () => {
               />
             </svg>
           }
+          isLoading={isLoadingStats}
           dateString="yesterday"
           percentage={0}
           title="Highest credit score"
-          value="N/A"
+          value={businessStats?.highestCreditScore || "N/A"}
         />
       </section>
 
@@ -602,7 +586,7 @@ const ClientHome = () => {
         <div className="flex max-w-xs items-center gap-4">
           <Input isSearch placeholder="Search clients" />
 
-          <button>
+          {/* <button>
             <svg
               width="36"
               height="36"
@@ -615,7 +599,7 @@ const ClientHome = () => {
                 fill="#718096"
               />
             </svg>
-          </button>
+          </button> */}
         </div>
         <PrimaryButton size="medium" disabled={result?.length === 0}>
           Export CSV
@@ -624,7 +608,13 @@ const ClientHome = () => {
 
       <section>
         <div className="">
-          <Tables columns={columns} data={result || []} loading={isLoading} />
+          <Tables
+            isNavigateRow
+            // @ts-expect-error: columnHelper is not assignable to type 'ColumnHelper<TClient>'
+            columns={columns}
+            data={result?.slice(0, 10) || []}
+            loading={isLoading}
+          />
         </div>
       </section>
     </div>
