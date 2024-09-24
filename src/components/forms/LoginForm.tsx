@@ -63,7 +63,7 @@ const LoginForm = ({
         } else if (data.data?.data.user.status === "incomplete_profile") {
           navigate("/dashboard/settings/onboarding/business-details");
         } else {
-          navigate("/dashboard/overview");
+          navigate("/dashboard/clients");
         }
       },
       onError: (error) => handleGenericError(error),

@@ -79,7 +79,7 @@ const Tables = <T extends { id: string }>({
                     key={row.id}
                     onClick={() =>
                       isNavigateRow &&
-                      navigate(`${routePrefix}${row.original.id}`)
+                      navigate(`${routePrefix || ""}${row.original.id}`)
                     }
                     className={`relative cursor-pointer border-b-2 border-[#F5F8FA] ${isNavigateRow && "hover:bg-linkGray/5"}`}
                   >
