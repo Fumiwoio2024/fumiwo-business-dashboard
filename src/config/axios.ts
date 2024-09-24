@@ -33,8 +33,8 @@ api.interceptors.response.use(
 	},
 	(error) => {
 		if (error.response?.status === 401) {
-			toast.error("Session expired, please login again")
 			localStorage.clear()
+			toast.error("Session expired, please login again")
 			window.location.href = "/"
 		}
 		return Promise.reject(error)

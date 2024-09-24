@@ -115,7 +115,7 @@ const AuditLogs = () => {
           </svg>
         </button>
 
-        <div className="relative flex overflow-x-hidden">
+        <div className="relative flex min-h-[700px] overflow-x-hidden">
           <Tables
             columns={columns}
             data={result?.slice(0, 12) || []}
@@ -124,7 +124,7 @@ const AuditLogs = () => {
 
           <div
             ref={ref}
-            className={`border- absolute right-0 min-h-[700px] w-[450px] border bg-white transition duration-300 ${openSideBar ? "translate-x-0" : "translate-x-[500px]"}`}
+            className={`border- absolute right-0 min-h-full w-[450px] border bg-white transition duration-300 ${openSideBar ? "translate-x-0" : "translate-x-[500px]"}`}
           >
             <div className="space-y-6 px-6 py-3.5">
               <H3 className="text-sm">About this activity</H3>

@@ -171,7 +171,9 @@ const TeamHome = () => {
             <Input
               isSearch
               placeholder="Search Team"
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchText(e.target.value)
+              }
             />
 
             {/* <button>
