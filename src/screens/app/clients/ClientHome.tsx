@@ -113,8 +113,6 @@ const ClientHome = () => {
       header: "Credit score evolution",
       cell: (info) => capitalize(info.getValue().replace("_", " ")) || "N/A",
     }),
-
-    columnHelper.accessor("id", { header: "Id" }),
   ];
 
   return (
