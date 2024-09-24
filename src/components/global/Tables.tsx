@@ -8,7 +8,8 @@ import { H4 } from "./Typography";
 import { useNavigate } from "react-router-dom";
 
 type TTableProps<T> = {
-  columns: ColumnDef<T>[];
+  //  eslint-disable-next-line @typescript-eslint/no-explicit-any
+  columns: ColumnDef<T, any>[];
   data: T[];
   loading?: boolean;
   isNavigateRow?: boolean;

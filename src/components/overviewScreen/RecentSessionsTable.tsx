@@ -76,7 +76,6 @@ const RecentSessionsTable = () => {
           <Tables
             isNavigateRow
             routePrefix="/dashboard/clients/"
-            // @ts-expect-error: columnHelper is not assignable to type 'ColumnHelper<TClient>'
             columns={columns}
             data={result || []}
             loading={isLoading}

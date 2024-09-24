@@ -117,7 +117,6 @@ const AuditLogs = () => {
 
         <div className="relative flex overflow-x-hidden">
           <Tables
-            // @ts-expect-error: columnHelper is not assignable to type 'ColumnHelper<TClient>'
             columns={columns}
             data={result?.slice(0, 12) || []}
             loading={isLoading}

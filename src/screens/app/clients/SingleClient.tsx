@@ -140,7 +140,6 @@ const ClientHome = () => {
         <div className="">
           <Tables
             isNavigateRow
-            // @ts-expect-error: columnHelper is not assignable to type 'ColumnHelper<TClient>'
             columns={columns}
             data={result?.phones || []}
             loading={isLoading}
