@@ -14,7 +14,7 @@ const AppCategoryInformation = ({
 }) => {
   if (!appCategoryData || !allAppLength) return <></>;
   const categories = Object.keys(appCategoryData);
-  const data = categories.map((category) => ({
+  const data = categories.slice(0, 18).map((category) => ({
     id: category,
     value: Number(
       (
@@ -41,7 +41,7 @@ const AppCategoryInformation = ({
             },
           ]}
           width={600}
-          height={470}
+          height={550}
           margin={{ right: 250 }}
         />
       </div>

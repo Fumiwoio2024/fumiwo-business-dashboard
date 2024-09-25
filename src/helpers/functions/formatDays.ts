@@ -12,6 +12,6 @@ export const formatDays = (days: number) => {
 		// Display in months if the difference is less than 365 days
 		return `${Math.floor(days / 365)} years`;
 	}
-	return String(days)
+	return `${days} days`
 }
 
