@@ -47,7 +47,9 @@ const InstalledAppsInformation = ({
             onClick={() => openAppsModal()}
             className="w-full border-t pt-2 text-sm text-paraGray/70"
           >
-            + {allInstalledApps.length - slicedIndex} others
+            <p className="mx-auto w-fit rounded-lg px-2 hover:bg-paraGray/5 active:bg-paraGray/20">
+              + {allInstalledApps.length - slicedIndex} others
+            </p>
           </button>
         )}
       </Card>

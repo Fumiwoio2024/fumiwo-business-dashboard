@@ -103,7 +103,7 @@ const ApplicationSession = () => {
             />
           </div>
         </div>
-      </div>{" "}
+      </div>
     </>
   );
 };
