@@ -51,7 +51,7 @@ const TopNav = () => {
         <p className="rounded-xl bg-white px-5 py-3 text-primaryBlue shadow-username">
           {user?.name || "User"}
         </p>
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1">
           <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#E7F0FF]">
             <svg
               width="28"
@@ -75,7 +75,10 @@ const TopNav = () => {
           </div>
 
           <div className="relative">
-            <button onClick={toggleDropdown}>
+            <button
+              className="cursor-pointer rounded-full p-1 hover:bg-paraGray/5 active:bg-paraGray/20"
+              onClick={toggleDropdown}
+            >
               <svg
                 width="18"
                 height="18"

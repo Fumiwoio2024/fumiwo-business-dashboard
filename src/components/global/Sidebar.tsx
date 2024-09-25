@@ -77,7 +77,7 @@ const Sidebar = () => {
                   key={index}
                   to={`/dashboard${link.initialRoute || link.link}`}
                   className={() =>
-                    `flex items-center gap-4 px-4 py-3 text-lg duration-300 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
+                    `flex cursor-pointer items-center gap-4 rounded-full p-1 px-4 py-3 text-lg duration-300 hover:bg-paraGray/5 active:bg-paraGray/20 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
                   }
                 >
                   {() => (

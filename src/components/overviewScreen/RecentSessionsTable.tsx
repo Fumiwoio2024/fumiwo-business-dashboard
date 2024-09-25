@@ -37,28 +37,8 @@ const RecentSessionsTable = () => {
       header: "Current credit score",
       cell: (info) => info.getValue() || "N/A",
     }),
-
-    // columnHelper.accessor(() => "action", {
-    //   header: "Action",
-    //   cell: (info) => {
-    //     return (
-    //       <TableOptions
-    //         options={[
-    //           {
-    //             title: "View More",
-    //             action: () =>
-    //               navigate(`/dashboard/clients/${info.row.original.clientId}`),
-    //           },
-    //           // {
-    //           //   title: "Make Payment",
-    //           //   action: () => {},
-    //           // },
-    //         ]}
-    //       />
-    //     );
-    //   },
-    // }),
   ];
+
   return (
     <Card className="space-y-8">
       <section className="flex items-center justify-between">

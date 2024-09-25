@@ -461,10 +461,22 @@ export const timeFilterOptions = [
     endDate: moment().endOf("quarter"),
   },
   {
+    id: "last-month",
+    title: "Last month",
+    startDate: moment().subtract(1, "months").startOf("month"),
+    endDate: moment().subtract(1, "months").endOf("month"),
+  },
+  {
     id: "month",
     title: "This month",
     startDate: moment().startOf("month"),
     endDate: moment().endOf("month"),
+  },
+  {
+    id: "week",
+    title: "This week",
+    startDate: moment().startOf("week"),
+    endDate: moment().endOf("week"),
   },
   {
     id: "day",

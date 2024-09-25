@@ -52,7 +52,7 @@ const NewDropDown = <T extends { id: string; title: string }>({
       <div
         role="dialog"
         ref={dropdownRef}
-        className={`border-dark-6 shadow-3xl absolute right-0 top-auto z-10 w-full min-w-48 transform rounded-lg border bg-white p-1 transition duration-300 ${
+        className={`border-dark-6 shadow-3xl absolute right-0 top-14 z-10 w-full min-w-48 transform rounded-lg border bg-white p-1 transition duration-300 ${
           showDropdown
             ? "scale-100 opacity-100"
             : "pointer-events-none scale-95 opacity-0"

@@ -16,6 +16,7 @@ import moment from "moment";
 export const description = "A linear area chart";
 
 // const chartData = [{ timeKey: "January", newDevices: 100, oldDevices: 80 }];
+// Eg of timekey:  January, week 1, Saturday
 
 const loanStatChartConfig = {
   clientsWithLoans: {
