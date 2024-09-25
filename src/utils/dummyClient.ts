@@ -1407,6 +1407,7 @@ export const dummySingleClient = {
 							"firstInstallTime": 1720210714868,
 							"lastUpdateTime": 1720210714868,
 							"name": "Football Score Live TV",
+							"icon": "https://i.sstatic.net/3hRmg.png",
 							"packageName": "com.footballlivetvbilal.livefootballmatches.livefootballtvstreaming.soccerhd3rdapp",
 							"system": false
 						},
