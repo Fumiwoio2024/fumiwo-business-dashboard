@@ -103,14 +103,20 @@ const ClientHome = () => {
       header: "Recommendation",
       cell: (info) => {
         // const status = info.getValue();
-        let type: "success" | "error" = "success";
+        let type: "success" | "error" | "warning" = "success";
         switch (info.getValue()) {
-          case "paid":
+          case "accept":
             type = "success";
+            break;
+          case "review":
+            type = "warning";
+            break;
+          case "reject":
+            type = "error";
             break;
 
           default:
-            type = "error";
+            type = "warning";
             break;
         }
         return (
