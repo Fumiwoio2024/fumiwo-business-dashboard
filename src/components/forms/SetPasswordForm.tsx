@@ -1,5 +1,5 @@
 
-import { handleGenericError } from "@/helpers/functions/handleGenericError";
+import { handleGenericError } from "@helpers/functions/handleGenericError";
 import {
   useMChangePassword,
   useMResetNewPassword,

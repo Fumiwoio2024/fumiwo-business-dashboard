@@ -1,5 +1,5 @@
-import { formatPhoneNumber } from "@/helpers/functions/formatPhone";
-import { handleGenericError } from "@/helpers/functions/handleGenericError";
+import { formatPhoneNumber } from "@helpers/functions/formatPhone";
+import { handleGenericError } from "@helpers/functions/handleGenericError";
 import { useMUpdatePassword } from "@/hooks/api/mutations/app/onboarding.mutatuions";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import Divider from "@components/global/Divider";
@@ -128,7 +128,6 @@ const ContactPersonForm = () => {
 
     navigate("/dashboard/settings/onboarding/business-details");
   };
-
 
   return (
     <form

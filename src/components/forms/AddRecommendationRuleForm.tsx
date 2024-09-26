@@ -1,4 +1,4 @@
-import { formatCardNumber } from "@/helpers/functions/formatCardNumber";
+import { formatCardNumber } from "@helpers/functions/formatCardNumber";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import Dropdown from "@components/global/Dropdown";
 import Input from "@components/global/Input";

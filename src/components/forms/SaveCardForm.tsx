@@ -1,4 +1,4 @@
-import { formatCardNumber } from "@/helpers/functions/formatCardNumber";
+import { formatCardNumber } from "@helpers/functions/formatCardNumber";
 import { PrimaryButton } from "@components/global/Buttons";
 import Divider from "@components/global/Divider";
 import Input from "@components/global/Input";

@@ -12,3 +12,10 @@ export const checkRecommendType = (
 		return acceptResult;
 	}
 };
+
+export const getRecommendedColor = (recommendation: string) => checkRecommendType(
+	recommendation,
+	"#FCBE2D",
+	"#FF0000",
+	"#0BE781",
+)

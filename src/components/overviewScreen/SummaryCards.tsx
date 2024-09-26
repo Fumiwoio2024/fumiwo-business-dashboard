@@ -1,54 +1,5 @@
-import Card from "@components/global/Card";
+import { SummaryCard } from "@components/global/Card";
 import { useQBusinessStats } from "@hooks/api/queries/analytics.queries";
-import { ReactNode } from "react";
-const SummaryCard = ({
-  title,
-  value,
-  percentage,
-  isLoading,
-  Icon,
-}: {
-  title: string;
-  value: number | string;
-  percentage: number;
-  dateString: string;
-  isLoading?: boolean;
-  Icon: ReactNode;
-}) => {
-  let color = "";
-  switch (Math.sign(percentage)) {
-    case -1:
-      color = "text-red-500";
-      break;
-    case 1:
-      color = "text-green-500";
-      break;
-
-    default:
-      color = "";
-      break;
-  }
-  return (
-    <Card className="col-span-1 flex h-[144px] flex-col justify-between">
-      <div className="flex justify-between">
-        <div className="space-y-1">
-          <h4 className="text-semiNormal font-normal text-graySubtext">
-            {isLoading ? "-" : title}
-          </h4>
-          <p className="text-xl font-medium">{isLoading ? "..." : value}</p>
-        </div>
-        {Icon}
-      </div>
-      <p className="text-xs text-graySubtext">
-        <span className={color}>
-          {/* {Math.sign(percentage) === 1 && "+"}
-          {percentage}% */}
-        </span>{" "}
-        {/*  from {dateString} */}
-      </p>
-    </Card>
-  );
-};
 
 const SummaryCards = () => {
   const { result, isLoading } = useQBusinessStats();
@@ -149,7 +100,7 @@ const SummaryCards = () => {
         dateString="yesterday"
         isLoading={isLoading}
         percentage={0}
-        title="Total no. of clients"
+        title="Total no. of borrowers"
         value={result?.totalClients || 0}
       />
       <SummaryCard

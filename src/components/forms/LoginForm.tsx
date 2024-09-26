@@ -1,5 +1,5 @@
 import api from "@config/axios";
-import { handleGenericError } from "@/helpers/functions/handleGenericError";
+import { handleGenericError } from "@helpers/functions/handleGenericError";
 import { useMSignIn } from "@/hooks/api/mutations/auth";
 import { PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
@@ -61,9 +61,11 @@ const LoginForm = ({
           setTokenState?.(formData.password);
           setIsSetPassword(true);
         } else if (data.data?.data.user.status === "incomplete_profile") {
-          navigate("/dashboard/settings/onboarding/business-details");
+          navigate("/dashboard/settings/onboarding/business-details", {
+            replace: true,
+          });
         } else {
-          navigate("/dashboard/clients");
+          navigate("/dashboard/overview", { replace: true });
         }
       },
       onError: (error) => handleGenericError(error),

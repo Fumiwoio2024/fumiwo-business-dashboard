@@ -1,4 +1,4 @@
-import { handleGenericError } from "@/helpers/functions/handleGenericError";
+import { handleGenericError } from "@helpers/functions/handleGenericError";
 import { useMResetNewPassword } from "@/hooks/api/mutations/auth";
 import { PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";

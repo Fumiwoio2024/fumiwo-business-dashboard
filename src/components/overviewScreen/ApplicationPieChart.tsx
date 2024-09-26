@@ -2,7 +2,7 @@ import { pieArcLabelClasses, PieChart } from "@mui/x-charts";
 import { timeFilterOptions } from "@utils/data";
 
 import { useQRecommendationStats } from "@hooks/api/queries/analytics.queries";
-import { checkRecommendType } from "@/helpers/functions/checkRecommendedType";
+import { checkRecommendType } from "@helpers/functions/formatRecommendation";
 import { useState } from "react";
 import NewDropDown from "@components/global/NewDropDown";
 import { SessionCardTitle } from "@components/applicationSession/SessionCardTypography";

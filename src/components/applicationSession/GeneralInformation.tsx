@@ -6,8 +6,8 @@ import {
 } from "./SessionCardTypography";
 import { TClient } from "@type/global.types";
 import { useParams } from "react-router-dom";
-import { checkRecommendType } from "@/helpers/functions/checkRecommendedType";
-import { formatDays } from "@/helpers/functions/formatDays";
+import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
+import { formatDays } from "@helpers/functions/formatDays";
 
 const GeneralInformation = ({
   clientData,
@@ -45,14 +45,7 @@ const GeneralInformation = ({
           <p
             className="font-semibold capitalize"
             style={{
-              color:
-                recommendation &&
-                checkRecommendType(
-                  recommendation,
-                  "#FCBE2D",
-                  "#FF0000",
-                  "#0BE781",
-                ),
+              color: recommendation && getRecommendedColor(recommendation),
             }}
           >
             {recommendation}

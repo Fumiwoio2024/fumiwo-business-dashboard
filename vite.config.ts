@@ -17,6 +17,7 @@ export default defineConfig({
       '@store': root('/store'),
       '@images': root('/assets/images'),
       '@hooks': root('/hooks'),
+      '@helpers': root('/helpers'),
       '@components': root('/components'),
       // '@layouts': `${path.resolve(__dirname, "./src/components/layouts")}`,
       '@layouts': root('/components/layouts'),
