@@ -4,6 +4,7 @@ import { navLinks } from "@/utils/data";
 import useChangeRoute from "@/hooks/custom/useChangeRoute";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import useClickOutside from "@hooks/custom/useClickOutside";
+import { getUser } from "@utils/constants";
 
 const options = ({ navigate }: { navigate: NavigateFunction }) => [
   {
@@ -31,7 +32,7 @@ const TopNav = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useClickOutside(setShowDropdown);
-  const user = JSON.parse(localStorage.getItem("fmw_business_user") || "{}");
+  const user = getUser()
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 

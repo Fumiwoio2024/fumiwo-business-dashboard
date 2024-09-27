@@ -1,6 +1,7 @@
 import { PrimaryButton } from "@components/global/Buttons";
 import Divider from "@components/global/Divider";
 import Input from "@components/global/Input";
+import { TUser } from "@type/global.types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -14,17 +15,17 @@ type TBusinessInfoForm = {
   city: string;
 };
 
-const defaultValues = {
-  businessName: "",
-  type: "",
-  registrationNumber: "",
-  country: "Nigeria",
-  address: "",
-  state: "",
-  city: "",
-};
+const BusinessSettingForm = ({ user }: { user: TUser }) => {
+  const defaultValues = {
+    businessName: user.name,
+    type: user.type,
+    registrationNumber: user.registrationNumber,
+    country: user.addressInfo.country,
+    address: user.addressInfo.address,
+    state: user.addressInfo.state,
+    city: user.addressInfo.city,
+  };
 
-const BusinessSettingForm = () => {
   const navigate = useNavigate();
   const {
     register,

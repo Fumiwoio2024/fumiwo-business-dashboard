@@ -146,7 +146,6 @@ export type TGeneralRes = {
 	statusCode: number;
 	message: string;
 	links: string[];
-
 }
 
 type ProductBilled = {

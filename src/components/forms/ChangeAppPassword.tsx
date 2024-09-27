@@ -1,9 +1,10 @@
 import { handleGenericError } from "@helpers/functions/handleGenericError";
-import { useMResetNewPassword } from "@/hooks/api/mutations/auth";
+import { useMChangePassword } from "@/hooks/api/mutations/auth";
 import { PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
 import { P } from "@components/global/Typography";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const defaultValues = {
   password: "",
@@ -73,23 +74,20 @@ const ChangeAppPassword = () => {
     defaultValues,
   });
 
-  const { mutate: mutateReset, isPending: isPendingReset } =
-    useMResetNewPassword();
-
+  const { mutate, isPending } = useMChangePassword();
   const newPassword = watch("newPassword");
   const confirmPassword = watch("confirmPassword");
 
   const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
     const payload = {
-      token: data.password,
-      password: newPassword,
-      confirmPassword: data.confirmPassword,
-      userType: "business",
+      currentPassword: data.password,
+      newPassword: data.newPassword,
     };
 
-    mutateReset(payload, {
-      onSuccess: () => {
+    mutate(payload, {
+      onSuccess: (res) => {
         reset();
+        toast.success(res.data.message);
       },
       onError: (error) => handleGenericError(error),
     });
@@ -159,7 +157,7 @@ const ChangeAppPassword = () => {
         size="medium"
         className="w-full"
         type="submit"
-        loading={isPendingReset}
+        loading={isPending}
       >
         Continue
       </PrimaryButton>

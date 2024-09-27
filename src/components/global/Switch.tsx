@@ -1,16 +1,19 @@
 const Switch = ({
   enabled,
   onChange,
+  disabled,
 }: {
   enabled: boolean;
-  onChange: (enabled: boolean) => void;
+  onChange?: (enabled: boolean) => void;
+  disabled?: boolean;
 }) => {
   return (
     <button
-      onClick={() => onChange(!enabled)}
+      disabled={disabled}
+      onClick={() => onChange?.(!enabled)}
       className={`${
         enabled ? "bg-switchGreen" : "bg-gray-300"
-      } -colors relative inline-flex h-6 w-11 items-center rounded-full transition duration-200 focus:outline-none`}
+      } -colors relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full transition duration-200 focus:outline-none`}
     >
       <span
         className={`${

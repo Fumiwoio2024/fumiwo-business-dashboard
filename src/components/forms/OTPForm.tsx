@@ -3,102 +3,114 @@ import { PrimaryButton } from "@components/global/Buttons";
 import { P } from "@components/global/Typography";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 
-const maximumLength = 4
-const error = false
-const hideNumber = false
-const fillEmptyBoxes = true
-
-
-const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setTokenState?: (token: string) => void }) => {
-	const [code, setCode] = useState("")
-	const [isPinReady, setIsPinReady] = useState(false)
-
-	const boxArray = new Array(maximumLength).fill(0);
-	const inputRef = useRef<HTMLInputElement>(null);
-	const [isInputBoxFocused, setIsInputBoxFocused] = useState(false);
-
-
-	const handleOnPress = () => {
-		setIsInputBoxFocused(true);
-
-		inputRef.current?.focus();
-	};
-
-	const handleBlur = () => {
-		setIsInputBoxFocused(false);
-	};
-
-	const handleResend = () => {
-
-	}
-
-	useEffect(() => {
-		// Focus the input on mount with delay of 500ms
-		const timeout = setTimeout(() => {
-			inputRef.current?.focus()
-		}, 1000)
-
-		return () => clearTimeout(timeout)
-	}, []);
-
-	useEffect(() => {
-		// update pin ready status
-		setIsPinReady(code.length === maximumLength);
-
-		return () => {
-			setIsPinReady(false);
-		};
-	}, [code]);
-
-	const boxDigit = (_: unknown, index: number) => {
-		const emptyInput = '';
-		const digit = code[index] || emptyInput;
-
-		const isCurrentValue = index === code.length;
-		const isLastValue = index === maximumLength - 1;
-		const isCodeComplete = code.length === maximumLength;
-
-		const isValueFocused = isCurrentValue || (isLastValue && isCodeComplete);
-
-		const focusedStyle =
-			isInputBoxFocused && isValueFocused
-				? { ...style.splitBoxes, ...style.focusedInput }
-				: style.splitBoxes;
-
-		const errorStyle = error ? style.errorInput : {};
-
-		// Replace the digit display based on hideNumber prop
-		const displayValue = hideNumber && digit ? '*' : digit;
-		// const displayValue = hideNumber && digit ? String.fromCharCode(0x2022) : digit;
-
-		return (
-			<div key={index} style={{ ...focusedStyle, ...errorStyle }}>
-				<P small
-					className={`text-center text-xl ${error ? "text-[#FF0000]" : 'text-[#404F65]'}`}
-				>
-					{displayValue || (fillEmptyBoxes && '-')}
-				</P>
-			</div>
-		);
-	};
-
-	const { mutate, isPending } = useVerifyOtp()
-
-	const submitForm = async () => {
-		if (!code) return
-
-		mutate(code, {
-			onSuccess: () => {
-				setTokenState?.(code)
-				setStatus()
-			}
-		})
-	}
 
 
 
+const OTPForm = ({
+  setStatus,
+  setTokenState,
+  submitFunction,
+	canResend = true,
+  maximumLength = 4,
+  error = false,
+  hideNumber = false,
+  fillEmptyBoxes = true,
+}: {
+	canResend?: boolean;
+  maximumLength?: number;
+  error?: boolean;
+  hideNumber?: boolean;
+  fillEmptyBoxes?: boolean;
+  setStatus?: () => void;
+  setTokenState?: (token: string) => void;
+  submitFunction?: (code:string) => void;
+}) => {
+  const [code, setCode] = useState("");
+  const [isPinReady, setIsPinReady] = useState(false);
 
-	return (
+  const boxArray = new Array(maximumLength).fill(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isInputBoxFocused, setIsInputBoxFocused] = useState(false);
+
+  const handleOnPress = () => {
+    setIsInputBoxFocused(true);
+
+    inputRef.current?.focus();
+  };
+
+  const handleBlur = () => {
+    setIsInputBoxFocused(false);
+  };
+
+  const handleResend = () => {};
+
+  // useEffect(() => {
+  //   // Focus the input on mount with delay of 500ms
+  //   const timeout = setTimeout(() => {
+  //     inputRef.current?.focus();
+  //   }, 1000);
+
+  //   return () => clearTimeout(timeout);
+  // }, []);
+
+  useEffect(() => {
+    // update pin ready status
+    setIsPinReady(code.length === maximumLength);
+
+    return () => {
+      setIsPinReady(false);
+    };
+  }, [code]);
+
+  const boxDigit = (_: unknown, index: number) => {
+    const emptyInput = "";
+    const digit = code[index] || emptyInput;
+
+    const isCurrentValue = index === code.length;
+    const isLastValue = index === maximumLength - 1;
+    const isCodeComplete = code.length === maximumLength;
+
+    const isValueFocused = isCurrentValue || (isLastValue && isCodeComplete);
+
+    const focusedStyle =
+      isInputBoxFocused && isValueFocused
+        ? { ...style.splitBoxes, ...style.focusedInput }
+        : style.splitBoxes;
+
+    const errorStyle = error ? style.errorInput : {};
+
+    // Replace the digit display based on hideNumber prop
+    const displayValue = hideNumber && digit ? "*" : digit;
+    // const displayValue = hideNumber && digit ? String.fromCharCode(0x2022) : digit;
+
+    return (
+      <div key={index} style={{ ...focusedStyle, ...errorStyle }}>
+        <P
+          small
+          className={`text-center text-xl ${error ? "text-[#FF0000]" : "text-[#404F65]"}`}
+        >
+          {displayValue || (fillEmptyBoxes && "-")}
+        </P>
+      </div>
+    );
+  };
+
+  const { mutate, isPending } = useVerifyOtp();
+
+  const submitForm = async () => {
+    if (!code) return;
+
+    submitFunction
+      ? submitFunction(code)
+      : mutate(code, {
+          onSuccess: () => {
+            setTokenState?.(code);
+            setStatus?.();
+          },
+        });
+  };
+
+  return (
     <div className="space-y-6 text-left">
       <div className="relative mx-auto w-fit items-center">
         <div
@@ -124,18 +136,19 @@ const OTPForm = ({ setStatus, setTokenState }: { setStatus: () => void; setToken
       <PrimaryButton
         onClick={submitForm}
         disabled={!isPinReady || isPending}
+        size={"medium"}
         className="w-full"
         type="submit"
       >
         Submit
       </PrimaryButton>
 
-      <P small className="mx-auto w-fit text-center">
+     {canResend&& <P small className="mx-auto w-fit text-center">
         Didn't receive code?{" "}
         <button onClick={handleResend} type="button" className="text-header">
           Resend
         </button>
-      </P>
+      </P>}
     </div>
   );
 };

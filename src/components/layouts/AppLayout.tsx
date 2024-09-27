@@ -15,6 +15,7 @@ const AppLayout = () => {
     if (token) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
+      localStorage.clear();
       api.defaults.headers.common["Authorization"] = "";
       navigate("/login", { replace: true });
     }

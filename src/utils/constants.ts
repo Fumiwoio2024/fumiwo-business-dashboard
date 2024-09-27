@@ -1,3 +1,5 @@
+import { TUser } from "@type/global.types";
+
 export const scoreRecommendations = [
 	{
 		label: "Very Poor",
@@ -25,3 +27,8 @@ export const scoreRecommendations = [
 		color: "#2B8F3C",
 	},
 ];
+
+
+export const getUser = (): TUser | undefined => JSON.parse(
+	localStorage.getItem("fmw_business_user") || "",
+);

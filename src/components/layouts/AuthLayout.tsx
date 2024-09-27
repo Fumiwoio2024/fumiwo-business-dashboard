@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import logo from '@images/fumiwo-logo.png'
 import { useAuthProvider } from '@/store/context/useAuthProvider'
 import api from "@config/axios";
@@ -6,7 +6,7 @@ import useChangeRoute from '@/hooks/custom/useChangeRoute'
 
 const AuthLayout = () => {
 	const { showLogo } = useAuthProvider()
-  const navigate = useNavigate();
+
 
 	// if change auth route, set or remove token if exists
   useChangeRoute(() => {
@@ -15,7 +15,6 @@ const AuthLayout = () => {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
       api.defaults.headers.common["Authorization"] = "";
-      navigate("/login", { replace: true });
     }
   },)
 
