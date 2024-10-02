@@ -1,0 +1,32 @@
+# .github/workflows/update-vercel.yml
+name: Sync main to another branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync_branch:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout main branch
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    # Step 2: Set up Git (so we can push)
+    - name: Set up Git
+      run: |
+        git config --global user.name "GitHub Action"
+        git config --global user.email "action@github.com"
+
+    # Step 3: Push changes to another branch
+    - name: Push to another branch
+      run: |
+        git checkout -b main
+        git push -f git@github.com:kainy-fmw/fumiwo-business.git main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
