@@ -18,7 +18,7 @@ jobs:
     - name: Set up Git for second remote
       run: |
         git config --global user.email "kainy.chike-onyechi@fumiwo.io"
-        git config --global user.name "Kainy Fumiwo"
+        git config --global user.name "Kainy"
         git remote add second_remote https://github.com/kainy-fmw/fumiwo-business.git
         git fetch second_remote
 
