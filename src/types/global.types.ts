@@ -100,6 +100,7 @@ export type TUser = {
 		testWebhookUrl: string | null;
 		_id: string;
 		recommendationRules: {
+			id: string;
 			group: {
 				reviewCondition: {
 					upperThreshold: number;

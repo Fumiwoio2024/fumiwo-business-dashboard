@@ -2,10 +2,17 @@ import Card from "@components/global/Card";
 import { SessionCardTitle } from "./SessionCardTypography";
 import Legend from "@components/overviewScreen/Legend";
 import { scoreRecommendations } from "@utils/constants";
+import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
 
 const maxCreditScore = 850; // Define the maximum credit score
 
-const CircularProgressBar = ({ score }: { score: number }) => {
+const CircularProgressBar = ({
+  score,
+  recommendation,
+}: {
+  score: number;
+  recommendation: string;
+}) => {
   const progress = Math.round((score / maxCreditScore) * 75); // Calculate progress as a percentage
   const strokeWidth = 24;
   const radius = 72; // Radius of the circle (half of 180px minus stroke width)
@@ -76,7 +83,10 @@ const CircularProgressBar = ({ score }: { score: number }) => {
           className="transition-opacity duration-300" // Optional transition for effects
         /> */}
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-3xl font-semibold text-secondaryButton">
+      <div
+        style={{ color: getRecommendedColor(recommendation) }}
+        className={`absolute inset-0 flex flex-col items-center justify-center text-3xl font-semibold text-secondaryButton`}
+      >
         <p>{score}</p>
         <p className="text-xs">Credit score</p>
       </div>
@@ -124,10 +134,15 @@ const CreditScoreInformation = ({
         title="Credit score"
         description="Borrower’s overall credit rating"
       />
-      <div className="flex items-center justify-center gap-6">
-        <CircularProgressBar score={creditScoreData?.creditScore || 0} />
-        <Legend vertical data={scoreRecommendations} />
-      </div>
+      {creditScoreData && (
+        <div className="flex items-center justify-center gap-6">
+          <CircularProgressBar
+            score={creditScoreData.creditScore || 0}
+            recommendation={creditScoreData.recommendation}
+          />
+          <Legend vertical data={scoreRecommendations} />
+        </div>
+      )}
     </Card>
   );
 };

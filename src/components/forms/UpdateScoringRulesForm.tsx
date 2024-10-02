@@ -35,13 +35,15 @@ const variableWeight = [
 
 type TUpdateScoringRulesForm = {
   onClose: () => void;
-  details: typeof defaultValues | null;
+  details?: typeof defaultValues | null;
 };
 
 const UpdateScoringRulesForm = ({
   onClose,
   details,
 }: TUpdateScoringRulesForm) => {
+
+
   const {
     register,
     handleSubmit,
@@ -60,80 +62,82 @@ const UpdateScoringRulesForm = ({
 
   return (
     <form onSubmit={handleSubmit(submitForm)} className="w-[530px] space-y-5">
-      <div className="flex items-center justify-between gap-14">
-        <h5 className="w-full text-sm font-semibold">
-          Variable Name (Phone brand):
-        </h5>
-        <Dropdown
-          noMessage
-          label="Decision weight"
-          placeholder="Select weight"
-          value={watch("variable_1")}
-          options={variableWeight}
-          error={errors.variable_1?.message}
-          {...register("variable_1")}
-        />
-      </div>
+      <section className="max-h-[60vh] overflow-y-auto">
+        <div className="flex items-center justify-between gap-14">
+          <h5 className="w-full text-sm font-semibold">
+            Variable Name (Phone brand):
+          </h5>
+          <Dropdown
+            noMessage
+            label="Decision weight"
+            placeholder="Select weight"
+            value={watch("variable_1")}
+            options={variableWeight}
+            error={errors.variable_1?.message}
+            {...register("variable_1")}
+          />
+        </div>
 
-      <div className="flex items-center justify-between gap-14">
-        <h5 className="w-full text-sm font-semibold">
-          Variable Name (Phone Manufacture year):
-        </h5>
-        <Dropdown
-          noMessage
-          label="Decision weight"
-          placeholder="Select weight"
-          value={watch("variable_2")}
-          options={variableWeight}
-          error={errors.variable_2?.message}
-          {...register("variable_2")}
-        />
-      </div>
+        <div className="flex items-center justify-between gap-14">
+          <h5 className="w-full text-sm font-semibold">
+            Variable Name (Phone Manufacture year):
+          </h5>
+          <Dropdown
+            noMessage
+            label="Decision weight"
+            placeholder="Select weight"
+            value={watch("variable_2")}
+            options={variableWeight}
+            error={errors.variable_2?.message}
+            {...register("variable_2")}
+          />
+        </div>
 
-      <div className="flex items-center justify-between gap-14">
-        <h5 className="w-full text-sm font-semibold">
-          Variable Name (Phone brand):
-        </h5>
-        <Dropdown
-          noMessage
-          label="Decision weight"
-          placeholder="Select weight"
-          value={watch("variable_3")}
-          options={variableWeight}
-          error={errors.variable_3?.message}
-          {...register("variable_3")}
-        />
-      </div>
+        <div className="flex items-center justify-between gap-14">
+          <h5 className="w-full text-sm font-semibold">
+            Variable Name (Phone brand):
+          </h5>
+          <Dropdown
+            noMessage
+            label="Decision weight"
+            placeholder="Select weight"
+            value={watch("variable_3")}
+            options={variableWeight}
+            error={errors.variable_3?.message}
+            {...register("variable_3")}
+          />
+        </div>
 
-      <div className="flex items-center justify-between gap-14">
-        <h5 className="w-full text-sm font-semibold">
-          Variable Name (Phone brand):
-        </h5>
-        <Dropdown
-          noMessage
-          label="Decision weight"
-          placeholder="Select weight"
-          value={watch("variable_4")}
-          options={variableWeight}
-          error={errors.variable_4?.message}
-          {...register("variable_4")}
-        />
-      </div>
+        <div className="flex items-center justify-between gap-14">
+          <h5 className="w-full text-sm font-semibold">
+            Variable Name (Phone brand):
+          </h5>
+          <Dropdown
+            noMessage
+            label="Decision weight"
+            placeholder="Select weight"
+            value={watch("variable_4")}
+            options={variableWeight}
+            error={errors.variable_4?.message}
+            {...register("variable_4")}
+          />
+        </div>
 
-      <div className="flex items-center justify-between gap-14">
-        <h5 className="w-full text-sm font-semibold">
-          Variable Name (Phone brand):
-        </h5>
-        <Dropdown
-          noMessage
-          label="Decision weight"
-          placeholder="Select weight"
-          value={watch("variable_5")}
-          options={variableWeight}
-          error={errors.variable_5?.message}
-          {...register("variable_5")}
-        />
-      </div>
+        <div className="flex items-center justify-between gap-14">
+          <h5 className="w-full text-sm font-semibold">
+            Variable Name (Phone brand):
+          </h5>
+          <Dropdown
+            noMessage
+            label="Decision weight"
+            placeholder="Select weight"
+            value={watch("variable_5")}
+            options={variableWeight}
+            error={errors.variable_5?.message}
+            {...register("variable_5")}
+          />
+        </div>
+      </section>
 
       <div className="space-y-3 pt-1">
         <PrimaryButton size="medium" className="w-full" type="submit">

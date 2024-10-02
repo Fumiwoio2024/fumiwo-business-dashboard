@@ -1,10 +1,10 @@
 import BusinessSettingForm from "@components/forms/BusinessSettingForm";
 import Card from "@components/global/Card";
 import { H2 } from "@components/global/Typography";
-import { useQProfile } from "@hooks/api/queries/profile.queries";
+import { useQBusinessProfile } from "@hooks/api/queries/profile.queries";
 
 const Business = () => {
-  const { result } = useQProfile();
+  const { result } = useQBusinessProfile();
 
   return (
     <article className="px-6 py-8">

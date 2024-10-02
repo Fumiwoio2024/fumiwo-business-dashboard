@@ -47,7 +47,7 @@ const bottomNavLinks = [
         />
       </svg>
     ),
-    link: "https://www.notion.so/fd24a857f83a4603b9bcf1f54eaf31c1?v=51bfa4b349124440b9cc537f249c0a67&p=34e09652fe5c43d594df498ff10eec1a&pm=s",
+    link: "https://docs.fumiwo.io/clients",
   },
 ];
 
