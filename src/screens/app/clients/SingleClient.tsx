@@ -44,7 +44,7 @@ const ClientHome = () => {
       cell: (info) => {
         return (
           <Badge color={getRecommendedColor(info.getValue())}>
-            {capitalize(info.getValue().replace("_", " "))}
+            {info.getValue() && capitalize(info.getValue()?.replace("_", " "))}
           </Badge>
         );
       },

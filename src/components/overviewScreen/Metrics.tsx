@@ -11,7 +11,7 @@ const metricOptions = [
   {
     id: "1",
     title: "Avg credit score distribution",
-    desc: "Distribution of clients' credit scores",
+    desc: "Distribution of credit scores by application",
     Component: AvgScoreBarChart,
   },
   {
