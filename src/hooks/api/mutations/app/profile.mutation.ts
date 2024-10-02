@@ -1,8 +1,9 @@
 import api from "@config/axios";
 import { handleGenericError } from "@helpers/functions/handleGenericError";
-import { useMutation } from "@tanstack/react-query";
-import { TGeneralRes } from "@type/global.types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { TGeneralRes, TUser } from "@type/global.types";
 import { toast } from "react-toastify";
+
 type TUpdateProfileReq = {
 	firstName?: string;
 	lastName?: string;
@@ -16,7 +17,7 @@ type TUpdateProfileReq = {
 };
 
 type TUpdateProfileRes = TGeneralRes & {
-	data: object
+	data: TUser;
 }
 
 
@@ -39,6 +40,8 @@ export const useMUpdateProfile = () => {
 
 
 export const useMToggleMfa = () => {
+	const queryClient = useQueryClient();
+
 	const mutation = useMutation({
 		mutationFn: async (req: {
 			"email": string,
@@ -54,6 +57,26 @@ export const useMToggleMfa = () => {
 			return res;
 		},
 		onSuccess: (res) => {
+			queryClient.invalidateQueries({ queryKey: ['profile-business'] })
+			toast.success(res.data.message);
+		},
+		onError: (err) => {
+			handleGenericError(err)
+		}
+	});
+
+	return mutation
+}
+
+export const useMRotateKeys = () => {
+	const queryClient = useQueryClient();
+	const mutation = useMutation({
+		mutationFn: async () => {
+			const res = await api.post(`/businesses/preferences/rotate-keys`,)
+			return res;
+		},
+		onSuccess: (res) => {
+			queryClient.invalidateQueries({ queryKey: ['profile-business'] })
 			toast.success(res.data.message);
 		},
 		onError: (err) => {

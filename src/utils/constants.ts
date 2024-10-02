@@ -30,5 +30,5 @@ export const scoreRecommendations = [
 
 
 export const getUser = (): TUser | undefined => JSON.parse(
-	localStorage.getItem("fmw_business_user") || "",
+	localStorage.getItem("fmw_business_user") || "{}",
 );

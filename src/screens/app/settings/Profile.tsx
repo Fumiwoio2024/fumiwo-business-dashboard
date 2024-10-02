@@ -5,6 +5,7 @@ import { useQProfile } from "@hooks/api/queries/profile.queries";
 
 const Profile = () => {
   const { result } = useQProfile();
+console.log(result);
 
   return (
     <article className="px-6 py-8">

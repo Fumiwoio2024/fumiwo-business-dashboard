@@ -46,10 +46,6 @@ const ProfileSettingForm = ({ user }: { user: TUser }) => {
         onSuccess: (res) => {
           if (res.status === 200) {
             queryClient.invalidateQueries({ queryKey: ["profile-me"] });
-            localStorage.setItem(
-              "fmw_business_user",
-              JSON.stringify(res.data.data),
-            );
             toast.success("Profile updated successfully");
           }
         },

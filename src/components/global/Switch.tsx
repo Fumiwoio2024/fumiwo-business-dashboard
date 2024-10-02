@@ -2,14 +2,16 @@ const Switch = ({
   enabled,
   onChange,
   disabled,
+  loading,
 }: {
   enabled: boolean;
   onChange?: (enabled: boolean) => void;
   disabled?: boolean;
+  loading?: boolean;
 }) => {
   return (
     <button
-      disabled={disabled}
+      disabled={disabled || loading}
       onClick={() => onChange?.(!enabled)}
       className={`${
         enabled ? "bg-switchGreen" : "bg-gray-300"

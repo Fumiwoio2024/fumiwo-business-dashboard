@@ -1,51 +1,49 @@
-import { dummyRules } from "@/utils/data";
-import { PrimaryButton, SecondaryButton } from "@components/global/Buttons";
+import {
+  PrimaryButton,
+  // SecondaryButton
+} from "@components/global/Buttons";
 import Input from "@components/global/Input";
 import ModalContainer from "@components/global/ModalContainer";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import moment from "moment";
 import ConfirmDeleteModal from "@components/modals/ConfirmDeleteModal";
 import AddRecommendationRuleForm from "@components/forms/AddRecommendationRuleForm";
 import UpdateScoringRulesForm from "@components/forms/UpdateScoringRulesForm";
+import { TUser } from "@type/global.types";
+import { useQBusinessProfile } from "@hooks/api/queries/profile.queries";
 
+type TRule = TUser["preferences"]["recommendationRules"][0];
 const Rules = () => {
+  const [searchText, setSearchText] = useState("");
   const [scoringPreferenceModalVisible, setScoringPreferenceModalVisible] =
     useState(false);
   const [addRecommendationModalVisible, setAddRecommendationModalVisible] =
     useState(false);
   const [deleteRuleModalVisible, setDeleteRuleModalVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<
-    (typeof dummyRules)[0] | null
-  >(null);
+  const [selectedRule, setSelectedRule] = useState<TRule | null>(null);
   // const [enabled, setEnabled] = useState(true);
 
-  const columnHelper = createColumnHelper<(typeof dummyRules)[0]>();
+  const { result } = useQBusinessProfile();
+  const rules = result?.preferences.recommendationRules.filter((rule) =>
+    rule.name.toLowerCase().includes(searchText.toLowerCase()),
+  );
+
+  const columnHelper = createColumnHelper<TRule>();
 
   const columns = [
-    columnHelper.accessor("id", {
+    columnHelper.accessor("slug", {
       header: "Rule ID",
     }),
-    columnHelper.accessor("rule", {
+    columnHelper.accessor("name", {
       header: "Rule Name",
     }),
-    columnHelper.accessor("createdAt", {
+    columnHelper.accessor("dateAdded", {
       header: "Date Created",
       cell: (info) => moment(info.getValue()).format("MMM DD, YYYY"),
     }),
-    // columnHelper.accessor("status", {
-    //   header: "Status",
-    //   cell: () => {
-    //     return (
-    //       <div className="flex items-center gap-2">
-    //         <p>Active</p>
-    //         <Switch enabled={enabled} onChange={setEnabled} />
-    //         <p className="text-graySubtext">Inactive</p>
-    //       </div>
-    //     );
-    //   },
-    // }),
+
     columnHelper.accessor(() => "action", {
       header: "Action",
       cell: (info) => (
@@ -87,7 +85,7 @@ const Rules = () => {
           <button
             onClick={() => {
               setAddRecommendationModalVisible(true);
-              setSelectedUser(info.row.original);
+              setSelectedRule(info.row.original);
             }}
             className="text-graySubtext/30 hover:text-graySubtext"
           >
@@ -120,6 +118,7 @@ const Rules = () => {
       ),
     }),
   ];
+  console.log(selectedRule);
 
   return (
     <>
@@ -129,25 +128,20 @@ const Rules = () => {
         isVisible={scoringPreferenceModalVisible}
       >
         <UpdateScoringRulesForm
-          key={selectedUser?.id}
-          // @ts-expect-error -- unknown type
-          details={selectedUser}
           onClose={() => setScoringPreferenceModalVisible(false)}
         />
       </ModalContainer>
 
       <ModalContainer
-        title="Add Rule"
+        title={selectedRule?._id ? "Edit Rule" : "Add Rule"}
         onClose={() => setAddRecommendationModalVisible(false)}
         isVisible={addRecommendationModalVisible}
       >
         <AddRecommendationRuleForm
-          key={selectedUser?.id}
-          // @ts-expect-error -- unknown type
-          details={selectedUser}
+          key={selectedRule?._id}
+          details={selectedRule}
           onClose={() => setAddRecommendationModalVisible(false)}
         />
-        <></>
       </ModalContainer>
 
       <ModalContainer
@@ -156,7 +150,7 @@ const Rules = () => {
         isVisible={deleteRuleModalVisible}
       >
         <ConfirmDeleteModal
-          description="You are about to remove this user from your team. Are you sure about this?"
+          description="You are about to remove this Rule. Are you sure about this?"
           onClose={() => setDeleteRuleModalVisible(false)}
           onConfirmDelete={() => setDeleteRuleModalVisible(false)}
         />
@@ -165,19 +159,25 @@ const Rules = () => {
       <div className="w-full space-y-8 p-8">
         <section className="flex items-center justify-between">
           <div className="flex max-w-xs items-center gap-4">
-            <Input isSearch placeholder="Search rules" />
+            <Input
+              isSearch
+              placeholder="Search rules"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setSearchText(e.target.value)
+              }
+            />
           </div>
 
           <div className="flex gap-4.5">
-            <SecondaryButton
+            {/* <SecondaryButton
               onClick={() => setScoringPreferenceModalVisible(true)}
               size="medium"
             >
               Update scoring preferences
-            </SecondaryButton>
+            </SecondaryButton> */}
             <PrimaryButton
               onClick={() => {
-                setSelectedUser(null);
+                setSelectedRule(null);
                 setAddRecommendationModalVisible(true);
               }}
               size="medium"
@@ -189,10 +189,7 @@ const Rules = () => {
 
         <section>
           <div className="">
-            <Tables
-              columns={columns}
-              data={dummyRules as unknown as (typeof dummyRules)[0][]}
-            />
+            <Tables columns={columns} data={rules || []} />
           </div>
         </section>
       </div>

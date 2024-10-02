@@ -1,18 +1,20 @@
 import { PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
 import ModalContainer from "@components/global/ModalContainer";
-import Switch from "@components/global/Switch";
 import { H2 } from "@components/global/Typography";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import EnterPassword from "./EnterPassword";
+import { TUser } from "@type/global.types";
+import { useMRotateKeys } from "@hooks/api/mutations/app/profile.mutation";
+import { useMUpdatePreferences } from "@hooks/api/mutations/app/preferences.mutation";
 const defaultValues = {
   live_secret: "pub_live_WXh54PoQMlxU23Xeo09jAsDcx3Xe0RMgPZsPZs",
   live_public: "pub_live_WXh54PoQMlxU23Xeo09jAsDcx3Xe0RMgPZsPZs",
   test_secret: "pub_live_WXh54PoQMlxU23Xeo09jAsDcx3Xe0RMgPZsPZs",
   test_public: "pub_live_WXh54PoQMlxU23Xeo09jAsDcx3Xe0RMgPZsPZs",
-  webhookUrl: "",
+  testWebhookUrl: "",
 };
 
 const ApiKeyInputActions = ({
@@ -118,12 +120,16 @@ const ApiKeyInputActions = ({
   </div>
 );
 
-const ApiKeysForm = () => {
-  const [isOn, setIsOn] = useState(false);
+const ApiKeysForm = ({ user }: { user: TUser }) => {
+  // const [isOn, setIsOn] = useState(false);
 
   const [isEnterPassword, setIsEnterPassword] = useState("");
   const [liveSecretShown, setLiveSecretShown] = useState(false);
   const [testSecretShown, setTestSecretShown] = useState(false);
+
+  const { mutate: rotateKeys, isPending } = useMRotateKeys();
+  const { mutate: updatePreferences, isPending: isUpdatePreferencesPending } =
+    useMUpdatePreferences();
 
   const {
     register,
@@ -131,7 +137,13 @@ const ApiKeysForm = () => {
     formState: { errors },
     watch,
   } = useForm({
-    defaultValues,
+    defaultValues: {
+      live_public: user.publicKey,
+      test_public: user.testPublicKey,
+      live_secret: user.privateKey,
+      test_secret: user.testPrivateKey,
+      testWebhookUrl: user.preferences.testWebhookUrl || "",
+    },
   });
 
   const liveSecret = watch("live_secret");
@@ -147,7 +159,9 @@ const ApiKeysForm = () => {
   };
 
   const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
-    console.log("submitting form", data);
+    updatePreferences({
+      testWebhookUrl: data.testWebhookUrl,
+    });
   };
 
   return (
@@ -169,7 +183,34 @@ const ApiKeysForm = () => {
 
       <form onSubmit={handleSubmit(submitForm)} className="space-y-8 text-left">
         <section className="space-y-4">
-          <H2 className="mb-6">API Keys</H2>
+          <div className="mb-6 flex items-center justify-between">
+            <H2 className="">API Keys</H2>
+
+            <button
+              type="button"
+              className={`flex items-center gap-1 font-medium text-switchGreen`}
+              onClick={() => rotateKeys()}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={`${isPending && "animate-spin"}`}
+              >
+                <path
+                  d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
+                  stroke="#0BB466"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+              <p>Generate new keys</p>
+            </button>
+          </div>
           <div>
             <Input
               disabled
@@ -190,28 +231,6 @@ const ApiKeysForm = () => {
                 required: "Old Password is required",
               })}
             />
-            <button
-              type="button"
-              className="mt-3.5 flex items-center gap-1 font-medium text-switchGreen"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
-                  stroke="#0BB466"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-              <p>Generate new key</p>
-            </button>
           </div>
           <Input
             label="Live public key"
@@ -244,28 +263,6 @@ const ApiKeysForm = () => {
               }
               {...register("test_secret")}
             />
-            <button
-              type="button"
-              className="mt-3.5 flex items-center gap-1 font-medium text-switchGreen"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
-                  stroke="#0BB466"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-              <p>Generate new key</p>
-            </button>
           </div>
 
           <Input
@@ -282,29 +279,35 @@ const ApiKeysForm = () => {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <H2>Webhook</H2>
-            <div className="flex items-center gap-3 text-sm text-paraGray">
+            {/* <div className="flex items-center gap-3 text-sm text-paraGray">
               <Switch enabled={isOn} onChange={setIsOn} />
               <p>Enabled</p>
-            </div>
+            </div> */}
           </div>
 
           <Input
             label="Webhook URL"
             placeholder="https://www.example.io"
-            type="url"
-            error={errors.webhookUrl?.message}
-            disabled
+            // type="url"
+            error={errors.testWebhookUrl?.message}
+            // disabled
             isSecretInput
-            {...register("webhookUrl", {
+            {...register("testWebhookUrl", {
               pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
+                value:
+                  /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/,
+                message: "Invalid Webhook url",
               },
             })}
           />
         </section>
 
-        <PrimaryButton size="medium" className="w-full" type="submit">
+        <PrimaryButton
+          loading={isUpdatePreferencesPending}
+          size="medium"
+          className="w-full"
+          type="submit"
+        >
           Save changes
         </PrimaryButton>
       </form>

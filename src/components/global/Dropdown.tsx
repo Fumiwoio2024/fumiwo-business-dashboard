@@ -7,7 +7,7 @@ type TDropdown = {
   disabled?: boolean;
   noMessage?: boolean;
   error?: string | undefined;
-  label: string;
+  label?: string;
   placeholder?: string;
   className?: string;
   options: { name: string; value: string | number }[] | undefined;

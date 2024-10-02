@@ -82,7 +82,7 @@ const Tables = <T extends { id: string }>({
                       isNavigateRow &&
                       navigate(`${routePrefix || ""}${row.original.id}`)
                     }
-                    className={`relative cursor-pointer border-b-2 border-[#F5F8FA] ${isNavigateRow && "hover:bg-linkGray/5"}`}
+                    className={`relative border-b-2 border-[#F5F8FA] ${isNavigateRow && "cursor-pointer hover:bg-linkGray/5"}`}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
