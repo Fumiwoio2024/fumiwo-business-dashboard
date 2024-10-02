@@ -23,7 +23,7 @@ jobs:
     # Step 3: Push to the other remote branch
     - name: Push to the second remote branch
       run: |
-        git push second_remote main
+        git push -f second_remote main
       env:
         # Secrets to authenticate with the second remote (GitHub or other service)
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # or replace with a token from the second remote
