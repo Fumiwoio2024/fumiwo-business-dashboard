@@ -11,12 +11,14 @@ jobs:
 
     steps:
     # Step 1: Checkout the current repository
-    - name: Checkout the code
+    - name: Checkout the current repository
       uses: actions/checkout@v3
 
     # Step 2: Set up Git to push to the second remote
     - name: Set up Git for second remote
       run: |
+        git config --global user.email "kainy.chike-onyechi@fumiwo.io"
+        git config --global user.name "Kainy Fumiwo"
         git remote add second_remote https://github.com/kainy-fmw/fumiwo-business.git
         git fetch second_remote
 
@@ -26,4 +28,4 @@ jobs:
         git push -f second_remote main
       env:
         # Secrets to authenticate with the second remote (GitHub or other service)
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # or replace with a token from the second remote
+        GITHUB_TOKEN: ${{ secrets.REMOTE_TOKEN }}  # or replace with a token from the second remote
