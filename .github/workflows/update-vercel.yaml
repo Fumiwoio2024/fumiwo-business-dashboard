@@ -1,32 +1,29 @@
-# .github/workflows/update-vercel.yml
-name: Sync main to another branch
+name: Push to Another Remote
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger only when the main branch is updated
 
 jobs:
-  sync_branch:
+  push_to_another_remote:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout main branch
+    # Step 1: Checkout the current repository
+    - name: Checkout the code
       uses: actions/checkout@v3
-      with:
-        ref: main
 
-    # Step 2: Set up Git (so we can push)
-    - name: Set up Git
+    # Step 2: Set up Git to push to the second remote
+    - name: Set up Git for second remote
       run: |
-        git config --global user.name "Kainy Fumiwo"
-        git config --global user.email "kainy.chike-onyechi@fumiwo.io"
+        git remote add second_remote https://github.com/kainy-fmw/fumiwo-business.git
+        git fetch second_remote
 
-    # Step 3: Push changes to another branch
-    - name: Push to another branch
+    # Step 3: Push to the other remote branch
+    - name: Push to the second remote branch
       run: |
-        git switch main
-        git push -f https://github.com/kainy-fmw/fumiwo-business.git main
+        git push second_remote main
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Secrets to authenticate with the second remote (GitHub or other service)
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # or replace with a token from the second remote
