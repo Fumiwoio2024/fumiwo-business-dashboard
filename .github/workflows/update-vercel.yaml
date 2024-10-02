@@ -26,7 +26,7 @@ jobs:
     # Step 3: Push changes to another branch
     - name: Push to another branch
       run: |
-        git checkout -b main
+        git switch main
         git push -f git@github.com:kainy-fmw/fumiwo-business.git main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
