@@ -96,7 +96,7 @@ const ClientHome = () => {
 
   const columns = [
     columnHelper.accessor("clientId", {
-      header: "Ext ref id",
+      header: "Client ext ref id",
     }),
     columnHelper.accessor("phones", {
       header: "No. of applications",
@@ -345,7 +345,7 @@ const ClientHome = () => {
           isLoading={isLoadingStats}
           dateString="yesterday"
           percentage={0}
-          title="Total assesed devices"
+          title="Total assesed appl"
           value={businessStats?.totalPhoneData || "N/A"}
         />
         <ClientCard
@@ -461,7 +461,11 @@ const ClientHome = () => {
           dateString="yesterday"
           percentage={0}
           title="Avg credit score"
-          value={businessStats?.averageCreditScore || "N/A"}
+          value={
+            businessStats?.averageCreditScore
+              ? Math.round(businessStats?.averageCreditScore)
+              : "N/A"
+          }
         />
         <ClientCard
           Icon={

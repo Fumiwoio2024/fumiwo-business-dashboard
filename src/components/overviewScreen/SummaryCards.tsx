@@ -42,7 +42,7 @@ const SummaryCards = () => {
         percentage={0}
         isLoading={isLoading}
         title="Total assessed appl"
-        value={result?.totalPhoneData || 0}
+        value={result?.totalPhoneData || "N/A"}
       />
       <SummaryCard
         Icon={
@@ -100,8 +100,8 @@ const SummaryCards = () => {
         dateString="yesterday"
         isLoading={isLoading}
         percentage={0}
-        title="Total no. of borrowers"
-        value={result?.totalClients || 0}
+        title="Total no. of Clients"
+        value={result?.totalClients || "N/A"}
       />
       <SummaryCard
         Icon={
@@ -216,7 +216,11 @@ const SummaryCards = () => {
         isLoading={isLoading}
         percentage={0}
         title="Avg credit score"
-        value={result?.averageCreditScore || 0}
+        value={
+          result?.averageCreditScore
+            ? Math.round(result?.averageCreditScore)
+            : "N/A"
+        }
       />
       <SummaryCard
         Icon={
@@ -268,7 +272,7 @@ const SummaryCards = () => {
         isLoading={isLoading}
         percentage={0}
         title="Total repayment data "
-        value={result?.totalLoanData || 0}
+        value={result?.totalLoanData || "N/A"}
       />
     </section>
   );

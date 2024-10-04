@@ -1,6 +1,9 @@
-import { gridClasses } from "@mui/material/Grid";
-
-import { BarChart } from "@mui/x-charts";
+import {
+  BarChart,
+  axisClasses,
+  chartsGridClasses,
+  HighlightScope,
+} from "@mui/x-charts";
 
 import Legend from "./Legend";
 
@@ -108,26 +111,46 @@ const AvgScoreBarChart = ({
     {
       data: veryPoorData,
       stack: "total",
+      highlightScope: {
+        highlighted: "none", //  none | item   | series
+        faded: "none", //  none | series | global
+      } as HighlightScope,
       ...scoreRecommendations[0],
     },
     {
       data: poorData,
       stack: "total",
+      highlightScope: {
+        highlighted: "none",
+        faded: "none",
+      } as HighlightScope,
       ...scoreRecommendations[1],
     },
     {
       data: fairData,
       stack: "total",
+      highlightScope: {
+        highlighted: "none",
+        faded: "none",
+      } as HighlightScope,
       ...scoreRecommendations[2],
     },
     {
       data: goodData,
       stack: "total",
+      highlightScope: {
+        highlighted: "none",
+        faded: "none",
+      } as HighlightScope,
       ...scoreRecommendations[3],
     },
     {
       data: excellentData,
       stack: "total",
+      highlightScope: {
+        highlighted: "none",
+        faded: "none",
+      } as HighlightScope,
       ...scoreRecommendations[4],
     },
   ];
@@ -144,6 +167,14 @@ const AvgScoreBarChart = ({
         series={barData}
         yAxis={[
           {
+            // label: "Number of Applications",
+            labelStyle: {
+              fill: "#404F65",
+              fontSize: 10,
+              fontWeight: 500,
+              fontFamily: "Poppins",
+            },
+            tickMinStep: 1,
             disableLine: true,
             disableTicks: true,
             valueFormatter: (value) =>
@@ -163,13 +194,14 @@ const AvgScoreBarChart = ({
           },
         ]}
         sx={{
-          [`& .${gridClasses.root}`]: {
-            fill: "red",
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Poppins",
-            borderColor: "red",
-            backGroundColor: "#FF0000",
+          [`& .${chartsGridClasses.line}`]: {
+            // strokeDasharray: "5 3",
+            strokeWidth: 0.5,
+            stroke: "#718096",
+            strokeOpacity: "0.15",
+          },
+          [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+            transform: "translateX(-14px)",
           },
         }}
       />

@@ -13,15 +13,15 @@ import Badge from "@components/global/Badge";
 import { LineGradient } from "@components/applicationSession/LineGradient";
 import { capitalize } from "@mui/material";
 import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
-import { useQBusinessStats } from "@hooks/api/queries/analytics.queries";
+// import { useQBusinessStats } from "@hooks/api/queries/analytics.queries";
 import moment from "moment";
 
 const ClientHome = () => {
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const params = useParams();
   const { result, isLoading } = useQSingleClient(params?.clientId);
-  const { result: businessStats, isLoading: isLoadingStats } =
-    useQBusinessStats();
+  // const { result: businessStats, isLoading: isLoadingStats } =
+  //   useQBusinessStats();
 
   const columns = [
     columnHelper.accessor("_id", {
@@ -88,11 +88,11 @@ const ClientHome = () => {
               />
             </svg>
           }
-          isLoading={isLoadingStats}
+          isLoading={isLoading}
           dateString="yesterday"
           percentage={0}
           title="Total number of appl"
-          value={businessStats?.totalPhoneData || "N/A"}
+          value={result?.datasetsCountAllFromIp || "N/A"}
         />
         <SummaryCard
           Icon={
@@ -179,7 +179,7 @@ const ClientHome = () => {
               />
             </svg>
           }
-          isLoading={isLoadingStats}
+          isLoading={isLoading}
           dateString="yesterday"
           percentage={0}
           title="First appl date"
@@ -298,7 +298,7 @@ const ClientHome = () => {
               />
             </svg>
           }
-          isLoading={isLoadingStats}
+          isLoading={isLoading}
           dateString="yesterday"
           percentage={0}
           title="Previous credit score"
@@ -417,7 +417,7 @@ const ClientHome = () => {
               />
             </svg>
           }
-          isLoading={isLoadingStats}
+          isLoading={isLoading}
           dateString="yesterday"
           percentage={0}
           title="Current credit score"

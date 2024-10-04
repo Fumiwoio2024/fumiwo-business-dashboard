@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
+
 const Legend = ({
   data,
   vertical,
 }: {
-  data: { label: string; color: string }[];
+  data: { label: ReactNode; color: string }[];
   vertical?: boolean;
 }) => {
   return (

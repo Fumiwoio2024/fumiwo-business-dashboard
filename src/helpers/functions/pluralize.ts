@@ -1,0 +1,1 @@
+export const pluralize = (number: number, string: string) => `${number} ${string}${number === 1 ? "" : "s"}`

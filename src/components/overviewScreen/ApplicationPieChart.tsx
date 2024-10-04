@@ -1,11 +1,15 @@
-import { pieArcLabelClasses, PieChart } from "@mui/x-charts";
+import { HighlightScope, pieArcLabelClasses, PieChart } from "@mui/x-charts";
 import { timeFilterOptions } from "@utils/data";
 
-import { useQRecommendationStats } from "@hooks/api/queries/analytics.queries";
+import {
+  useQBusinessStats,
+  useQRecommendationStats,
+} from "@hooks/api/queries/analytics.queries";
 import { checkRecommendType } from "@helpers/functions/formatRecommendation";
 import { useState } from "react";
 import NewDropDown from "@components/global/NewDropDown";
 import { SessionCardTitle } from "@components/applicationSession/SessionCardTypography";
+import { pluralize } from "@helpers/functions/pluralize";
 
 const ApplicationsPieChart = () => {
   const [selectedFilterOption, setSelectedFilterOption] = useState(
@@ -16,7 +20,13 @@ const ApplicationsPieChart = () => {
     startDate: selectedFilterOption.startDate,
     endDate: selectedFilterOption.endDate,
   });
+  const { result: stats } = useQBusinessStats();
 
+  const getCount = (percentage: number) => {
+    return stats && stats.totalClients
+      ? `${pluralize(Math.round((percentage * stats?.totalClients) / 100), "Client")} `
+      : `${percentage}%`;
+  };
   const pieData =
     result?.map((item, index) => ({
       id: index,
@@ -55,14 +65,21 @@ const ApplicationsPieChart = () => {
               margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
               height={270}
               width={270}
-              title="Applications"
               slotProps={{ legend: { hidden: true } }}
               series={[
                 {
-                  data: pieData,
+                  data: pieData.sort(
+                    (a, b) => b.label?.localeCompare(a.label || "") || 0,
+                  ),
                   innerRadius: 75,
+                  valueFormatter: ({ value }) => `${getCount(value)}`,
+                  // sortingValues: (a, b) => a - b,
                   arcLabel: (params) =>
                     params.value ? String(params.value) + "%" : "",
+                  highlightScope: {
+                    highlighted: "item", //  none | item   | series
+                    faded: "global", //  none | series | global
+                  } as HighlightScope,
                 },
               ]}
               sx={{
@@ -79,35 +96,37 @@ const ApplicationsPieChart = () => {
             )}
           </div>
           <div className="mt-8 flex justify-center gap-5">
-            {pieData.map((item, index) => (
-              <>
-                <div className="text-center">
-                  <p
-                    style={{ color: item.color }}
-                    className="text-lg font-medium"
-                  >
-                    {item.value}%
-                  </p>
-                  <h5 style={{ color: item.color }} className="text-sm">
-                    {item.label}
-                  </h5>
-                </div>
-                {index !== pieData.length - 1 && (
-                  <svg
-                    width="1"
-                    height="57"
-                    viewBox="0 0 1 57"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0 56.1787L0 0.678707H0.566327L0.566327 56.1787H0Z"
-                      fill="#E7E8F2"
-                    />
-                  </svg>
-                )}
-              </>
-            ))}
+            {pieData
+              .sort((a, b) => b.label?.localeCompare(a.label || "") || 0)
+              .map((item, index) => (
+                <>
+                  <div className="text-center">
+                    <p
+                      style={{ color: item.color }}
+                      className="text-lg font-medium"
+                    >
+                      {item.value}%
+                    </p>
+                    <h5 style={{ color: item.color }} className="text-sm">
+                      {item.label}
+                    </h5>
+                  </div>
+                  {index !== pieData.length - 1 && (
+                    <svg
+                      width="1"
+                      height="57"
+                      viewBox="0 0 1 57"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 56.1787L0 0.678707H0.566327L0.566327 56.1787H0Z"
+                        fill="#E7E8F2"
+                      />
+                    </svg>
+                  )}
+                </>
+              ))}
           </div>
         </div>
       </div>
@@ -115,5 +134,4 @@ const ApplicationsPieChart = () => {
   );
 };
 
-
-export default ApplicationsPieChart
+export default ApplicationsPieChart;
