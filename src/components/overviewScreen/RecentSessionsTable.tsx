@@ -42,7 +42,7 @@ const RecentSessionsTable = () => {
   return (
     <Card className="space-y-8">
       <section className="flex items-center justify-between">
-        <H3>Recent</H3>
+        <H3 className="!text-header">Recent</H3>
         <OverviewButton
           onClick={() => navigate("/dashboard/clients")}
           // disabled={result?.length === 0}

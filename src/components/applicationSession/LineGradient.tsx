@@ -35,8 +35,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export const LineGradient = ({ data }: { data: TClient | undefined }) => {
+  // const formatter = new Intl.NumberFormat("en-NG", {
+  //   style: "ordinal",
+  // });
   const chartData = data?.digitalCreditInfoHistory.map((item, idx) => ({
-    session: `Session ${idx + 1}`,
+    session: `Application ${idx + 1}`,
     score: item.creditScore,
   }));
   return (
