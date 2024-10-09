@@ -56,7 +56,7 @@ const Sidebar = () => {
 
   return (
     <div className="hidden h-screen min-w-[276px] flex-col border-r border-sidebarBorder bg-white lg:flex">
-      <section className="flex h-20 items-center border-b border-otpBox pl-12">
+      <section className="flex min-h-20 items-center border-b border-otpBox pl-12">
         <Link to="/dashboard/overview">
           <img
             src={logo}

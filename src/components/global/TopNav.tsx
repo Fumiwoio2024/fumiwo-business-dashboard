@@ -43,7 +43,7 @@ const TopNav = () => {
   });
 
   return (
-    <div className="flex h-20 items-center justify-between border-b border-sidebarBorder bg-white py-3.5 pl-8 pr-11">
+    <div className="py- flex min-h-20 items-center justify-between border-b border-sidebarBorder bg-white pl-8 pr-11">
       <div>
         <H1>{pageName} </H1>
       </div>

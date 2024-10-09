@@ -1,4 +1,3 @@
-import { PrimaryButton } from "@components/global/Buttons";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TRole } from "@type/global.types";
@@ -9,21 +8,30 @@ import { useQRoles } from "@hooks/api/queries/role.queries";
 import useClickOutside from "@hooks/custom/useClickOutside";
 
 import { H3 } from "@components/global/Typography";
-import { toast } from "react-toastify";
 import ModalContainer from "@components/global/ModalContainer";
 import CreateRoleForm from "@components/forms/CreateRoleForm";
 import Checkbox from "@components/global/CheckBox";
+import BreadCrumb from "@components/global/BreadCrumb";
+
+const roleLinks = [
+  { name: "Default roles", path: "default" },
+  { name: "Custom roles", path: "custom" },
+];
 
 const NewRoleManagement = () => {
   const [isAddRoleModalVisible, setIsAddRoleModalVisible] = useState(false);
+  const [tab, setTab] = useState("default");
   // const [searchText, setSearchText] = useState("");
   // const [isDeleteRoleModalVisible, setIsDeleteRoleModalVisible] =
   //   useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
   const [selectedRole, setSelectedRole] = useState<TRole | null>(null);
 
-  const { result } = useQRoles();
+  const { result: roles } = useQRoles();
   const ref = useClickOutside(setOpenSideBar);
+  const result = roles?.filter((role) =>
+    tab === "default" ? !role.isCustom : role.isCustom,
+  );
 
   // const debouncedSearch = useDebounce(searchText);
   // const { result, isLoading } = useQUsers({ name: debouncedSearch });
@@ -37,8 +45,6 @@ const NewRoleManagement = () => {
 
     columnHelper.accessor("description", {
       header: "Description",
-      // cell: (info) =>
-      // moment(new Date(info.getValue())).format("MMM DD, YYYY, hh:mm A"),
     }),
     columnHelper.accessor("createdAt", {
       header: "Last modified",
@@ -49,7 +55,7 @@ const NewRoleManagement = () => {
     columnHelper.accessor("id", {
       header: "Action",
       cell: (info) => (
-        <div
+        <button
           onClick={() => {
             setOpenSideBar(true);
             setSelectedRole(info.row.original);
@@ -57,7 +63,7 @@ const NewRoleManagement = () => {
           className="gap-5 text-secondaryButton underline hover:no-underline"
         >
           View details
-        </div>
+        </button>
       ),
     }),
   ];
@@ -70,41 +76,44 @@ const NewRoleManagement = () => {
         isVisible={isAddRoleModalVisible}
       >
         <CreateRoleForm
-          // key={}
           // details={selectedRole}
           isEdit={!!selectedRole}
           onClose={() => setIsAddRoleModalVisible(false)}
         />
       </ModalContainer>
 
-      {/* <ModalContainer
-        title="Delete Role"
-        onClose={() => setIsDeleteRoleModalVisible(false)}
-        isVisible={isDeleteRoleModalVisible}
-      >
-        <ConfirmDeleteModal
-          description="You are about to remove this user from your team. Are you sure about this?"
-          onClose={() => setIsDeleteRoleModalVisible(false)}
-          onConfirmDelete={() => selectedUser && deleteUser(selectedUser.id)}
-        />
-      </ModalContainer> */}
       <div className="w-full space-y-8 p-8">
+        <BreadCrumb />
+
         <section className="flex items-center justify-between">
-          <div className="flex max-w-xs items-center gap-4">
-            <p onClick={() => toast.error("Coming soon")}>Toast</p>
+          <div className="border-b">
+            <div className="flex gap-8">
+              {roleLinks.map((link) => (
+                <div
+                  role="button"
+                  key={link.path}
+                  onClick={() => setTab(link.path)}
+                  className={`block border-b-2 p-2.5 transition-colors duration-300 ${[
+                    tab === link.path
+                      ? "border-primaryGreen font-medium text-header"
+                      : "border-transparent text-paraGray",
+                  ].join(" ")}`}
+                >
+                  {link.name}
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="flex gap-4.5">
-            <PrimaryButton
-              onClick={() => {
-                setSelectedRole(null);
-                setIsAddRoleModalVisible(true);
-              }}
-              size="medium"
-            >
-              Add Role
-            </PrimaryButton>
-          </div>
+          <button
+            onClick={() => {
+              setSelectedRole(null);
+              setIsAddRoleModalVisible(true);
+            }}
+            className="mx-5 gap-5 text-secondaryButton duration-300 hover:text-secondaryButton/50"
+          >
+            Create custom role
+          </button>
         </section>
 
         <section className="h-mi relative flex min-h-[700px] overflow-x-hidden">
@@ -125,19 +134,6 @@ const NewRoleManagement = () => {
                       role="button"
                       className="flex items-center space-x-2"
                     >
-                      {/* <input
-                          id={permission}
-                          name={permission}
-                          value={permission}
-                          type="checkbox"
-                          className="h-4 w-4 rounded text-indigo-600 accent-[#F9F5FF] outline-header focus:ring-indigo-300"
-                        />
-                        <label
-                          htmlFor={permission}
-                          className="text-sm font-medium capitalize text-graySubtext"
-                        >
-                          {permission.replace("-", " ")}
-                        </label> */}
                       <Checkbox
                         label={permission}
                         checked={true}

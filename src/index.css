@@ -17,6 +17,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* button:focus-visible {
+  outline: 1px solid #0BE78199;
+} */
+/* Only show the outline when focused via keyboard */
 /*
 a {
   font-weight: 500;

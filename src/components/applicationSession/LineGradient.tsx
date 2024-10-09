@@ -49,7 +49,7 @@ export const LineGradient = ({ data }: { data: TClient | undefined }) => {
       </div>
 
       <ChartContainer config={{ ...chartConfig }} className="h-80 w-full">
-        <AreaChart accessibilityLayer data={chartData} className="">
+        <AreaChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <XAxis

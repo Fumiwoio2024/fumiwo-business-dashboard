@@ -1,4 +1,4 @@
-// src/components/Modal.js
+import useAppKeyPress from "@hooks/custom/useAppKeyPress";
 
 const ModalContainer = ({
   isVisible,
@@ -13,11 +13,13 @@ const ModalContainer = ({
   children: React.ReactNode;
   description?: string;
 }) => {
+  useAppKeyPress("Escape", onClose);
   return (
     <div
+      autoFocus
       role="dialog"
       onClick={onClose}
-      className={`pt- absolute inset-0 z-10 flex items-center justify-center overflow-y-auto bg-black bg-opacity-70 pb-5 transition-opacity duration-300 ${
+      className={`absolute inset-0 z-10 grid place-items-center overflow-y-auto bg-black bg-opacity-70 py-5 transition-opacity duration-300 ${
         isVisible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >

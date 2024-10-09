@@ -38,7 +38,7 @@ const BreadCrumb = () => {
           <div
             className={`flex capitalize ${index === locationArray.length - 1 ? "text-textBlue" : "text-textGray"} `}
           >
-            {item}
+            {item.replace("-", " ")}
           </div>
         </Link>
       ))}

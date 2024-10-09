@@ -16,13 +16,15 @@ const AppCategoryInformation = ({
   const categories = Object.keys(appCategoryData);
   const data = categories.slice(0, 18).map((category) => ({
     id: category,
-    value: Number(
-      (
-        (appCategoryData?.[category as keyof typeof appCategoryData].length /
-          allAppLength) *
-        100
-      ).toFixed(2),
-    ),
+    value: appCategoryData?.[category as keyof typeof appCategoryData].length,
+    //  `${appCategoryData?.[category as keyof typeof appCategoryData].length} Apps`,
+    // Number(
+    //   (
+    //     (appCategoryData?.[category as keyof typeof appCategoryData].length /
+    //       allAppLength) *
+    //     100
+    //   ).toFixed(2),
+    // ),
     label:
       category.charAt(0).toUpperCase() + category.replace(/_/g, " ").slice(1),
   }));
@@ -38,6 +40,8 @@ const AppCategoryInformation = ({
           series={[
             {
               data,
+              valueFormatter: ({ value }) =>
+                `${value} Apps - ${((Number(value) / allAppLength) * 100).toFixed(2)}%`,
             },
           ]}
           width={600}
