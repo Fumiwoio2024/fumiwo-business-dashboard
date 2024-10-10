@@ -34,7 +34,8 @@ export const useQClients = (params: TQueryParams) => {
 	})
 	return {
 		...query,
-		result: query.data?.data.data.docs
+		result: query.data?.data.data.docs,
+		pagination: query.data?.data.data.pagination
 	}
 }
 

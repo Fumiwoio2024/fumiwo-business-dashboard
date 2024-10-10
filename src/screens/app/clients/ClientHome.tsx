@@ -8,7 +8,7 @@ import { capitalize } from "@mui/material";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TClient } from "@type/global.types";
 import moment from "moment";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 // const color = [
 //   {
@@ -89,8 +89,13 @@ const ClientCard = ({
 };
 
 const ClientHome = () => {
+  const [limitPerPage, setLimitPerPage] = useState(10);
   const columnHelper = createColumnHelper<TClient>();
-  const { result, isLoading } = useQClients({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const { result, pagination, isLoading } = useQClients({
+    page: currentPage,
+    limit: limitPerPage,
+  });
   const { result: businessStats, isLoading: isLoadingStats } =
     useQBusinessStats();
 
@@ -615,6 +620,12 @@ const ClientHome = () => {
             columns={columns}
             data={result?.slice(0, 10) || []}
             loading={isLoading}
+            isPaginated
+            limitPerPage={limitPerPage}
+            currentPage={pagination?.currentPage || 1}
+            setCurrentPage={(page) => setCurrentPage(page)}
+            setLimitPerPage={(limit) => setLimitPerPage(limit)}
+            totalPage={pagination?.totalPages || 1}
           />
         </div>
       </section>
