@@ -30,9 +30,16 @@ const InstalledAppsInformation = ({
           {appData &&
             allInstalledApps
               .slice(0, slicedIndex)
-              .map(({ name, firstInstallTime }) => (
+              .map(({ name, firstInstallTime, icon }) => (
                 <div key={name} className="flex justify-between">
-                  <SessionCardItemName name={name} />
+                  <div className="items- flex gap-2">
+                    <img
+                      src={icon || "https://i.sstatic.net/3hRmg.png"}
+                      alt="app icon"
+                      className="h-5 w-5"
+                    />
+                    <SessionCardItemName name={name} />
+                  </div>
                   <SessionCardItemValue
                     value={moment(new Date(firstInstallTime)).format(
                       "DD/MM/YY",

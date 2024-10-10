@@ -25,13 +25,10 @@ export const PrimaryButton = ({
   return (
     <button
       disabled={disabled || loading}
-      className={`rounded-[50px] font-medium transition duration-300 ${[
+      className={`rounded-[50px] bg-primaryGreen font-medium text-header transition duration-300 hover:bg-primaryGreen/80 active:bg-primaryGreen/50 disabled:cursor-not-allowed disabled:!bg-primaryGreen/50 disabled:!text-header/50 ${[
         size === "small" && "px-4 py-3 text-xs",
         size === "medium" && "px-4.5 py-3 text-base",
-        size === "large" && "py-4.5 px-10 text-lg",
-        disabled || loading
-          ? "!text-header/50 cursor-not-allowed !bg-primaryGreen/50"
-          : "text-header bg-primaryGreen hover:bg-primaryGreen/80 active:bg-primaryGreen/50",
+        size === "large" && "px-10 py-4.5 text-lg",
       ].join(" ")} ${className}`}
       {...props}
     >

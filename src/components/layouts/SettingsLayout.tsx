@@ -29,7 +29,7 @@ const SettingsLayout = () => {
             {settingsLinks
               .filter(
                 (link) =>
-                  link.name !== (user.business ? "Profile" : "Business"),
+                  link.name !== (user.business ? "Business" : "Profile"),
               )
               .map((link) => (
                 <Link
