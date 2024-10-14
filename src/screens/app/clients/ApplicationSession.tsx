@@ -36,7 +36,7 @@ const AllAppsModal = ({
             <span>{item.name}</span>
           </div>
           <p className="italic">
-            {moment(item.firstInstallTime).format("DD/mm/yy")}
+            {moment(item.firstInstallTime).format("DD/MM/YYYY")}
           </p>
         </div>
       ))}
