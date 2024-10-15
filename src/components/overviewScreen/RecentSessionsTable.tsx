@@ -16,7 +16,7 @@ const RecentSessionsTable = () => {
 
   const columns = [
     columnHelper.accessor("clientId", {
-      header: "Ext ref id",
+      header: "Client ext ref id	",
     }),
     columnHelper.accessor("phones", {
       header: "No. of applications",
@@ -34,7 +34,7 @@ const RecentSessionsTable = () => {
       cell: (info) => capitalize(info.getValue().replace("_", " ")) || "N/A",
     }),
     columnHelper.accessor("latestDigitalCreditInfo.creditScore", {
-      header: "Current credit score",
+      header: "Latest credit score",
       cell: (info) => info.getValue() || "N/A",
     }),
   ];

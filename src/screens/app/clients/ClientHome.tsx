@@ -76,6 +76,10 @@ const ClientHome = () => {
       header: "Credit score evolution",
       cell: (info) => capitalize(info.getValue().replace("_", " ")) || "N/A",
     }),
+    columnHelper.accessor("latestDigitalCreditInfo.creditScore", {
+      header: "Latest credit score",
+      cell: (info) => info.getValue() || "N/A",
+    }),
   ];
 
   return (
