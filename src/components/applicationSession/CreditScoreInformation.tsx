@@ -162,7 +162,7 @@ const CreditScoreInformation = ({
                   color: scoreRecommendations.find(
                     (item) =>
                       item.lowerLimit <= creditScoreData.creditScore &&
-                      item.upperLimit >= creditScoreData.creditScore,
+                      item.upperLimit > creditScoreData.creditScore,
                   )?.color,
                 }}
                 className={`text-3xl font-semibold text-secondaryButton`}
