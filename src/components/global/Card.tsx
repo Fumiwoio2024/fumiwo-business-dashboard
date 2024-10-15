@@ -59,7 +59,7 @@ export const SummaryCard = ({
       </div>
       {typeof percentage === "number" && (
         <p className="text-xs text-graySubtext">
-          <span className={color}>
+          <span className={color + " font-semibold"}>
             {direction === "increase" && "+"}
             {direction === "decrease" && "-"}
             {percentage}%
