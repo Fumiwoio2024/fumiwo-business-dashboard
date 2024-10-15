@@ -26,7 +26,7 @@ export const SummaryCard = ({
   title: string;
   value: number | string;
   percentage?: number;
-  direction?: "up" | "down" | "none";
+  direction?: "increase" | "decrease" | "none";
   dateString?: string;
   isLoading?: boolean;
   Icon: ReactNode;
@@ -35,10 +35,10 @@ export const SummaryCard = ({
 
   if (percentage && direction) {
     switch (direction) {
-      case "down":
+      case "decrease":
         color = "text-red-500";
         break;
-      case "up":
+      case "increase":
         color = "text-green-500";
         break;
       default:
