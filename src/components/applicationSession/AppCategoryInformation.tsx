@@ -3,23 +3,44 @@ import { SessionCardTitle } from "./SessionCardTypography";
 import { TClient } from "@type/global.types";
 import { PieChart } from "@mui/x-charts";
 
-const colors = [
-  "#A5B3CD",
-  "#BB86FC",
-  "#002BB4",
-  "#006AFF",
-  "#62EAE1",
-  "#F79408CC",
-  "#FF0000",
-  "#FF05EE",
-  "#009851",
-  "#A8CAFF",
-  "#F6F002",
-  "#00FFD9",
-  "#000000",
-  "#D2AF5C",
-  "#011D7B",
-  "#02D1F6",
+// const colors = [
+//   "#A5B3CD",
+//   "#BB86FC",
+//   "#002BB4",
+//   "#006AFF",
+//   "#62EAE1",
+//   "#F79408CC",
+//   "#FF0000",
+//   "#FF05EE",
+//   "#009851",
+//   "#A8CAFF",
+//   "#F6F002",
+//   "#00FFD9",
+//   "#000000",
+//   "#D2AF5C",
+//   "#011D7B",
+//   "#02D1F6",
+// ];
+
+const colors: string[] = [
+  "#FF5733", // Vibrant Red
+  "#FFC300", // Bright Yellow
+  "#DAF7A6", // Light Green
+  "#900C3F", // Deep Purple
+  "#FF6F61", // Coral
+  "#C70039", // Cranberry
+  "#581845", // Eggplant
+  "#3498DB", // Bright Blue
+  "#1ABC9C", // Turquoise
+  "#F39C12", // Amber
+  "#7D3C98", // Violet
+  "#16A085", // Teal
+  "#2C3E50", // Midnight Blue
+  "#E74C3C", // Bold Red
+  "#8E44AD", // Grape Purple
+  "#F1C40F", // Golden Yellow
+  "#2980B9", // Royal Blue
+  "#27AE60", // Forest Green
 ];
 
 const AppCategoryInformation = ({
