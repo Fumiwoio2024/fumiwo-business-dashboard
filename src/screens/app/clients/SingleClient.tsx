@@ -15,8 +15,10 @@ import { capitalize } from "@mui/material";
 import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
 // import { useQBusinessStats } from "@hooks/api/queries/analytics.queries";
 import moment from "moment";
+import { ChangeEvent, useState } from "react";
 
 const ClientHome = () => {
+  const [searchtext, setSearchtext] = useState("");
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const params = useParams();
   const { result, isLoading } = useQSingleClient(params?.clientId);
@@ -24,8 +26,8 @@ const ClientHome = () => {
   //   useQBusinessStats();
 
   const columns = [
-    columnHelper.accessor("_id", {
-      header: "ID No.",
+    columnHelper.accessor("id", {
+      header: "Application ID",
     }),
     columnHelper.accessor("analyzedData.deviceInfo.manufacturer", {
       header: "Device",
@@ -89,8 +91,6 @@ const ClientHome = () => {
             </svg>
           }
           isLoading={isLoading}
-          dateString="yesterday"
-          percentage={0}
           title="Total number of appl"
           value={result?.datasetsCountAllFromIp || "N/A"}
         />
@@ -180,8 +180,6 @@ const ClientHome = () => {
             </svg>
           }
           isLoading={isLoading}
-          dateString="yesterday"
-          percentage={0}
           title="First appl date"
           value={
             moment(result?.phones[0].digitalCreditInfo.lastModifiedAt).format(
@@ -299,8 +297,6 @@ const ClientHome = () => {
             </svg>
           }
           isLoading={isLoading}
-          dateString="yesterday"
-          percentage={0}
           title="Previous credit score"
           value={
             result?.phones[
@@ -418,9 +414,7 @@ const ClientHome = () => {
             </svg>
           }
           isLoading={isLoading}
-          dateString="yesterday"
-          percentage={0}
-          title="Current credit score"
+          title="Latest credit score"
           value={result?.latestDigitalCreditInfo.creditScore || "N/A"}
         />
       </section>
@@ -430,7 +424,13 @@ const ClientHome = () => {
       <section className="flex items-center justify-between">
         <H4>Devices used</H4>
         <div className="w-72">
-          <Input isSearch placeholder="Search applications" />
+          <Input
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setSearchtext(e.target.value)
+            }
+            isSearch
+            placeholder="Search by application id"
+          />
         </div>
       </section>
       <section>
@@ -438,7 +438,13 @@ const ClientHome = () => {
           <Tables
             isNavigateRow
             columns={columns}
-            data={result?.phones || []}
+            data={
+              result?.phones.filter(
+                (item) =>
+                  (item.analyzedData || item.digitalCreditInfo) &&
+                  item.id.includes(searchtext),
+              ) || []
+            }
             loading={isLoading}
           />
         </div>

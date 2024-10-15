@@ -57,7 +57,11 @@ const LoginForm = ({
         api.defaults.headers.common["Authorization"] =
           `Bearer ${data.data.data.token}`;
 
-        if (data.data?.data.user.isDefaultPassword === true) {
+        if (
+          data.data?.data.user &&
+          "isDefaultPassword" in data.data.data.user &&
+          data.data?.data.user.isDefaultPassword === true
+        ) {
           setTokenState?.(formData.password);
           setIsSetPassword(true);
         } else if (data.data?.data.user.status === "incomplete_profile") {

@@ -6,9 +6,11 @@ const NewDropDown = <T extends { id: string; title: string }>({
   children,
   options,
   selectedOption,
+  disabled,
   dropDownPosition = "bottom",
   setSelectedOption,
 }: {
+  disabled?: boolean;
   dropDownPosition?: "top" | "bottom";
   children?: ReactNode;
   options: T[];
@@ -21,7 +23,8 @@ const NewDropDown = <T extends { id: string; title: string }>({
   return (
     <div className="relative w-fit">
       <button
-        className="text-start"
+        disabled={disabled}
+        className="block text-start"
         onClick={() => setShowDropdown(!showDropdown)}
       >
         {children || (
@@ -52,13 +55,13 @@ const NewDropDown = <T extends { id: string; title: string }>({
       </button>
 
       <div
-        // role="dialog"
+        role="dialog"
         ref={dropdownRef}
         className={`border-dark-6 shadow-3xl absolute right-0 z-10 w-full min-w-48 transform rounded-lg border bg-white p-1 transition duration-300 ${[
           showDropdown
             ? "scale-100 opacity-100"
             : "pointer-events-none scale-95 opacity-0",
-          dropDownPosition === "bottom" ? "top-14" : "bottom-7",
+          dropDownPosition === "bottom" ? "top-12" : "bottom-7",
         ].join(" ")} `}
       >
         {options.map((option) => (

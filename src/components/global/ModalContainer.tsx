@@ -20,13 +20,14 @@ const ModalContainer = ({
       role="dialog"
       onClick={onClose}
       className={`absolute inset-0 z-10 grid place-items-center overflow-y-auto bg-black bg-opacity-70 py-5 transition-opacity duration-300 ${
-        isVisible ? "opacity-100" : "pointer-events-none opacity-0"
+        isVisible ? "opacity-100" : "pointer-events-none opacity-0 delay-100"
       }`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         className={`transform rounded-lg bg-white p-6 shadow-lg transition-transform duration-300 ${
-          isVisible ? "scale-100" : "scale-90"
+          // isVisible ? "scale-100" : "scale-90"
+          isVisible ? "scale- translate-y-0 delay-200" : "translate-y-[100vh]"
         }`}
       >
         <div className="mb-8 flex items-center justify-between">

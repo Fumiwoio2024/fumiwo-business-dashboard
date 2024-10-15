@@ -1,3 +1,5 @@
+import Loader from "./Loader";
+
 const Switch = ({
   enabled,
   onChange,
@@ -9,7 +11,11 @@ const Switch = ({
   disabled?: boolean;
   loading?: boolean;
 }) => {
-  return (
+  return loading ? (
+    <div className="px-auto flex h-6 w-11 items-center justify-center">
+      <Loader color={"#d1d5db"} />
+    </div>
+  ) : (
     <button
       disabled={disabled || loading}
       onClick={() => onChange?.(!enabled)}

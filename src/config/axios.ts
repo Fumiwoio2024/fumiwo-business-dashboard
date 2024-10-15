@@ -1,7 +1,7 @@
 import axios from "axios"
 import { toast } from "react-toastify"
 
-const API_BASE_URL = 'https://api.fumiwo.io/v1/'
+const API_BASE_URL = 'https://api.dev.fumiwo.io/v1/'
 
 const api = axios.create({
 	baseURL: API_BASE_URL,
@@ -38,9 +38,12 @@ api.interceptors.response.use(
 			window.location.href = "/"
 		}
 
+		if (error.response?.status === 404) {
+			return Promise.resolve(error)
+		}
+
 		return Promise.reject(error)
 	},
 )
 
 export default api
-

@@ -6,9 +6,9 @@ import { ChangeEvent } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMUpdatePreferences } from "@hooks/api/mutations/app/preferences.mutation";
 import { H4 } from "@components/global/Typography";
-import { TUser } from "@type/global.types";
+import { TBusinessUser } from "@type/global.types";
 
-type TRule = TUser["preferences"]["recommendationRules"][0];
+type TRule = TBusinessUser["preferences"]["recommendationRules"][0];
 type TFormRangeType = "gte" | "lte" | "within";
 const rangeType: { name: string; value: TFormRangeType }[] = [
   {

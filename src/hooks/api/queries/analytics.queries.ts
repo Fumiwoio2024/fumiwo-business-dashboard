@@ -3,6 +3,7 @@ import { useQuery, } from '@tanstack/react-query'
 import { TGeneralRes } from '@type/global.types'
 import moment from 'moment';
 
+type ChangeDirection = "none" | "up" | "down";
 
 type TBusinessStatsRes = TGeneralRes & {
 	data: {
@@ -11,12 +12,27 @@ type TBusinessStatsRes = TGeneralRes & {
 		"totalLoanData": number;
 		"averageCreditScore": number;
 		"highestCreditScore": number;
+		"percentageChange": {
+			totalClients: {
+				change: number;
+				direction: ChangeDirection;
+			};
+			totalPhoneData: {
+				change: number;
+				direction: ChangeDirection;
+			};
+			totalLoanData: {
+				change: number;
+				direction: ChangeDirection;
+			};
+		}
 	}
 };
 type TRecommendationStatsRes = TGeneralRes & {
 	data: {
 		"recommendation": string;
-		"percentage": string
+		"percentage": string;
+		"count": number;
 	}[]
 };
 
@@ -51,18 +67,18 @@ type TLoanRepaymentStatsRes = TGeneralRes & {
 
 type TLoanRepaymentSettlmentStatsRes = TGeneralRes & {
 	data: {
-		"timeframe": "year",
+		"timeFormat": "year" | "month" | "week" | "day",
 		"stats": {
-			"January": {
-				"settledOnTime": number,
-				"settledLessThan30DaysLate": number,
-				"settledMoreThan30DaysLate": number,
-				"settledMoreThan60DaysLate": number,
-				"settledMoreThan90DaysLate": number
-			}
-		}
+			"timeUnit": number,
+			"settledOnTime": number,
+			"settledLessThan30DaysLate": number,
+			"settledMoreThan30DaysLate": number,
+			"settledMoreThan60DaysLate": number,
+			"settledMoreThan90DaysLate": number
+		}[]
 	}
 };
+
 
 
 export const useQBusinessStats = () => {

@@ -1,5 +1,6 @@
 import { navLinks } from "@/utils/data";
 import logo from "@images/fumiwo-logo.png";
+import { getUser } from "@utils/constants";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 const bottomNavLinks = [
@@ -53,7 +54,7 @@ const bottomNavLinks = [
 
 const Sidebar = () => {
   const location = useLocation();
-
+  const user = getUser();
   return (
     <div className="hidden h-screen min-w-[276px] flex-col border-r border-sidebarBorder bg-white lg:flex">
       <section className="flex min-h-20 items-center border-b border-otpBox pl-12">
@@ -75,7 +76,12 @@ const Sidebar = () => {
               return (
                 <NavLink
                   key={index}
-                  to={`/dashboard${link.initialRoute || link.link}`}
+                  to={`/dashboard${
+                    link.initialRoute?.replace(
+                      "profile",
+                      user?.userType === "business" ? "business" : "profile",
+                    ) || link.link
+                  }`}
                   className={() =>
                     `flex cursor-pointer items-center gap-4 rounded-full p-1 px-4 py-3 text-lg duration-300 hover:bg-paraGray/5 active:bg-paraGray/20 ${isActive ? "font-semibold text-primaryBlue" : "font-medium text-unFocusedText"}`
                   }

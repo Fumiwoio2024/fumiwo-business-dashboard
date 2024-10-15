@@ -11,10 +11,10 @@ import moment from "moment";
 import ConfirmDeleteModal from "@components/modals/ConfirmDeleteModal";
 import AddRecommendationRuleForm from "@components/forms/AddRecommendationRuleForm";
 import UpdateScoringRulesForm from "@components/forms/UpdateScoringRulesForm";
-import { TUser } from "@type/global.types";
+import { TBusinessUser } from "@type/global.types";
 import { useQBusinessProfile } from "@hooks/api/queries/profile.queries";
 
-type TRule = TUser["preferences"]["recommendationRules"][0];
+type TRule = TBusinessUser["preferences"]["recommendationRules"][0];
 const Rules = () => {
   const [searchText, setSearchText] = useState("");
   const [scoringPreferenceModalVisible, setScoringPreferenceModalVisible] =

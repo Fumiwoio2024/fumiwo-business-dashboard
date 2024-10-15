@@ -14,8 +14,8 @@ import {
 import { PrimaryButton } from "@components/global/Buttons";
 
 const QRCode = ({ nextStep }: { nextStep: () => void }) => {
-  const { result } = useQMFASecret();
-  return result?.qrCode ? (
+  const { result, isLoading } = useQMFASecret();
+  return result?.qrCode && !isLoading ? (
     <div className="w-[450px] text-center">
       <img
         src={result?.qrCode}

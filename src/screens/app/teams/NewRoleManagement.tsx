@@ -46,10 +46,14 @@ const NewRoleManagement = () => {
     columnHelper.accessor("description", {
       header: "Description",
     }),
-    columnHelper.accessor("createdAt", {
+    columnHelper.accessor("lastModifiedAt", {
       header: "Last modified",
-      cell: (info) =>
-        moment(new Date(info.getValue())).format("MMM DD, YYYY, hh:mm A"),
+      cell: (info) => {
+        const value = info.getValue();
+        return value
+          ? moment(new Date(value)).format("MMM DD, YYYY, hh:mm A")
+          : "N/A";
+      },
     }),
 
     columnHelper.accessor("id", {

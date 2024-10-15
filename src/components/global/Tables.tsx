@@ -35,10 +35,10 @@ type TTableProps<T> = {
 );
 
 const limitPerPageOptions = [
-  { title: "10", id: "10" },
-  { title: "20", id: "20" },
-  { title: "40", id: "40" },
-  { title: "50", id: "50" },
+  { title: "10 rows", id: "10" },
+  { title: "20 rows", id: "20" },
+  { title: "40 rows", id: "40" },
+  { title: "50 rows", id: "50" },
 ];
 
 const Pagination = ({
@@ -189,7 +189,7 @@ const Pagination = ({
   );
 };
 
-const Tables = <T extends { id: string }>({
+const Tables = <T extends { id?: string }>({
   columns,
   data,
   loading,

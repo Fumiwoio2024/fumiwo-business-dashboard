@@ -1,12 +1,16 @@
 import api from "@config/axios";
 import { useQuery } from "@tanstack/react-query";
-import { TGeneralRes, TUser } from "@type/global.types";
+import { TBusinessUser, TGeneralRes, TUser } from "@type/global.types";
+import { getUser } from "@utils/constants";
 // import { getUser } from "@utils/constants";
 
 
 
 type TProfileRes = TGeneralRes & {
 	data: TUser
+}
+type TBusinessProfileRes = TGeneralRes & {
+	data: TBusinessUser
 }
 
 type TMFASecretRes = TGeneralRes & {
@@ -18,19 +22,15 @@ type TMFASecretRes = TGeneralRes & {
 
 
 export const useQProfile = () => {
-	// const user = getUser()
+	const user = getUser()
 
 	const query = useQuery({
 		queryKey: ['profile-me'],
 		queryFn: async () => {
-			const res = await api.get<TProfileRes>('/users/me', {
-				headers: {
-					Authorization: ''
-				}
-			})
+			const res = await api.get<TProfileRes>('/users/me')
 			return res.data.data
 		},
-		// initialData: user
+		enabled: user?.userType === "user"
 	})
 
 	return {
@@ -40,15 +40,15 @@ export const useQProfile = () => {
 };
 
 export const useQBusinessProfile = () => {
-	// const user = getUser()
+	const user = getUser()
 
 	const query = useQuery({
 		queryKey: ['profile-business'],
 		queryFn: async () => {
-			const res = await api.get<TProfileRes>('/businesses/me')
+			const res = await api.get<TBusinessProfileRes>('/businesses/me')
 			return res.data.data
 		},
-		// initialData: user
+		enabled: user?.userType === "business"
 	})
 
 	return {

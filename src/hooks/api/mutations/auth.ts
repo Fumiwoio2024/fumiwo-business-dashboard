@@ -1,5 +1,5 @@
 import api from "@config/axios"
-import { TGeneralRes, TUser } from "@type/global.types"
+import { TBusinessUser, TGeneralRes, TUser } from "@type/global.types"
 import { useMutation } from "@tanstack/react-query"
 
 
@@ -15,7 +15,7 @@ type TSignInRes = TGeneralRes & {
 	data: {
 		token: string,
 		expires: number,
-		user: TUser
+		user: TBusinessUser | TUser
 	},
 }
 

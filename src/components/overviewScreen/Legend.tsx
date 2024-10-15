@@ -3,9 +3,11 @@ import { ReactNode } from "react";
 const Legend = ({
   data,
   vertical,
+  useLegendColor,
 }: {
   data: { label: ReactNode; color: string }[];
   vertical?: boolean;
+  useLegendColor?: boolean;
 }) => {
   return (
     <div
@@ -17,7 +19,9 @@ const Legend = ({
             className="h-2 w-2 rounded-full"
             style={{ backgroundColor: item.color }}
           />
-          <p>{item.label}</p>
+          <p style={{ color: useLegendColor ? item.color : "initial" }}>
+            {item.label}
+          </p>
         </div>
       ))}
     </div>

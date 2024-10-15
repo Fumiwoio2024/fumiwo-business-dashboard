@@ -5,6 +5,12 @@ import useChangeRoute from "@/hooks/custom/useChangeRoute";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import useClickOutside from "@hooks/custom/useClickOutside";
 import { getUser } from "@utils/constants";
+import Switch from "./Switch";
+import { useMSwitchDataDisplay } from "@hooks/api/mutations/app/profile.mutation";
+import {
+  useQBusinessProfile,
+  useQProfile,
+} from "@hooks/api/queries/profile.queries";
 
 const options = ({ navigate }: { navigate: NavigateFunction }) => [
   {
@@ -32,15 +38,30 @@ const TopNav = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useClickOutside(setShowDropdown);
-  const user = getUser()
-
+  const user = getUser();
+  const { result: businessResult } = useQBusinessProfile();
+  const { result: userResult } = useQProfile();
+  const { mutate, isPending } = useMSwitchDataDisplay();
   const toggleDropdown = () => setShowDropdown(!showDropdown);
+
+  const isProduction =
+    userResult?.business.preferences.dataDisplayType === "production" ||
+    businessResult?.preferences.dataDisplayType === "production";
+  const dataDisplayType =
+    userResult?.business.preferences.dataDisplayType ||
+    businessResult?.preferences.dataDisplayType;
 
   useChangeRoute((pathname) => {
     // check current page and set page name
     const page = navLinks.find((navLink) => pathname.includes(navLink.link));
     setPageName(page?.name || "");
   });
+
+  const changeEnvironment = () => {
+    mutate({
+      dataType: isProduction ? "sandbox" : "production",
+    });
+  };
 
   return (
     <div className="py- flex min-h-20 items-center justify-between border-b border-sidebarBorder bg-white pl-8 pr-11">
@@ -49,6 +70,16 @@ const TopNav = () => {
       </div>
 
       <div className="flex items-center gap-7">
+        {dataDisplayType && (
+          <div className="flex items-center gap-3">
+            <Switch
+              loading={isPending}
+              enabled={isProduction}
+              onChange={changeEnvironment}
+            />
+            <p className="min-w-24 capitalize">{dataDisplayType}</p>
+          </div>
+        )}
         <p className="rounded-xl bg-white px-5 py-3 text-primaryBlue shadow-username">
           {user?.name || "User"}
         </p>

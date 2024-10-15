@@ -36,8 +36,14 @@ const AddTeamMemberForm = ({ onClose, details }: TAddTeamMemberFormProps) => {
   const { mutate: inviteUser } = useMInviteUser();
 
   const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
-    onClose();
-    !details && (inviteUser(data), reset());
+    if (!details) {
+      inviteUser(data, {
+        onSettled: () => {
+          reset();
+          onClose();
+        },
+      });
+    }
   };
 
   return (
