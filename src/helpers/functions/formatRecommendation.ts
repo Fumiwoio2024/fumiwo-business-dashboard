@@ -19,3 +19,10 @@ export const getRecommendedColor = (recommendation: string) => checkRecommendTyp
 	"#FF0000",
 	"#0BE781",
 )
+
+export const formatRecomendationType = (recommendation: string) => checkRecommendType(
+	recommendation,
+	"Review",
+	"Rejected",
+	"Approved",
+)

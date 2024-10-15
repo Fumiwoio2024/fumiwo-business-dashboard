@@ -1,25 +1,25 @@
 import { dummySingleClient } from "@utils/dummyClient";
 
 export type TMfa = {
-	isMandated: boolean | null;
 	enabled: boolean;
+	isMandated: boolean;
 	hasAuthenticatedWithPassword: boolean;
 	secret: string | null;
 };
 
 export type TRole = {
 	isCustom: boolean;
-	isAdminRole: boolean;
+	isAdminRole?: boolean;
 	permissions: string[];
 	_id: string;
 	description: string;
 	name: string;
 	slug: string;
-	businessId: string;
+	businessId?: string;
 	_createdAt: string;
-	createdAt: string;
+	createdAt?: string;
 	_lastModifiedAt: string;
-	lastModifiedAt: string;
+	lastModifiedAt?: string;
 	id: string
 }
 
@@ -31,6 +31,7 @@ type TAddressInfo = {
 	country: string;
 	dateAdded: string;
 	lastModifiedAt: string
+
 }
 
 type TPhoneNumber = {
@@ -49,6 +50,47 @@ type TContactPersonInfo = {
 	lastModifiedAt: string
 };
 
+type TRecommendationRule = {
+	group: {
+		reviewCondition: {
+			upperThreshold: number;
+			recommendation: string;
+			threshold: number;
+			operator: string;
+		};
+		acceptCondition: {
+			upperThreshold: number;
+			recommendation: string;
+			threshold: number;
+			operator: string;
+		};
+		rejectCondition: {
+			upperThreshold: number;
+			recommendation: string;
+			threshold: number;
+			operator: string;
+		};
+	};
+	_id: string;
+	name: string;
+	slug: string;
+	dateAdded: string;
+	lastModifiedAt: string;
+};
+
+type TPreferences = {
+	notifications: {
+		allowed: string;
+	};
+	webhookUrl: string;
+	testWebhookUrl: string;
+	dataDisplayType: string;
+	_id: string;
+	recommendationRules: TRecommendationRule[];
+	dateAdded: string;
+	lastModifiedAt: string;
+};
+
 type TBusiness = {
 	_id: string;
 	email: string;
@@ -56,6 +98,7 @@ type TBusiness = {
 	type: string;
 	addressInfo: TAddressInfo;
 	contactPersonInfo: TContactPersonInfo;
+	preferences: TPreferences;
 	role: TRole;
 	_createdAt: string;
 	_lastModifiedAt: string;
@@ -66,15 +109,119 @@ type TBusiness = {
 
 export type TUser = {
 	mfa: TMfa;
-	isDefaultPasswordUsed: boolean;
 	passwordChangedAt: string | null;
 	resetPasswordToken: string | null;
-	passwordHistory?: string[];
 	hasAcceptedInvite: boolean;
+	status: string;
+	loginTimes: string[];
+	loginAttempts: number;
+	email: string;
+	role: TRole;
 	inviteCode: string;
+	business: TBusiness;
+	createdAt: string;
+	lastModifiedAt: string;
+	firstName: string;
+	lastName: string;
+	_createdAt: string;
+	_lastModifiedAt: string;
+	businessId: string;
+	userType: string;
+	name: string;
+	id: string;
+}
+
+// export type TBusinessUser = TBusiness & {
+// 	mfa: TMfa;
+// 	isDefaultPasswordUsed: boolean;
+// 	passwordChangedAt: string | null;
+// 	resetPasswordToken: string | null;
+// 	passwordHistory?: string[];
+// 	hasAcceptedInvite: boolean;
+// 	inviteCode: string;
+// 	status: string;
+// 	verificationStatus: string;
+// 	canAccessSDK: boolean;
+// 	loginTimes: string[];
+// 	loginAttempts: number;
+// 	privateKey: string;
+// 	publicKey: string;
+// 	testPrivateKey: string;
+// 	testPublicKey: string;
+// 	expectedChecksPerMonth: number;
+// 	email: string;
+// 	name: string;
+// 	firstName: string;
+// 	lastName: string,
+// 	type: string;
+// 	registrationNumber: string;
+// 	addressInfo: TAddressInfo;
+// 	contactPersonInfo: TContactPersonInfo;
+// 	isDefaultPassword: boolean;
+// 	createdBy: string;
+// 	preferences: {
+// 		notifications: {
+// 			allowed: string
+// 		};
+// 		dataDisplayType: "sandbox" | "production";
+// 		webhookUrl: string | null;
+// 		testWebhookUrl: string | null;
+// 		_id: string;
+// 		recommendationRules: {
+// 			id: string;
+// 			group: {
+// 				reviewCondition: {
+// 					upperThreshold: number;
+// 					recommendation: string;
+// 					threshold: number;
+// 					operator: string
+// 				};
+// 				acceptCondition: {
+// 					upperThreshold: number;
+// 					recommendation: string;
+// 					threshold: number;
+// 					operator: string
+// 				};
+// 				rejectCondition: {
+// 					upperThreshold: number;
+// 					recommendation: string;
+// 					threshold: number;
+// 					operator: string
+// 				}
+// 			};
+// 			_id: string;
+// 			name: string;
+// 			slug: string;
+// 			dateAdded: string;
+// 			lastModifiedAt: string
+// 		}[];
+// 		dateAdded: string;
+// 		lastModifiedAt: string
+// 	};
+// 	role: TRole
+// 	dateAdded: string;
+// 	lastModifiedAt: string;
+// 	_createdAt: string;
+// 	createdAt: string;
+// 	_lastModifiedAt: string;
+// 	businessId: string;
+// 	userType: string;
+// 	id: string
+// };
+
+export type TBusinessUser = {
+	mfa: {
+		enabled: boolean;
+		hasAuthenticatedWithPassword: boolean;
+		secret: string;
+	};
+	isDefaultPasswordUsed: boolean;
+	passwordChangedAt: string;
+	resetPasswordToken: string | null;
 	status: string;
 	verificationStatus: string;
 	canAccessSDK: boolean;
+	isSdkLicensePaid: boolean;
 	loginTimes: string[];
 	loginAttempts: number;
 	privateKey: string;
@@ -82,65 +229,116 @@ export type TUser = {
 	testPrivateKey: string;
 	testPublicKey: string;
 	expectedChecksPerMonth: number;
+	subscription: {
+		isSubscribed: boolean;
+		isOntrial: boolean;
+		currentPaymentStatus: string;
+		billingStatus: string;
+		retryCount: number;
+		_id: string;
+		products: {
+			apiCallsMade: number;
+			_id: string;
+			type: string;
+			apiCallsAllowed: number;
+		}[];
+		trialProducts: [];
+		plan: string;
+		trialEndDate: string | null;
+		nextBillingDate: string;
+		dateAdded: string;
+		lastModifiedAt: string;
+		retryTime: string | null;
+	};
 	email: string;
 	name: string;
-	firstName: string;
-	lastName: string,
 	type: string;
 	registrationNumber: string;
-	addressInfo: TAddressInfo;
-	contactPersonInfo: TContactPersonInfo;
+	addressInfo: {
+		_id: string;
+		address: string;
+		city: string;
+		state: string;
+		country: string;
+		dateAdded: string;
+		lastModifiedAt: string;
+	};
+	contactPersonInfo: {
+		phone: {
+			countryCode: string;
+			mobile: string;
+		};
+		_id: string;
+		firstName: string;
+		lastName: string;
+		email: string;
+		role: string;
+		dateAdded: string;
+		lastModifiedAt: string;
+	};
 	isDefaultPassword: boolean;
 	createdBy: string;
 	preferences: {
 		notifications: {
-			allowed: string
+			allowed: string;
 		};
-		webhookUrl: string | null;
-		testWebhookUrl: string | null;
+		webhookUrl: string;
+		testWebhookUrl: string;
+		dataDisplayType: string;
 		_id: string;
 		recommendationRules: {
-			id: string;
 			group: {
 				reviewCondition: {
 					upperThreshold: number;
 					recommendation: string;
 					threshold: number;
-					operator: string
+					operator: string;
 				};
 				acceptCondition: {
 					upperThreshold: number;
 					recommendation: string;
 					threshold: number;
-					operator: string
+					operator: string;
 				};
 				rejectCondition: {
 					upperThreshold: number;
 					recommendation: string;
 					threshold: number;
-					operator: string
-				}
+					operator: string;
+				};
 			};
 			_id: string;
+			id?: string;
 			name: string;
 			slug: string;
 			dateAdded: string;
-			lastModifiedAt: string
+			lastModifiedAt: string;
 		}[];
 		dateAdded: string;
-		lastModifiedAt: string
+		lastModifiedAt: string;
 	};
-	role: TRole
+	role: {
+		isCustom: boolean;
+		isAdminRole: boolean;
+		permissions: string[];
+		_id: string;
+		description: string;
+		name: string;
+		slug: string;
+		businessId: string;
+		_createdAt: string;
+		_lastModifiedAt: string;
+		id: string;
+	};
 	dateAdded: string;
 	lastModifiedAt: string;
 	_createdAt: string;
-	createdAt: string;
 	_lastModifiedAt: string;
 	businessId: string;
-	business?: TBusiness;
 	userType: string;
-	id: string
-}
+	id: string;
+};
+
 
 export type TGeneralRes = {
 	success: boolean;

@@ -58,6 +58,7 @@ export const useMToggleMfa = () => {
 		},
 		onSuccess: (res) => {
 			queryClient.invalidateQueries({ queryKey: ['profile-business'] })
+			queryClient.invalidateQueries({ queryKey: ['profile-me'] })
 			toast.success(res.data.message);
 		},
 		onError: (err) => {
@@ -77,6 +78,27 @@ export const useMRotateKeys = () => {
 		},
 		onSuccess: (res) => {
 			queryClient.invalidateQueries({ queryKey: ['profile-business'] })
+			queryClient.invalidateQueries({ queryKey: ['profile-me'] })
+			toast.success(res.data.message);
+		},
+		onError: (err) => {
+			handleGenericError(err)
+		}
+	});
+
+	return mutation
+}
+
+
+export const useMSwitchDataDisplay = () => {
+	const queryClient = useQueryClient();
+	const mutation = useMutation({
+		mutationFn: async (req: { dataType: "sandbox" | "production" }) => {
+			const res = await api.post(`/businesses/preferences/switch-data-display`, req)
+			return res;
+		},
+		onSuccess: (res) => {
+			queryClient.invalidateQueries()
 			toast.success(res.data.message);
 		},
 		onError: (err) => {

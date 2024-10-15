@@ -20,26 +20,31 @@ export const SummaryCard = ({
   percentage,
   isLoading,
   Icon,
+  direction = "none",
+  dateString = "yesterday",
 }: {
   title: string;
   value: number | string;
-  percentage: number;
-  dateString: string;
+  percentage?: number;
+  direction?: "up" | "down" | "none";
+  dateString?: string;
   isLoading?: boolean;
   Icon: ReactNode;
 }) => {
   let color = "";
-  switch (Math.sign(percentage)) {
-    case -1:
-      color = "text-red-500";
-      break;
-    case 1:
-      color = "text-green-500";
-      break;
 
-    default:
-      color = "";
-      break;
+  if (percentage && direction) {
+    switch (direction) {
+      case "down":
+        color = "text-red-500";
+        break;
+      case "up":
+        color = "text-green-500";
+        break;
+      default:
+        color = "";
+        break;
+    }
   }
   return (
     <Card className="col-span-1 flex h-[144px] flex-col justify-between">
@@ -52,13 +57,15 @@ export const SummaryCard = ({
         </div>
         {Icon}
       </div>
-      <p className="text-xs text-graySubtext">
-        <span className={color}>
-          {/* {Math.sign(percentage) === 1 && "+"}
-          {percentage}% */}
-        </span>{" "}
-        {/*  from {dateString} */}
-      </p>
+      {typeof percentage === "number" && (
+        <p className="text-xs text-graySubtext">
+          <span className={color}>
+            {Math.sign(percentage) === 1 && "+"}
+            {percentage}%
+          </span>{" "}
+          from {dateString}
+        </p>
+      )}
     </Card>
   );
 };

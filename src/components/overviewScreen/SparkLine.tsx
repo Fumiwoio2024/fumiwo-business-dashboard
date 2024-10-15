@@ -14,13 +14,44 @@ import {
 import moment from "moment";
 
 export const description = "A linear area chart";
-type TStats = {
-  timeUnit: number;
-  clientsWithLoans: number;
-  clientsWithoutLoans: number;
-}[];
+// type TStats = {
+//   timeUnit: number;
+//   clientsWithLoans: number;
+//   clientsWithoutLoans: number;
+// }[];
+type TStats =  Record<string,number>[];
+
+
 // const chartData = [{ timeKey: "January", newDevices: 100, oldDevices: 80 }];
 // Eg of timekey:  January, week 1, Saturday
+
+
+  const addZeroStats = (stats: TStats, isMonthly: boolean): TStats => {
+    const requiredLength = isMonthly ? 12 : 7;
+    const statsCopy = [...stats];
+
+    // Define a zero-filled object template
+    const zeroObject = {
+      timeUnit: 0,
+      clientsWithLoans: 0,
+      clientsWithoutLoans: 0,
+      settledOnTime: 0,
+      settledLessThan30DaysLate: 0,
+      settledMoreThan30DaysLate: 0,
+      settledMoreThan60DaysLate: 0,
+      settledMoreThan90DaysLate: 0,
+    };
+
+    const statSet = statsCopy.map((stat) => stat.timeUnit);
+
+    // If the array has fewer than 12 elements, fill it with zero objects
+    for (let i = 1; i <= requiredLength; i++) {
+      !statSet.includes(i) && statsCopy.push({ ...zeroObject, timeUnit: i });
+    }
+
+    // sort in ascending order of month/day
+    return statsCopy.sort((a, b) => a.timeUnit - b.timeUnit);
+  };
 
 const loanStatChartConfig = {
   clientsWithLoans: {
@@ -73,47 +104,18 @@ export const SparkLine = ({
   const { result } = Query({ startDate, endDate });
   if (!result) return <></>;
 
-  const isRepaymentData = type === "Repayment data" && "timeFormat" in result;
-  const isRepaymentMonthly = isRepaymentData && result.timeFormat === "year";
-
+  const isRepaymentData = type === "Repayment data";
+  const isMonthly = result.timeFormat === "year";
   const activeConfig = isRepaymentData
     ? loanStatChartConfig
     : settlementChartConfig;
 
-  const addDummyRepaymentStats = (stats: TStats): TStats => {
-    const requiredLength = isRepaymentData && isRepaymentMonthly ? 12 : 7;
-    const statsCopy = [...stats];
-
-    // Define a zero-filled object template
-    const zeroObject = {
-      timeUnit: 0,
-      clientsWithLoans: 0,
-      clientsWithoutLoans: 0,
-    };
-
-    const statSet = statsCopy.map((stat) => stat.timeUnit);
-
-    // If the array has fewer than 12 elements, fill it with zero objects
-    for (let i = 0; i < requiredLength; i++) {
-      !statSet.includes(i) &&
-        statsCopy.push({ ...zeroObject, timeUnit: i + 1 });
-    }
-
-    return statsCopy.sort((a, b) => a.timeUnit - b.timeUnit);
-  };
-
-const chartData = isRepaymentData
-  ? addDummyRepaymentStats(result.stats).map((data) => ({
-      timeKey: moment()
-        ?.[isRepaymentMonthly ? "month" : "day"](data.timeUnit - 1)
-        .format(isRepaymentMonthly ? "MMM" : "dd"),
-      clientsWithLoans: data.clientsWithLoans,
-      clientsWithoutLoans: data.clientsWithoutLoans,
-    }))
-  : Object.entries(result.stats).map(([timeKey, data]) => ({
-      timeKey,
-      ...data,
-    }));
+  const chartData = addZeroStats(result.stats, isMonthly).map((data) => ({
+    timeKey: moment()
+      ?.[isMonthly ? "month" : "day"](data.timeUnit - 1)
+      .format(isMonthly ? "MMM" : "dd"),
+    ...data,
+  }));
 
   return (
     <div>

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import EnterPassword from "./EnterPassword";
-import { TUser } from "@type/global.types";
+import { TBusinessUser } from "@type/global.types";
 import { useMRotateKeys } from "@hooks/api/mutations/app/profile.mutation";
 import { useMUpdatePreferences } from "@hooks/api/mutations/app/preferences.mutation";
 const defaultValues = {
@@ -120,7 +120,13 @@ const ApiKeyInputActions = ({
   </div>
 );
 
-const ApiKeysForm = ({ user }: { user: TUser }) => {
+const ApiKeysForm = ({
+  // user,
+  business,
+}: {
+  // user?: TUser;
+  business?: TBusinessUser;
+}) => {
   // const [isOn, setIsOn] = useState(false);
 
   const [isEnterPassword, setIsEnterPassword] = useState("");
@@ -138,11 +144,11 @@ const ApiKeysForm = ({ user }: { user: TUser }) => {
     watch,
   } = useForm({
     defaultValues: {
-      live_public: user.publicKey,
-      test_public: user.testPublicKey,
-      live_secret: user.privateKey,
-      test_secret: user.testPrivateKey,
-      testWebhookUrl: user.preferences.testWebhookUrl || "",
+      live_public: business?.publicKey || "",
+      test_public: business?.testPublicKey || "",
+      live_secret: business?.privateKey || "",
+      test_secret: business?.testPrivateKey || "",
+      testWebhookUrl: business?.preferences.testWebhookUrl || "",
     },
   });
 

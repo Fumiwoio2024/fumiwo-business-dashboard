@@ -29,7 +29,7 @@ export const description = "A linear area chart";
 
 const chartConfig = {
   score: {
-    label: "Credit Score",
+    label: <p className="pr-2">Credit Score</p>,
     color: "#011D7B",
   },
 } satisfies ChartConfig;

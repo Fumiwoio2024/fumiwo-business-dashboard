@@ -42,6 +42,7 @@ export const useMUpdatePreferences = () => {
 		},
 		onSuccess: (res) => {
 			queryClient.invalidateQueries({ queryKey: ['profile-business'] })
+			queryClient.invalidateQueries({ queryKey: ['profile-me'] })
 			toast.success(res.data.message);
 		},
 		onError: (err) => {

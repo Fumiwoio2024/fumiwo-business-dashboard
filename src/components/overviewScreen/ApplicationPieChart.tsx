@@ -2,10 +2,13 @@ import { HighlightScope, pieArcLabelClasses, PieChart } from "@mui/x-charts";
 import { timeFilterOptions } from "@utils/data";
 
 import {
-  useQBusinessStats,
+  // useQBusinessStats,
   useQRecommendationStats,
 } from "@hooks/api/queries/analytics.queries";
-import { checkRecommendType } from "@helpers/functions/formatRecommendation";
+import {
+  formatRecomendationType,
+  getRecommendedColor,
+} from "@helpers/functions/formatRecommendation";
 import { useState } from "react";
 import NewDropDown from "@components/global/NewDropDown";
 import { SessionCardTitle } from "@components/applicationSession/SessionCardTypography";
@@ -20,29 +23,33 @@ const ApplicationsPieChart = () => {
     startDate: selectedFilterOption.startDate,
     endDate: selectedFilterOption.endDate,
   });
-  const { result: stats } = useQBusinessStats();
+  // const { result: stats } = useQBusinessStats();
 
-  const getCount = (percentage: number) => {
-    return stats && stats.totalClients
-      ? `${pluralize(Math.round((percentage * stats?.totalClients) / 100), "Client")} `
-      : `${percentage}%`;
-  };
+  // const getCount = (percentage: number) => {
+  //   return stats && stats.totalClients
+  //     ? `${pluralize(Math.round((percentage * stats?.totalPhoneData) / 100), "application")} `
+  //     : `${percentage}%`;
+  // };
+
+  const formatPieChartValue = (
+    label:
+      | string
+      | ((location: "tooltip" | "legend" | "arc") => string)
+      | undefined,
+  ) =>
+    pluralize(
+      result?.find(
+        (item) => label === formatRecomendationType(item.recommendation),
+      )?.count || 0,
+      "application",
+    );
+
   const pieData =
     result?.map((item, index) => ({
       id: index,
       value: Number(item.percentage),
-      label: checkRecommendType(
-        item.recommendation,
-        "Review",
-        "Rejected",
-        "Approved",
-      ),
-      color: checkRecommendType(
-        item.recommendation,
-        "#FCBE2D",
-        "#FF0000",
-        "#0BE781",
-      ),
+      label: formatRecomendationType(item.recommendation),
+      color: getRecommendedColor(item.recommendation),
     })) || [];
 
   return (
@@ -72,7 +79,7 @@ const ApplicationsPieChart = () => {
                     (a, b) => b.label?.localeCompare(a.label || "") || 0,
                   ),
                   innerRadius: 75,
-                  valueFormatter: ({ value }) => `${getCount(value)}`,
+                  valueFormatter: ({ label }) => formatPieChartValue(label),
                   // sortingValues: (a, b) => a - b,
                   arcLabel: (params) =>
                     params.value ? String(params.value) + "%" : "",

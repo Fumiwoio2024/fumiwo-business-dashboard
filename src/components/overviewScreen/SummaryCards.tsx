@@ -39,10 +39,11 @@ const SummaryCards = () => {
           </svg>
         }
         dateString="yesterday"
-        percentage={0}
+        percentage={result?.percentageChange.totalPhoneData.change}
+        direction={result?.percentageChange.totalPhoneData.direction}
         isLoading={isLoading}
         title="Total assessed appl"
-        value={result?.totalPhoneData || "N/A"}
+        value={result?.totalPhoneData ?? "N/A"}
       />
       <SummaryCard
         Icon={
@@ -99,9 +100,10 @@ const SummaryCards = () => {
         }
         dateString="yesterday"
         isLoading={isLoading}
-        percentage={0}
+        percentage={result?.percentageChange.totalClients.change}
+        direction={result?.percentageChange.totalClients.direction}
         title="Total no. of Clients"
-        value={result?.totalClients || "N/A"}
+        value={result?.totalClients ?? "N/A"}
       />
       <SummaryCard
         Icon={
@@ -214,10 +216,10 @@ const SummaryCards = () => {
         }
         dateString="yesterday"
         isLoading={isLoading}
-        percentage={0}
+        // percentage={result?.percentageChange.}
         title="Avg credit score"
         value={
-          result?.averageCreditScore
+          typeof result?.averageCreditScore === "number"
             ? Math.round(result?.averageCreditScore)
             : "N/A"
         }
@@ -270,9 +272,10 @@ const SummaryCards = () => {
         }
         dateString="yesterday"
         isLoading={isLoading}
-        percentage={0}
+        percentage={result?.percentageChange.totalLoanData.change}
+        direction={result?.percentageChange.totalLoanData.direction}
         title="Total repayment data "
-        value={result?.totalLoanData || "N/A"}
+        value={result?.totalLoanData ?? "N/A"}
       />
     </section>
   );
