@@ -16,11 +16,11 @@ const RecentSessionsTable = () => {
 
   const columns = [
     columnHelper.accessor("clientId", {
-      header: "Client ext ref id	",
+      header: "Client ext ref id",
     }),
-    columnHelper.accessor("phones", {
+    columnHelper.accessor("datasetsCountAllFromIp", {
       header: "No. of applications",
-      cell: (info) => info.getValue().length || 0,
+      cell: (info) => info.getValue() ?? "N/A",
     }),
     columnHelper.accessor("lastModifiedAt", {
       header: "Last application date",

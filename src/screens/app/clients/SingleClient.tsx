@@ -182,7 +182,7 @@ const ClientHome = () => {
           isLoading={isLoading}
           title="First appl date"
           value={
-            moment(result?.phones[0].digitalCreditInfo.lastModifiedAt).format(
+            moment(result?.phones[0]?.digitalCreditInfo.lastModifiedAt).format(
               "DD.MM.YY",
             ) || "N/A"
           }
@@ -301,7 +301,7 @@ const ClientHome = () => {
           value={
             result?.phones[
               result?.phones.length > 2 ? result?.phones.length - 2 : 0
-            ].digitalCreditInfo.creditScore || "N/A"
+            ]?.digitalCreditInfo.creditScore || "N/A"
           }
         />
         <SummaryCard
