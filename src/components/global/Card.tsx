@@ -60,7 +60,8 @@ export const SummaryCard = ({
       {typeof percentage === "number" && (
         <p className="text-xs text-graySubtext">
           <span className={color}>
-            {Math.sign(percentage) === 1 && "+"}
+            {direction === "increase" && "+"}
+            {direction === "decrease" && "-"}
             {percentage}%
           </span>{" "}
           from {dateString}

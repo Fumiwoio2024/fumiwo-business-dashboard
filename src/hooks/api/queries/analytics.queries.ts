@@ -3,7 +3,7 @@ import { useQuery, } from '@tanstack/react-query'
 import { TGeneralRes } from '@type/global.types'
 import moment from 'moment';
 
-type ChangeDirection = "none" | "up" | "down";
+type ChangeDirection = "increase" | "decrease" | "none";
 
 type TBusinessStatsRes = TGeneralRes & {
 	data: {
