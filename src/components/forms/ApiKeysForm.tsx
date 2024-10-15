@@ -193,6 +193,7 @@ const ApiKeysForm = ({
             <H2 className="">API Keys</H2>
 
             <button
+              disabled={true}
               type="button"
               className={`flex items-center gap-1 font-medium text-switchGreen`}
               onClick={() => rotateKeys()}
