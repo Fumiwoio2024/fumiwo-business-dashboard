@@ -62,9 +62,9 @@ const ClientHome = () => {
     columnHelper.accessor("externalReferenceId", {
       header: "Client ext ref id",
     }),
-    columnHelper.accessor("datasetsCountAllFromIp", {
+    columnHelper.accessor("phones", {
       header: "No. of applications",
-      cell: (info) => info.getValue() ?? "N/A",
+      cell: (info) => info.getValue().length ?? "N/A",
     }),
     columnHelper.accessor("lastModifiedAt", {
       header: "Last application date",

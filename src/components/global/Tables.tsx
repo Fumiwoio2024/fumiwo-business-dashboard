@@ -2,6 +2,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { H4 } from "./Typography";
@@ -207,6 +208,7 @@ const Tables = <T extends { id?: string }>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(), // Enable row expansion model
   });
 
   return (
@@ -241,9 +243,12 @@ const Tables = <T extends { id?: string }>({
                     key={row.id}
                     onClick={() =>
                       isNavigateRow &&
+                      // @ts-expect-error: phoneAnalysisStatus doesn't exist on type T
+                      row.original.phoneAnalysisStatus !== "in_progress" &&
                       navigate(`${routePrefix || ""}${row.original.id}`)
                     }
-                    className={`relative border-b-2 border-[#F5F8FA] ${isNavigateRow && "cursor-pointer hover:bg-linkGray/5"}`}
+                    // @ts-expect-error: phoneAnalysisStatus doesn't exist on type T
+                    className={`relative border-b-2 border-[#F5F8FA] ${isNavigateRow && row.original.phoneAnalysisStatus !== "in_progress" && "cursor-pointer hover:bg-linkGray/5"}`}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td

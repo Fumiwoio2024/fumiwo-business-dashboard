@@ -2776,6 +2776,7 @@ export const dummySingleClient = {
 			"client": "66ce00cac30a1618797f8d96",
 			"businessId": "66910fcda22dff27a59cdfa3",
 			"permissionLevel": "full",
+			"phoneAnalysisStatus": "in_progress",
 			"dataCollectedAt": 1723650613034,
 			"createdAt": "2024-08-27T16:37:30.959Z",
 			"lastModifiedAt": "2024-08-27T16:37:49.245Z",

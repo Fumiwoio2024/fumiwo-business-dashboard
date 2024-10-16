@@ -17,6 +17,7 @@ import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
 
+
 const ClientHome = () => {
   const [searchtext, setSearchtext] = useState("");
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
@@ -25,26 +26,41 @@ const ClientHome = () => {
   // const { result: businessStats, isLoading: isLoadingStats } =
   //   useQBusinessStats();
 
+  // const pendingText = <p className="italic">pending</p>;
+  const pendingText = "pending";
+
   const columns = [
     columnHelper.accessor("id", {
       header: "Application ID",
     }),
     columnHelper.accessor("analyzedData.deviceInfo.manufacturer", {
       header: "Device",
-      cell: (info) => info.getValue(),
+      cell: (info) =>
+        info.row.original.phoneAnalysisStatus === "in_progress"
+          ? pendingText
+          : info.getValue(),
     }),
     columnHelper.accessor("analyzedData.ipInfo.city", {
       header: "Location",
-      cell: (info) => info.getValue() || "N/A",
+      cell: (info) =>
+        info.row.original.phoneAnalysisStatus === "in_progress"
+          ? pendingText
+          : info.getValue() || "N/A",
     }),
     columnHelper.accessor("digitalCreditInfo.creditScore", {
       header: "Credit score",
+      cell: (info) =>
+        info.row.original.phoneAnalysisStatus === "in_progress"
+          ? pendingText
+          : info.getValue(),
     }),
 
     columnHelper.accessor("digitalCreditInfo.recommendation", {
       header: "Recommendation",
       cell: (info) => {
-        return (
+        return info.row.original.phoneAnalysisStatus === "in_progress" ? (
+          <Badge color={"#718096"}>Pending</Badge>
+        ) : (
           <Badge color={getRecommendedColor(info.getValue())}>
             {info.getValue() && capitalize(info.getValue()?.replace("_", " "))}
           </Badge>
@@ -92,7 +108,7 @@ const ClientHome = () => {
           }
           isLoading={isLoading}
           title="Total number of appl"
-          value={result?.datasetsCountAllFromIp || "N/A"}
+          value={result?.phones.length || "N/A"}
         />
         <SummaryCard
           Icon={
@@ -441,12 +457,16 @@ const ClientHome = () => {
             isNavigateRow
             columns={columns}
             data={
-              result?.phones.filter(
-                (item) =>
-                  (item.analyzedData || item.digitalCreditInfo) &&
-                  item.id.includes(searchtext),
-              ) || []
+              result?.phones.filter((item) => item.id.includes(searchtext)) ||
+              []
             }
+            // data={
+            //   result?.phones.filter(
+            //     (item) =>
+            //       (item.analyzedData || item.digitalCreditInfo) &&
+            //       item.id.includes(searchtext),
+            //   ) || []
+            // }
             loading={isLoading}
           />
         </div>
