@@ -299,9 +299,11 @@ const ClientHome = () => {
           isLoading={isLoading}
           title="Previous credit score"
           value={
-            result?.phones[
-              result?.phones.length > 2 ? result?.phones.length - 2 : 0
-            ]?.digitalCreditInfo.creditScore || "N/A"
+            result?.digitalCreditInfoHistory[
+              result?.digitalCreditInfoHistory.length > 2
+                ? result?.digitalCreditInfoHistory.length - 2
+                : 0
+            ]?.creditScore || "N/A"
           }
         />
         <SummaryCard
