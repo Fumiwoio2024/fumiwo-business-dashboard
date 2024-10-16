@@ -15,7 +15,7 @@ const RecentSessionsTable = () => {
   const navigate = useNavigate();
 
   const columns = [
-    columnHelper.accessor("clientId", {
+    columnHelper.accessor("externalReferenceId", {
       header: "Client ext ref id",
     }),
     columnHelper.accessor("phones", {
