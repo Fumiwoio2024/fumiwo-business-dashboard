@@ -129,7 +129,7 @@ const CreditScoreInformation = ({
           : 15,
     })),
   ];
-  console.log(pieData);
+
   
 
   return (

@@ -62,7 +62,7 @@ export const SummaryCard = ({
           <span className={color + " font-semibold"}>
             {direction === "increase" && "+"}
             {direction === "decrease" && "-"}
-            {percentage}%
+            {Math.round(percentage)}%
           </span>{" "}
           from {dateString}
         </p>
