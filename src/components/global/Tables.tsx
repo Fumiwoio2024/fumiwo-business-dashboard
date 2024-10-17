@@ -237,7 +237,7 @@ const Tables = <T extends { id?: string; phoneAnalysisStatus?: string }>({
             <tbody className="bg-white">
               {table.getRowModel().rows.map((row) => {
                 const isInProgress =
-                  row.original.phoneAnalysisStatus === "in_progress";
+                  row.original.phoneAnalysisStatus !== "in_progress";
                 return (
                   <tr
                     key={row.id}
