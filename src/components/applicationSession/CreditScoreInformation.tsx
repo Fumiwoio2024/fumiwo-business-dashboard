@@ -112,7 +112,7 @@ const CreditScoreInformation = ({
       label: "",
       id: "",
       color: "#71809620",
-      value: 25,
+      value: 1025 - (creditScoreData?.creditScore || 0),
     },
     ...scoreRecommendations.map((item) => ({
       ...item,
@@ -120,7 +120,12 @@ const CreditScoreInformation = ({
         creditScoreData && creditScoreData.creditScore >= item.lowerLimit
           ? item.color
           : "#71809620",
-      value: 15,
+      value:
+        creditScoreData &&
+        creditScoreData.creditScore >= item.lowerLimit &&
+        creditScoreData.creditScore < item.upperLimit
+          ? creditScoreData.creditScore - item.lowerLimit
+          : 15,
     })),
   ];
 
