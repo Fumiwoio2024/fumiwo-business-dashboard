@@ -13,21 +13,16 @@ import Badge from "@components/global/Badge";
 import { LineGradient } from "@components/applicationSession/LineGradient";
 import { capitalize } from "@mui/material";
 import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
-// import { useQBusinessStats } from "@hooks/api/queries/analytics.queries";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
-
 
 const ClientHome = () => {
   const [searchtext, setSearchtext] = useState("");
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const params = useParams();
   const { result, isLoading } = useQSingleClient(params?.clientId);
-  // const { result: businessStats, isLoading: isLoadingStats } =
-  //   useQBusinessStats();
 
-  // const pendingText = <p className="italic">pending</p>;
-  const pendingText = "pending";
+  const pendingText = <p className="italic">pending</p>;
 
   const columns = [
     columnHelper.accessor("id", {
@@ -55,11 +50,9 @@ const ClientHome = () => {
     columnHelper.accessor("createdAt", {
       header: "Date of Application",
       cell: (info) =>
-        info.row.original.phoneAnalysisStatus === "in_progress"
-          ? pendingText
-          : info.getValue()
-            ? moment(new Date(info.getValue())).format("MMM DD, YYYY - hh:mm A")
-            : "",
+        info.getValue()
+          ? moment(new Date(info.getValue())).format("MMM DD, YYYY - hh:mm A")
+          : "",
     }),
     columnHelper.accessor("digitalCreditInfo.creditScore", {
       header: "Credit score",

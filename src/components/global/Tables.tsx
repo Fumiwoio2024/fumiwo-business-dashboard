@@ -48,14 +48,12 @@ const Pagination = ({
   setLimitPerPage,
   totalPage,
   limitPerPage,
-  // isPaginated,
 }: {
   currentPage: number;
   setCurrentPage: (value: number) => void;
   setLimitPerPage: (value: number) => void;
   limitPerPage: number;
   totalPage: number;
-  isPaginated: boolean;
 }) => {
   const pages = Array.from({ length: totalPage }, (_, index) => index + 1);
 
@@ -190,7 +188,7 @@ const Pagination = ({
   );
 };
 
-const Tables = <T extends { id?: string }>({
+const Tables = <T extends { id?: string; phoneAnalysisStatus?: string }>({
   columns,
   data,
   loading,
@@ -238,17 +236,17 @@ const Tables = <T extends { id?: string }>({
           {data.length > 0 && (
             <tbody className="bg-white">
               {table.getRowModel().rows.map((row) => {
+                const isInProgress =
+                  row.original.phoneAnalysisStatus === "in_progress";
                 return (
                   <tr
                     key={row.id}
                     onClick={() =>
                       isNavigateRow &&
-                      // @ts-expect-error: phoneAnalysisStatus doesn't exist on type T
-                      row.original.phoneAnalysisStatus !== "in_progress" &&
+                      isInProgress &&
                       navigate(`${routePrefix || ""}${row.original.id}`)
                     }
-                    // @ts-expect-error: phoneAnalysisStatus doesn't exist on type T
-                    className={`relative border-b-2 border-[#F5F8FA] ${isNavigateRow && row.original.phoneAnalysisStatus !== "in_progress" && "cursor-pointer hover:bg-linkGray/5"}`}
+                    className={`relative border-b-2 border-[#F5F8FA] ${isNavigateRow && isInProgress && "cursor-pointer hover:bg-linkGray/5"}`}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
@@ -286,7 +284,6 @@ const Tables = <T extends { id?: string }>({
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               setLimitPerPage={setLimitPerPage}
-              isPaginated
             />
           </div>
         )}
