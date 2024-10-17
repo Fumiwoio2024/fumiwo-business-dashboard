@@ -14,30 +14,35 @@ const RecentSessionsTable = () => {
   const { result, isLoading } = useQClients({});
   const navigate = useNavigate();
 
-  const columns = [
-    columnHelper.accessor("externalReferenceId", {
-      header: "Client ext ref id",
-    }),
-    columnHelper.accessor("phones", {
-      header: "No. of applications",
-      cell: (info) => info.getValue().length ?? "N/A",
-    }),
-    columnHelper.accessor("lastModifiedAt", {
-      header: "Last application date",
-      cell: (info) =>
-        info.getValue()
-          ? moment(new Date(info.getValue())).format("MMM DD, YYYY - hh:mm A")
-          : "",
-    }),
-    columnHelper.accessor("digitalCreditScoreEvolution", {
-      header: "Credit score evolution",
-      cell: (info) => capitalize(info.getValue().replace("_", " ")) || "N/A",
-    }),
-    columnHelper.accessor("latestDigitalCreditInfo.creditScore", {
-      header: "Latest credit score",
-      cell: (info) => info.getValue() || "N/A",
-    }),
-  ];
+   const columns = [
+     columnHelper.accessor("externalReferenceId", {
+       header: "Client ext ref id",
+     }),
+     columnHelper.accessor("phones", {
+       header: "No. of applications",
+       cell: (info) => info.getValue().length ?? "N/A",
+     }),
+     columnHelper.accessor("phones", {
+       header: "Last application date",
+       cell: (info) => {
+         const phone = info.getValue();
+         const date =
+           phone?.[phone.length - 1]?.createdAt ||
+           info.row.original.lastModifiedAt;
+         return date
+           ? moment(new Date(date)).format("MMM DD, YYYY - hh:mm A")
+           : "";
+       },
+     }),
+     columnHelper.accessor("digitalCreditScoreEvolution", {
+       header: "Credit score evolution",
+       cell: (info) => capitalize(info.getValue().replace("_", " ")) || "N/A",
+     }),
+     columnHelper.accessor("latestDigitalCreditInfo.creditScore", {
+       header: "Latest credit score",
+       cell: (info) => info.getValue() || "N/A",
+     }),
+   ];
 
   return (
     <Card className="space-y-8">
@@ -57,7 +62,7 @@ const RecentSessionsTable = () => {
             isNavigateRow
             routePrefix="/dashboard/clients/"
             columns={columns}
-            data={result || []}
+            data={result?.slice(0, 5) || []}
             loading={isLoading}
           />
         </div>

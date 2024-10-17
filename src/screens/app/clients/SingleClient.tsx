@@ -52,7 +52,7 @@ const ClientHome = () => {
             : "N/A";
       },
     }),
-    columnHelper.accessor("digitalCreditInfo.lastModifiedAt", {
+    columnHelper.accessor("createdAt", {
       header: "Date of Application",
       cell: (info) =>
         info.row.original.phoneAnalysisStatus === "in_progress"
@@ -122,7 +122,7 @@ const ClientHome = () => {
           }
           isLoading={isLoading}
           title="Total number of appl"
-          value={result?.phones.length || "N/A"}
+          value={result?.phones.length ?? "N/A"}
         />
         <SummaryCard
           Icon={
@@ -214,7 +214,7 @@ const ClientHome = () => {
           value={
             moment(result?.phones[0]?.digitalCreditInfo.lastModifiedAt).format(
               "DD.MM.YY",
-            ) || "N/A"
+            ) ?? "N/A"
           }
         />
         <SummaryCard
@@ -333,7 +333,7 @@ const ClientHome = () => {
               result?.digitalCreditInfoHistory.length > 2
                 ? result?.digitalCreditInfoHistory.length - 2
                 : 0
-            ]?.creditScore || "N/A"
+            ]?.creditScore ?? "N/A"
           }
         />
         <SummaryCard
@@ -447,7 +447,7 @@ const ClientHome = () => {
           }
           isLoading={isLoading}
           title="Latest credit score"
-          value={result?.latestDigitalCreditInfo.creditScore || "N/A"}
+          value={result?.latestDigitalCreditInfo.creditScore ?? "N/A"}
         />
       </section>
       <Card>
@@ -471,8 +471,9 @@ const ClientHome = () => {
             isNavigateRow
             columns={columns}
             data={
-              result?.phones.filter((item) => item.id.includes(searchtext)) ||
-              []
+              result?.phones
+                .filter((item) => item.id.includes(searchtext))
+                .reverse() || []
             }
             // data={
             //   result?.phones.filter(

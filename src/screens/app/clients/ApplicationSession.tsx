@@ -22,7 +22,7 @@ const AllAppsModal = ({
     : [];
 
   return (
-    <div className="py- grid h-[70vh] min-w-[719px] grid-cols-2 justify-between gap-x-20 gap-y-6 overflow-y-auto text-sm text-paraGray/80">
+    <div className="grid min-w-[719px] grid-cols-2 justify-between gap-x-20 gap-y-6 text-sm text-paraGray/80">
       {allInstalledApps?.map((item) => (
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

@@ -66,12 +66,17 @@ const ClientHome = () => {
       header: "No. of applications",
       cell: (info) => info.getValue().length ?? "N/A",
     }),
-    columnHelper.accessor("lastModifiedAt", {
+    columnHelper.accessor("phones", {
       header: "Last application date",
-      cell: (info) =>
-        info.getValue()
-          ? moment(new Date(info.getValue())).format("MMM DD, YYYY - hh:mm A")
-          : "",
+      cell: (info) => {
+        const phone = info.getValue();
+        const date =
+          phone?.[phone.length - 1]?.createdAt ||
+          info.row.original.lastModifiedAt;
+        return date
+          ? moment(new Date(date)).format("MMM DD, YYYY - hh:mm A")
+          : "";
+      },
     }),
     columnHelper.accessor("digitalCreditScoreEvolution", {
       header: "Credit score evolution",

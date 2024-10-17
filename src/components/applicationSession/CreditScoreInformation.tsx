@@ -112,7 +112,7 @@ const CreditScoreInformation = ({
       label: "",
       id: "",
       color: "#71809620",
-      value: 1025 - (creditScoreData?.creditScore || 0),
+      value: 25,
     },
     ...scoreRecommendations.map((item) => ({
       ...item,
@@ -124,10 +124,13 @@ const CreditScoreInformation = ({
         creditScoreData &&
         creditScoreData.creditScore >= item.lowerLimit &&
         creditScoreData.creditScore < item.upperLimit
-          ? creditScoreData.creditScore - item.lowerLimit
+          ? ((creditScoreData.creditScore - item.lowerLimit) * 15) /
+            (item.upperLimit - item.lowerLimit)
           : 15,
     })),
   ];
+  console.log(pieData);
+  
 
   return (
     <Card className="space-y-8">
