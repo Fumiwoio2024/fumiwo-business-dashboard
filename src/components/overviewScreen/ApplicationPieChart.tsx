@@ -91,7 +91,7 @@ const ApplicationsPieChart = () => {
               ]}
               sx={{
                 [`& .${pieArcLabelClasses.root}`]: {
-                  fill: "white",
+                  fill: "#404F65",
                   fontSize: 14,
                   fontWeight: 500,
                   fontFamily: "Poppins",
