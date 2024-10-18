@@ -7,7 +7,7 @@ import {
 import { TClient } from "@type/global.types";
 import moment from "moment";
 
-const slicedIndex = 7;
+const slicedIndex = 3;
 const InstalledAppsInformation = ({
   appData,
   openAppsModal,

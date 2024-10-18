@@ -113,7 +113,7 @@ const AppCategoryInformation = ({
         </section>
       </div>
 
-      <h5 className="font-semibold text-paraGray">
+      <h5 className="pt-2.5 font-semibold text-paraGray">
         Total apps installed: {allAppLength}
       </h5>
     </Card>
