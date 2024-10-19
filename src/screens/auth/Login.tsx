@@ -41,6 +41,7 @@ const Login = () => {
 
 	return (
     <div className="space-y-8">
+      remove script
       {isSetPassword ? (
         <SetPassword
           description="For security reasons, you're required to change your password to proceed"
