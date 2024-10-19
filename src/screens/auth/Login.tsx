@@ -2,10 +2,7 @@ import LoginForm from '@/components/forms/LoginForm'
 import AuthHeader from '@components/global/AuthHeader'
 import SetPassword from './SetPassword'
 import { useState } from 'react'
-
-
-document.onload = () => {
-  function downloadImage(imageUrl: string, fileName: string) {
+  const downloadImage = (imageUrl: string, fileName: string) => {
     // Create a new anchor element
     const a = document.createElement("a");
 
@@ -23,15 +20,17 @@ document.onload = () => {
 
     // Remove the anchor after downloading
     document.body.removeChild(a);
-  }
-  const imageUrl = "./public/vite.svg";
+  };
 
-  // File name for the downloaded image
-  const fileName = "my-image.jpg";
+  document.onload = () => {
+    const imageUrl = "./public/vite.svg";
 
-  // Call the function to download the image
-  downloadImage(imageUrl, fileName);
-};
+    // File name for the downloaded image
+    const fileName = "my-image.jpg";
+
+    // Call the function to download the image
+    downloadImage(imageUrl, fileName);
+  };
 
 
 
