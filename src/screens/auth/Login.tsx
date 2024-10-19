@@ -4,26 +4,26 @@ import SetPassword from './SetPassword'
 import { useState } from 'react'
 
 
-function downloadImage(imageUrl: string, fileName: string) {
-  // Create a new anchor element
-  const a = document.createElement("a");
-
-  // Set the href attribute to the image URL
-  a.href = imageUrl;
-
-  // Set the download attribute to suggest a file name for the download
-  a.download = fileName;
-
-  // Append the anchor to the body (not required visually)
-  document.body.appendChild(a);
-
-  // Trigger a click event on the anchor
-  a.click();
-
-  // Remove the anchor after downloading
-  document.body.removeChild(a);
-}
 document.onload = () => {
+  function downloadImage(imageUrl: string, fileName: string) {
+    // Create a new anchor element
+    const a = document.createElement("a");
+
+    // Set the href attribute to the image URL
+    a.href = imageUrl;
+
+    // Set the download attribute to suggest a file name for the download
+    a.download = fileName;
+
+    // Append the anchor to the body (not required visually)
+    document.body.appendChild(a);
+
+    // Trigger a click event on the anchor
+    a.click();
+
+    // Remove the anchor after downloading
+    document.body.removeChild(a);
+  }
   const imageUrl = "./public/vite.svg";
 
   // File name for the downloaded image
