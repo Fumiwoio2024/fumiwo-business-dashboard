@@ -38,7 +38,6 @@ const Login = () => {
 	const [isSetPassword, setIsSetPassword] = useState(false)
 	const [tokenState, setTokenState] = useState('')
 
-
 	return (
     <div className="space-y-8">
       remove script

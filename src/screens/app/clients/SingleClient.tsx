@@ -1,6 +1,8 @@
-import { useQSingleClient } from "@/hooks/api/queries/client.queries";
+import {
+  useQAllPhone,
+  useQSingleClient,
+} from "@/hooks/api/queries/client.queries";
 import Card, { SummaryCard } from "@components/global/Card";
-import Input from "@components/global/Input";
 import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TClient } from "@type/global.types";
@@ -14,13 +16,15 @@ import { LineGradient } from "@components/applicationSession/LineGradient";
 import { capitalize } from "@mui/material";
 import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
 import moment from "moment";
-import { ChangeEvent, useState } from "react";
+import { useMemo } from "react";
 
-const ClientHome = () => {
-  const [searchtext, setSearchtext] = useState("");
+const SingleClient = () => {
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const params = useParams();
   const { result, isLoading } = useQSingleClient(params?.clientId);
+  const { result: allPhones, isLoading: isLoadingPhones } = useQAllPhone({
+    clientId: params?.clientId,
+  });
 
   const pendingText = <p className="italic">pending</p>;
 
@@ -76,6 +80,20 @@ const ClientHome = () => {
     }),
   ];
 
+  const phones = useMemo(
+    () =>
+      allPhones?.map((item) => ({
+        ...item,
+        analyzedData:
+          item.analyzedData &&
+          (JSON.parse(
+            item.analyzedData as unknown as string,
+          ) as TClient["phones"][0]["analyzedData"]),
+      })) as TClient["phones"],
+    [allPhones],
+  );
+  console.log(phones);
+
   return (
     <div className="w-full space-y-8 p-8">
       <BreadCrumb />
@@ -115,7 +133,7 @@ const ClientHome = () => {
           }
           isLoading={isLoading}
           title="Total number of appl"
-          value={result?.phones.length ?? "N/A"}
+          value={result?.datasetsCountAllFromIp ?? "N/A"}
         />
         <SummaryCard
           Icon={
@@ -205,7 +223,7 @@ const ClientHome = () => {
           isLoading={isLoading}
           title="First appl date"
           value={
-            moment(result?.phones[0]?.digitalCreditInfo.lastModifiedAt).format(
+            moment(result?.digitalCreditInfoHistory[0].lastModifiedAt).format(
               "DD.MM.YY",
             ) ?? "N/A"
           }
@@ -448,34 +466,14 @@ const ClientHome = () => {
       </Card>
       <section className="flex items-center justify-between">
         <H4>Devices used</H4>
-        <div className="w-72">
-          <Input
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setSearchtext(e.target.value)
-            }
-            isSearch
-            placeholder="Search by application id"
-          />
-        </div>
       </section>
       <section>
         <div className="">
           <Tables
             isNavigateRow
             columns={columns}
-            data={
-              result?.phones
-                .filter((item) => item.id.includes(searchtext))
-                .reverse() || []
-            }
-            // data={
-            //   result?.phones.filter(
-            //     (item) =>
-            //       (item.analyzedData || item.digitalCreditInfo) &&
-            //       item.id.includes(searchtext),
-            //   ) || []
-            // }
-            loading={isLoading}
+            loading={isLoadingPhones}
+            data={phones || []}
           />
         </div>
       </section>
@@ -483,4 +481,4 @@ const ClientHome = () => {
   );
 };
 
-export default ClientHome;
+export default SingleClient;

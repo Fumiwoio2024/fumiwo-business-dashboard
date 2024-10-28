@@ -100,7 +100,7 @@ const router = createBrowserRouter([
                 element: <SingleClient />,
               },
               {
-                path: ":sessionId",
+                path: ":phoneId",
                 element: <ApplicationSession />,
               },
             ],

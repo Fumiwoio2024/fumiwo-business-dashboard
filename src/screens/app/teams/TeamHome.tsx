@@ -13,6 +13,7 @@ import { useQUsers } from "@hooks/api/queries/users.queries";
 import { useMDeleteUser } from "@hooks/api/mutations/app/users.mutations";
 import moment from "moment";
 import { useDebounce } from "@hooks/custom/useDebounce";
+import { useQRoles } from "@hooks/api/queries/role.queries";
 
 const TeamHome = () => {
   const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
@@ -24,6 +25,7 @@ const TeamHome = () => {
   const debouncedSearch = useDebounce(searchText);
   const { result, isLoading } = useQUsers({ name: debouncedSearch });
   const { mutate: deleteUser } = useMDeleteUser();
+  const { result: roles } = useQRoles();
 
   const columnHelper = createColumnHelper<TUser>();
   const columns = [
@@ -143,13 +145,14 @@ const TeamHome = () => {
   return (
     <>
       <ModalContainer
-        title="Add member"
+        title={selectedUser ? "Edit role" : "Add member"}
         onClose={() => setIsAddMemberModalVisible(false)}
         isVisible={isAddMemberModalVisible}
       >
         <AddTeamMemberForm
-          key={selectedUser?.id}
+          key={selectedUser?.id + JSON.stringify(roles)}
           details={selectedUser}
+          roles={roles}
           onClose={() => setIsAddMemberModalVisible(false)}
         />
       </ModalContainer>
@@ -160,7 +163,7 @@ const TeamHome = () => {
         isVisible={isDeleteMemberModalVisible}
       >
         <ConfirmDeleteModal
-          description="You are about to remove this user from your team. Are you sure about this?"
+          description={`You are about to remove ${selectedUser?.email} from your team. Are you sure about this?`}
           onClose={() => setIsDeleteMemberModalVisible(false)}
           onConfirmDelete={() => selectedUser && deleteUser(selectedUser.id)}
         />

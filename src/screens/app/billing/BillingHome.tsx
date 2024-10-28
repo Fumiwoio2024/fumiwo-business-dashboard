@@ -103,7 +103,7 @@ const BillingHome = () => {
   return (
     <>
       <ModalContainer
-        title="Save card"
+        title="Change card"
         isVisible={isModalVisible}
         onClose={toggleModal}
       >

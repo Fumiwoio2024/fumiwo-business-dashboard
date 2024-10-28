@@ -1,8 +1,11 @@
-import { dummyTeamMembers } from "@/utils/data";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
+import { useMCreateRole } from "@hooks/api/mutations/app/role.mutation.query";
+import { useQPermissions } from "@hooks/api/queries/role.queries";
+import { useState } from "react";
 // import { TRole } from "@type/global.types";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 const defaultValues = {
   role_name: "",
   role_description: "",
@@ -15,6 +18,20 @@ type TCreateRoleFormProps = {
   details?: typeof defaultValues;
 };
 
+// const result = [
+//   "onboard-users",
+//   "view-users",
+//   "delete-users",
+//   "manage-roles",
+//   "manage-cards",
+//   "update-preferences",
+//   "manage-clients",
+//   "view-transactions",
+//   "manage-plans",
+//   "view-auditlogs",
+//   "view-analytics",
+// ];
+
 const CreateRoleForm = ({ onClose, details, isEdit }: TCreateRoleFormProps) => {
   const {
     register,
@@ -26,10 +43,34 @@ const CreateRoleForm = ({ onClose, details, isEdit }: TCreateRoleFormProps) => {
     mode: "onBlur",
   });
 
-  const submitForm: SubmitHandler<typeof defaultValues> = async () => {
-    onClose();
-    reset();
+  const [permissionsArr, setPermissions] = useState<string[]>([]);
+  const { mutate } = useMCreateRole();
+  const { result: permRes } = useQPermissions();
+  const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
+    const req = {
+      name: data.role_name,
+      description: data.role_description,
+      permissions: permissionsArr,
+    };
+
+    mutate(req, {
+      onSuccess: () => {
+        toast.success("Role created successfully");
+        onClose();
+        reset();
+      },
+    });
   };
+
+  const actions = permRes?.flatMap((resource) =>
+    resource.permissions.map((permission) => permission.action),
+  );
+
+  // const actionArr = permRes?.reduce((acc, curr): string[] => {
+  //   // const tempPermissons = [...curr.permissions];
+  //   // const tempActions = [...curr.permissions, ...acc.permissions];
+  //   return [...curr.permissions, ...acc.permissions];
+  // }, []);
 
   return (
     <form onSubmit={handleSubmit(submitForm)} className="w-[640px] space-y-6">
@@ -67,7 +108,7 @@ const CreateRoleForm = ({ onClose, details, isEdit }: TCreateRoleFormProps) => {
           </h4>
 
           <div className="space-y-6">
-            {dummyTeamMembers[0].role.permissions.map((permissions) => (
+            {actions?.map((permissions, index) => (
               <div
                 key={permissions}
                 role="button"
@@ -76,7 +117,16 @@ const CreateRoleForm = ({ onClose, details, isEdit }: TCreateRoleFormProps) => {
                 <input
                   id={permissions}
                   name={permissions}
-                  value={permissions}
+                  value={permissionsArr[index]}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setPermissions((prev) => [...prev, e.target.name]);
+                    } else {
+                      setPermissions((prev) =>
+                        prev.filter((perm) => perm !== e.target.name),
+                      );
+                    }
+                  }}
                   type="checkbox"
                   className="h-4 w-4 rounded border text-indigo-600 accent-[#F9F5FF] outline-header focus:ring-indigo-300"
                 />
