@@ -1,6 +1,9 @@
 import api from "@config/axios"
 import { TBusinessUser, TGeneralRes, TUser } from "@type/global.types"
 import { useMutation } from "@tanstack/react-query"
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+import { handleGenericError } from "@helpers/functions/handleGenericError"
 
 
 type TSignInReq = {
@@ -34,10 +37,44 @@ type TChangeNewPasswordReq = {
 
 
 export const useMSignIn = () => {
+	const navigate = useNavigate();
 	const mutation = useMutation({
 		mutationFn: (req: TSignInReq) => {
-			return api.post<TSignInRes>('/auth/signin', req)
+			return api.post<TSignInRes>('/auth/signin', req, {
+
+			})
 		},
+		onSuccess: (data) => {
+			// if for some reason the token isn't sent
+			if (!data.data.data.token) {
+				toast.error("An error occurred during sign up, please try again");
+				return;
+			}
+
+			localStorage.setItem("fmw_business_auth_token", data.data.data.token);
+			localStorage.setItem(
+				"fmw_business_user",
+				JSON.stringify(data.data.data.user),
+			);
+			api.defaults.headers.common["Authorization"] =
+				`Bearer ${data.data.data.token}`;
+
+			if (
+				data.data?.data.user &&
+				"isDefaultPassword" in data.data.data.user &&
+				data.data?.data.user.isDefaultPassword === true
+			) {
+				// Handled in the login form
+			} else if (data.data?.data.user.status === "incomplete_profile") {
+				navigate("/dashboard/settings/onboarding/business-details", {
+					replace: true,
+				});
+			} else {
+				navigate("/dashboard/overview", { replace: true });
+			}
+		},
+		onError: (error) => handleGenericError(error),
+
 	})
 
 	return mutation

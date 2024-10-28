@@ -9,6 +9,19 @@ export type TRoleRes = TGeneralRes & {
 	}
 };
 
+
+type Permission = {
+	desc: string;
+	action: string;
+};
+
+export type TPermissionRes = TGeneralRes & {
+	data: {
+		name: string;
+		permissions: Permission[];
+	}[];
+};
+
 type TQueryParams = {
 	page?: number; // Optional, defaults to 1
 	limit?: number; // Optional, defaults to 20
@@ -31,5 +44,20 @@ export const useQRoles = (params?: TQueryParams) => {
 	return {
 		...query,
 		result: query.data?.data.data.docs
+	}
+}
+
+export const useQPermissions = () => {
+	const query = useQuery({
+		queryKey: ['roles-permissions'],
+		queryFn: () => {
+			return api.get<TPermissionRes>('/roles/permissions', { params: { type: 'business' } })
+		}
+	})
+
+
+	return {
+		...query,
+		result: query.data?.data.data
 	}
 }

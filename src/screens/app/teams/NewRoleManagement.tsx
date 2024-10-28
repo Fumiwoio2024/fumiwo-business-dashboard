@@ -91,13 +91,13 @@ const NewRoleManagement = () => {
 
         <section className="flex items-center justify-between">
           <div className="border-b">
-            <div className="flex gap-8">
+            <div className="relative flex gap-8 pr-2">
               {roleLinks.map((link) => (
                 <div
                   role="button"
                   key={link.path}
                   onClick={() => setTab(link.path)}
-                  className={`block border-b-2 p-2.5 transition-colors duration-300 ${[
+                  className={`border-b2 block p-2.5 transition-colors duration-300 ${[
                     tab === link.path
                       ? "border-primaryGreen font-medium text-header"
                       : "border-transparent text-paraGray",
@@ -106,6 +106,14 @@ const NewRoleManagement = () => {
                   {link.name}
                 </div>
               ))}
+              {/* Sliding underline */}
+              <div
+                className="absolute bottom-0 h-0.5 bg-primaryGreen transition-transform duration-300 ease-in-out"
+                style={{
+                  width: `${100 / roleLinks.length}%`,
+                  transform: `translateX(${roleLinks.findIndex((link) => link.path === tab) * 100}%)`,
+                }}
+              />
             </div>
           </div>
 
@@ -128,7 +136,7 @@ const NewRoleManagement = () => {
             className={`border- absolute right-0 h-full w-[450px] border bg-white transition duration-300 ${openSideBar ? "translate-x-0" : "translate-x-[500px]"}`}
           >
             <div className="space-y-6 px-6 py-3.5">
-              <H3 className="text-sm">Permisions</H3>
+              <H3 className="text-sm">Permissions</H3>
 
               {selectedRole && (
                 <div className="grid grid-cols-1 justify-between gap-y-4 pr-10">

@@ -1,11 +1,9 @@
-import api from "@config/axios";
-import { handleGenericError } from "@helpers/functions/handleGenericError";
 import { useMSignIn } from "@/hooks/api/mutations/auth";
 import { PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
 import { P } from "@components/global/Typography";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const defaultValues = {
   email: "",
@@ -24,12 +22,10 @@ const LoginForm = ({
     handleSubmit,
     formState: { errors },
     reset,
-    setError,
   } = useForm({
     defaultValues,
   });
   const { mutate, isPending } = useMSignIn();
-  const navigate = useNavigate();
 
   const submitForm: SubmitHandler<typeof defaultValues> = async (formData) => {
     const payload = {
@@ -39,24 +35,7 @@ const LoginForm = ({
 
     mutate(payload, {
       onSuccess: (data) => {
-        // if for some reason the token isn't sent
-        if (!data.data.data.token) {
-          setError("password", {
-            type: "custom",
-            message: "An error occurred during sign up, please try again",
-          });
-          return;
-        }
         reset();
-
-        localStorage.setItem("fmw_business_auth_token", data.data.data.token);
-        localStorage.setItem(
-          "fmw_business_user",
-          JSON.stringify(data.data.data.user),
-        );
-        api.defaults.headers.common["Authorization"] =
-          `Bearer ${data.data.data.token}`;
-
         if (
           data.data?.data.user &&
           "isDefaultPassword" in data.data.data.user &&
@@ -64,15 +43,8 @@ const LoginForm = ({
         ) {
           setTokenState?.(formData.password);
           setIsSetPassword(true);
-        } else if (data.data?.data.user.status === "incomplete_profile") {
-          navigate("/dashboard/settings/onboarding/business-details", {
-            replace: true,
-          });
-        } else {
-          navigate("/dashboard/overview", { replace: true });
         }
       },
-      onError: (error) => handleGenericError(error),
     });
   };
 

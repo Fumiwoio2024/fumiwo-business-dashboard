@@ -1,15 +1,16 @@
-import { dummyRoles } from "@/utils/data";
 import { BorderlessButton, PrimaryButton } from "@components/global/Buttons";
 import Dropdown from "@components/global/Dropdown";
 import Input from "@components/global/Input";
 import { useMInviteUser } from "@hooks/api/mutations/app/users.mutations";
-import { TUser } from "@type/global.types";
+
+import { TRole, TUser } from "@type/global.types";
 import { SubmitHandler, useForm } from "react-hook-form";
 // import { useNavigate } from "react-router-dom";
 
 type TAddTeamMemberFormProps = {
   onClose: () => void;
   details: TUser | null;
+  roles: TRole[] | undefined;
 };
 
 const defaultValues = {
@@ -17,7 +18,11 @@ const defaultValues = {
   role: "",
 };
 
-const AddTeamMemberForm = ({ onClose, details }: TAddTeamMemberFormProps) => {
+const AddTeamMemberForm = ({
+  onClose,
+  details,
+  roles,
+}: TAddTeamMemberFormProps) => {
   const {
     register,
     handleSubmit,
@@ -28,12 +33,17 @@ const AddTeamMemberForm = ({ onClose, details }: TAddTeamMemberFormProps) => {
     defaultValues: details
       ? {
           email: details.email,
-          role: details.role.slug,
+          role: details.role.name,
         }
       : defaultValues,
     mode: "onBlur",
   });
   const { mutate: inviteUser } = useMInviteUser();
+
+  const roleOptions = roles?.map((role) => ({
+    name: role.name,
+    value: role.name,
+  }));
 
   const submitForm: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!details) {
@@ -45,6 +55,7 @@ const AddTeamMemberForm = ({ onClose, details }: TAddTeamMemberFormProps) => {
       });
     }
   };
+  console.log(watch("role"));
 
   return (
     <form onSubmit={handleSubmit(submitForm)} className="w-[640px] space-y-6">
@@ -68,7 +79,7 @@ const AddTeamMemberForm = ({ onClose, details }: TAddTeamMemberFormProps) => {
           label="Role"
           placeholder="Select Role"
           value={watch("role")}
-          options={dummyRoles}
+          options={roleOptions}
           {...register("role", {
             required: "Role is required",
           })}
@@ -77,7 +88,7 @@ const AddTeamMemberForm = ({ onClose, details }: TAddTeamMemberFormProps) => {
 
       <div className="space-y-3">
         <PrimaryButton size="medium" className="w-full" type="submit">
-          Send invite
+          {details ? "Change role" : "Send invite"}
         </PrimaryButton>
         <BorderlessButton
           type="button"

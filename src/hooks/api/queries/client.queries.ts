@@ -15,6 +15,16 @@ export type TSingleClientRes = TGeneralRes & {
 	data: TClient
 };
 
+export type TAllPhoneRes = TGeneralRes & {
+	data: {
+		docs: TClient["phones"]
+	}
+}
+export type TPhoneRes = TGeneralRes & {
+	data: TClient["phones"][0]
+
+}
+
 type TQueryParams = {
 	limit?: number;  // The number of clients to return (default is 20).
 	page?: number;   // The page number to return (default is 1).
@@ -29,7 +39,9 @@ type TQueryParams = {
 	phoneDataCountFrom?: number;  // Start value for filtering clients by phone data count range.
 	phoneDataCountTo?: number;  // End value for filtering clients by phone data count range. Must be greater than or equal to the phoneDataCountFrom.
 	sort?: string;  // Indicate the sort order, URL-encoded JSON string with fields "item" and "order" { item: string, order: number }.
+
 }
+
 
 
 export const useQClients = (params: TQueryParams) => {
@@ -57,5 +69,33 @@ export const useQSingleClient = (clientId: string | undefined, params?: TQueryPa
 	return {
 		...query,
 		result: query.data?.data.data as TClient | undefined
+	}
+}
+
+export const useQAllPhone = (params?: TQueryParams & { clientId: string | undefined }) => {
+	const query = useQuery({
+		queryKey: ['clients-phone-all', JSON.stringify(params)],
+		queryFn: () => {
+			return api.get<TAllPhoneRes>(`/clients/phones`, { params })
+		},
+		enabled: !!params?.clientId
+	})
+	return {
+		...query,
+		result: query.data?.data.data.docs
+	}
+}
+
+export const useQPhone = (clientId: string | undefined, phoneId: string | undefined, params?: TQueryParams) => {
+	const query = useQuery({
+		queryKey: ['clients-phone-single', clientId, phoneId],
+		queryFn: () => {
+			return api.get<TPhoneRes>(`/clients/${clientId}/phones/${phoneId}`, { params })
+		},
+		// enabled: !!params?.clientId && !!phoneId
+	})
+	return {
+		...query,
+		result: query.data?.data.data
 	}
 }

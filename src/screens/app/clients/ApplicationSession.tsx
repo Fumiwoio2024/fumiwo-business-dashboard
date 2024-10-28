@@ -6,7 +6,7 @@ import Locationinformation from "@components/applicationSession/Locationinformat
 import Permissioninformation from "@components/applicationSession/Permissioninformation";
 import BreadCrumb from "@components/global/BreadCrumb";
 import ModalContainer from "@components/global/ModalContainer";
-import { useQSingleClient } from "@hooks/api/queries/client.queries";
+import { useQPhone } from "@hooks/api/queries/client.queries";
 import { TClient } from "@type/global.types";
 import moment from "moment";
 import { useState } from "react";
@@ -16,8 +16,22 @@ const ApplicationSession = () => {
   const [openAppsModal, setOpenAppsModal] = useState(false);
 
   const params = useParams();
-  const { result: client } = useQSingleClient(params?.clientId);
-  const result = client?.phones.find((phone) => phone.id === params?.sessionId);
+  // const { result: client } = useQSingleClient(params?.clientId);
+  // const result = client?.phones.find((phone) => phone.id === params?.sessionId);
+  const { result } = useQPhone(params?.clientId, params?.phoneId);
+
+  // console.log(
+  //   JSON.parse(result?.analyzedData || "{}"),
+  //   params?.clientId,
+  //   params?.phoneId,
+  // );
+
+  const analyzedData =
+    (JSON.parse(
+      (result?.analyzedData as unknown as string | undefined) || "{}",
+    ) as TClient["phones"][0]["analyzedData"]) || {};
+
+  if (!analyzedData.appsInfo) return <></>;
 
   return (
     <>
@@ -26,7 +40,7 @@ const ApplicationSession = () => {
         onClose={() => setOpenAppsModal(false)}
         title="Installed apps & date"
       >
-        <AllAppsModal appData={result?.analyzedData.appsInfo} />
+        <AllAppsModal appData={analyzedData?.appsInfo} />
       </ModalContainer>
       <div className="w-full space-y-8 p-8">
         <div className="flex justify-between">
@@ -38,12 +52,13 @@ const ApplicationSession = () => {
         </div>
 
         {/* <div className="grid grid-cols-3 "> */}
+
         <div className="flex items-start gap-5">
           <div className="col-span-2 grid flex-1 grid-cols-2 gap-5">
             <GeneralInformation
-              clientData={result?.analyzedData.deviceInfo}
+              clientData={analyzedData?.deviceInfo}
               age={
-                result?.analyzedData.appsInfo.metadata
+                analyzedData?.appsInfo.metadata
                   .deviceAgeSinceFirstAppInstallByUser
               }
               recommendation={result?.digitalCreditInfo.recommendation}
@@ -52,22 +67,19 @@ const ApplicationSession = () => {
               creditScoreData={result?.digitalCreditInfo}
             />
             <Locationinformation
-              ipData={result?.analyzedData?.ipInfo}
-              gpsData={result?.analyzedData?.deviceInfo}
+              ipData={analyzedData?.ipInfo}
+              gpsData={analyzedData?.deviceInfo}
             />
             <AppCategoryInformation
-              appCategoryData={
-                result?.analyzedData.appsInfo.userAppsPerCategory
-              }
-              allAppLength={result?.analyzedData.appsInfo.userApps.length}
+              appCategoryData={analyzedData?.appsInfo.userAppsPerCategory}
+              allAppLength={analyzedData?.appsInfo.userApps.length}
             />
           </div>
-          {/* <div className="col-span-1 grid gap-5"> */}
           <div className="w-[293px] space-y-5">
             <Permissioninformation permissionData={result?.permissions} />
             <InstalledAppsInformation
               openAppsModal={() => setOpenAppsModal(true)}
-              appData={result?.analyzedData.appsInfo}
+              appData={analyzedData?.appsInfo}
             />
           </div>
         </div>
@@ -162,4 +174,4 @@ const ImageWithFallback = ({ src, alt }: { src: string; alt: string }) => {
       // loading="lazy"
     />
   );
-};
+}; 

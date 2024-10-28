@@ -1,6 +1,8 @@
 import { PrimaryButton } from "@components/global/Buttons";
 import Input from "@components/global/Input";
-import { useForm } from "react-hook-form";
+import { useMSignIn } from "@hooks/api/mutations/auth";
+import { getUser } from "@utils/constants";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 const EnterPassword = ({
   openKey,
@@ -9,6 +11,7 @@ const EnterPassword = ({
   openKey: () => void;
   onClose: () => void;
 }) => {
+  const user = getUser();
   const {
     handleSubmit,
     register,
@@ -17,11 +20,23 @@ const EnterPassword = ({
   } = useForm({
     defaultValues: { password: "" },
   });
+  const { mutate, isPending } = useMSignIn();
 
-  const submitForm = () => {
-    openKey();
-    onClose();
-    reset();
+  const submitForm: SubmitHandler<{ password: string }> = (data) => {
+    if (!user) return;
+
+    mutate(
+      { ...data, userType: "business", email: user.email },
+      {
+        onSuccess: (data) => {
+          if (data.data.data.token) {
+            openKey();
+            onClose();
+            reset();
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -39,7 +54,7 @@ const EnterPassword = ({
         })}
       />
 
-      <PrimaryButton size="medium" className="w-full">
+      <PrimaryButton loading={isPending} size="medium" className="w-full">
         Continue
       </PrimaryButton>
     </form>

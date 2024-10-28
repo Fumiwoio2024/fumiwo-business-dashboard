@@ -1,7 +1,7 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { toast } from "react-toastify"
 
-const API_BASE_URL = 'https://api.fumiwo.io/v1/'
+const API_BASE_URL = 'https://api.dev.fumiwo.io/v1/'
 
 const api = axios.create({
 	baseURL: API_BASE_URL,
@@ -31,15 +31,12 @@ api.interceptors.response.use(
 		}
 		return response
 	},
-	(error) => {
-		if (error.response?.status === 401) {
+	(error: AxiosError) => {
+		const url = error.config?.url
+		if (error.response?.status === 401 && url?.includes("signin")) {
 			localStorage.clear()
 			toast.error("Session expired, please login again")
 			window.location.href = "/"
-		}
-
-		if (error.response?.status === 404) {
-			return Promise.resolve(error)
 		}
 
 		return Promise.reject(error)

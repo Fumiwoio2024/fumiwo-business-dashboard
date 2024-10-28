@@ -17,9 +17,7 @@ const ConfirmDeleteModal = ({
 
   return (
     <div className="w-[370px] space-y-12">
-      <P>
-        {description }
-      </P>
+      <P>{description}</P>
 
       <div className="space-y-3">
         <PrimaryButton
