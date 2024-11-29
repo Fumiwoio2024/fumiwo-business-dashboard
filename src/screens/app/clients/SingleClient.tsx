@@ -43,7 +43,7 @@ const SingleClient = () => {
       header: "Location",
       cell: (info) => {
         const country = info.getValue(),
-          city = info.row.original.analyzedData?.ipInfo.city;
+          city = info.row.original.analyzedData?.ipInfo?.city;
         return info.row.original.phoneAnalysisStatus === "in_progress"
           ? pendingText
           : country
