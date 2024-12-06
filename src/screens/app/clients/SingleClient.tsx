@@ -7,7 +7,6 @@ import Tables from "@components/global/Tables";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TClient } from "@type/global.types";
 
-// import { ReactNode } from "react";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "@components/global/BreadCrumb";
 import { H4 } from "@components/global/Typography";
@@ -16,13 +15,12 @@ import { LineGradient } from "@components/applicationSession/LineGradient";
 import { capitalize } from "@mui/material";
 import { getRecommendedColor } from "@helpers/functions/formatRecommendation";
 import moment from "moment";
-import { useMemo } from "react";
 
 const SingleClient = () => {
   const columnHelper = createColumnHelper<TClient["phones"][0]>();
   const params = useParams();
   const { result, isLoading } = useQSingleClient(params?.clientId);
-  const { result: allPhones, isLoading: isLoadingPhones } = useQAllPhone({
+  const { result: phones, isLoading: isLoadingPhones } = useQAllPhone({
     clientId: params?.clientId,
   });
 
@@ -80,19 +78,19 @@ const SingleClient = () => {
     }),
   ];
 
-  const phones = useMemo(
-    () =>
-      allPhones?.map((item) => ({
-        ...item,
-        analyzedData:
-          item.analyzedData &&
-          (JSON.parse(
-            item.analyzedData as unknown as string,
-          ) as TClient["phones"][0]["analyzedData"]),
-      })) as TClient["phones"],
-    [allPhones],
-  );
-  console.log(phones);
+  // const phones = allPhones;
+  //  useMemo(
+  //   () =>
+  //     allPhones?.map((item) => ({
+  //       ...item,
+  //       analyzedData:
+  //         item.analyzedData &&
+  //         (JSON.parse(
+  //           item.analyzedData as unknown as string,
+  //         ) as TClient["phones"][0]["analyzedData"]),
+  //     })) as TClient["phones"],
+  //   [allPhones],
+  // );
 
   return (
     <div className="w-full space-y-8 p-8">

@@ -41,29 +41,40 @@ const Permissioninformation = ({
 }) => {
   const sliceFigure = permissionData?.length;
 
-  return (
-    <Card className="space-y-8 transition">
-      <SessionCardTitle
-        title="Granted permissions"
-        description="Borrower’s consented permissions"
-      />
-      <div className="space-y-4">
-        {permissionData &&
-          permissionData.slice(0, sliceFigure).map(({ a, b }) => (
-            <div key={a} className="flex justify-between">
-              <SessionCardItemName name={a.split(".")[2].replace(/_/g, " ")} />
-              {b ? good : bad}
-            </div>
-          ))}
-      </div>
-      {/* <button
+return (
+  <Card className="space-y-8 transition">
+    <SessionCardTitle
+      title="Granted permissions"
+      description="Borrower’s consented permissions"
+    />
+    <div className="space-y-4">
+      {permissionData &&
+        ("module" in permissionData[0]
+          ? permissionData.slice(0, sliceFigure).map(({ module, granted }) => (
+              <div key={module} className="flex justify-between">
+                <SessionCardItemName
+                  name={module?.split(".")[2].replace(/_/g, " ") || ""}
+                />
+                {granted ? good : bad}
+              </div>
+            ))
+          : permissionData.slice(0, sliceFigure).map(({ a, b }) => (
+              <div key={a} className="flex justify-between">
+                <SessionCardItemName
+                  name={a?.split(".")[2].replace(/_/g, " ") || ""}
+                />
+                {b ? good : bad}
+              </div>
+            )))}
+    </div>
+    {/* <button
         onClick={() => setShowAll(!showAll)}
         className="w-full border-t pt-2 text-sm text-paraGray/70"
       >
         {showAll ? "Show less" : "Expand"}
       </button> */}
-    </Card>
-  );
+  </Card>
+);
 };
 
 export default Permissioninformation;

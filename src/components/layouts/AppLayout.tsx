@@ -27,7 +27,7 @@ const AppLayout = () => {
         <Sidebar />
         <div className="flex flex-1 flex-col">
           <TopNav />
-          <div className="w-full overflow-y-auto">
+          <div className="h-full w-full overflow-y-auto">
             <Outlet />
           </div>
         </div>

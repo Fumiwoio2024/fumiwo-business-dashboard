@@ -4,69 +4,14 @@ export const dummySingleClient = {
 			"sdkVersion": "1.3",
 			"permissions": [
 				{
-					"a": "android.permission.QUERY_ALL_PACKAGES",
-					"b": true
+					"access": "read",
+					"granted": true,
+					"module": "android.permission.QUERY_ALL_PACKAGES"
 				},
 				{
-					"a": "android.permission.INTERNET",
+						"a": "android.permission.QUERY_ALL_PACKAGES",
 					"b": true
 				},
-				{
-					"a": "android.permission.BLUETOOTH",
-					"b": true
-				},
-				{
-					"a": "android.permission.BLUETOOTH_ADMIN",
-					"b": true
-				},
-				{
-					"a": "android.permission.ACCESS_WIFI_STATE",
-					"b": true
-				},
-				{
-					"a": "android.permission.READ_PHONE_STATE",
-					"b": true
-				},
-				{
-					"a": "android.permission.READ_CONTACTS",
-					"b": true
-				},
-				{
-					"a": "android.permission.READ_CALL_LOG",
-					"b": true
-				},
-				{
-					"a": "android.permission.READ_SMS",
-					"b": true
-				},
-				{
-					"a": "android.permission.ACCESS_COARSE_LOCATION",
-					"b": true
-				},
-				{
-					"a": "android.permission.ACCESS_FINE_LOCATION",
-					"b": true
-				},
-				{
-					"a": "android.permission.READ_CALENDAR",
-					"b": true
-				},
-				{
-					"a": "android.permission.ACTIVITY_RECOGNITION",
-					"b": true
-				},
-				{
-					"a": "android.permission.ACCESS_MEDIA_LOCATION",
-					"b": true
-				},
-				{
-					"a": "android.permission.PACKAGE_USAGE_STATS",
-					"b": false
-				},
-				{
-					"a": "android.permission.READ_EXTERNAL_STORAGE",
-					"b": true
-				}
 			],
 			"analyzedData": {
 				"deviceInfo": {

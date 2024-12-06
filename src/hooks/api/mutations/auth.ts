@@ -51,13 +51,14 @@ export const useMSignIn = () => {
 				return;
 			}
 
+			api.defaults.headers.common["Authorization"] =
+				`Bearer ${data.data.data.token}`;
 			localStorage.setItem("fmw_business_auth_token", data.data.data.token);
 			localStorage.setItem(
 				"fmw_business_user",
 				JSON.stringify(data.data.data.user),
 			);
-			api.defaults.headers.common["Authorization"] =
-				`Bearer ${data.data.data.token}`;
+
 
 			if (
 				data.data?.data.user &&

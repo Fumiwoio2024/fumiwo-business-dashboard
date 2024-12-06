@@ -16,22 +16,11 @@ const ApplicationSession = () => {
   const [openAppsModal, setOpenAppsModal] = useState(false);
 
   const params = useParams();
-  // const { result: client } = useQSingleClient(params?.clientId);
-  // const result = client?.phones.find((phone) => phone.id === params?.sessionId);
   const { result } = useQPhone(params?.clientId, params?.phoneId);
 
-  // console.log(
-  //   JSON.parse(result?.analyzedData || "{}"),
-  //   params?.clientId,
-  //   params?.phoneId,
-  // );
+  const analyzedData = result?.analyzedData;
 
-  const analyzedData =
-    (JSON.parse(
-      (result?.analyzedData as unknown as string | undefined) || "{}",
-    ) as TClient["phones"][0]["analyzedData"]) || {};
-
-  if (!analyzedData.appsInfo) return <></>;
+  if (!analyzedData?.appsInfo) return <></>;
 
   return (
     <>

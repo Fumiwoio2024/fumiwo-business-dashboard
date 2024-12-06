@@ -16,9 +16,11 @@ const api = axios.create({
 api.interceptors.request.use(
 	(config) => {
 		const token = localStorage.getItem("fmw_business_auth_token")
+
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`
 		}
+
 		return config
 	},
 	(error) => Promise.reject(error),
@@ -32,8 +34,13 @@ api.interceptors.response.use(
 		return response
 	},
 	(error: AxiosError) => {
+
 		const url = error.config?.url
-		if (error.response?.status === 401 && url?.includes("signin")) {
+		if (
+			error.response?.status === 401
+			&& !url?.includes("signin")
+			&& !window.location.pathname.includes("/dashboard/settings/onboarding/")
+		) {
 			localStorage.clear()
 			toast.error("Session expired, please login again")
 			window.location.href = "/"

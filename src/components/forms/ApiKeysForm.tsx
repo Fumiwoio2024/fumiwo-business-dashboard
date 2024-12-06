@@ -85,37 +85,39 @@ const ApiKeysForm = ({
       </ModalContainer>
 
       <form onSubmit={handleSubmit(submitForm)} className="space-y-8 text-left">
-        <section className="space-y-4">
-          <div className="mb-6 flex items-center justify-between">
-            <H2 className="">API Keys</H2>
+        <section className="space-y-9">
+          <div className="space-y-4">
+            <div className="mb-6 flex items-center justify-between">
+              <H2 className="">Production keys</H2>
 
-            <button
-              disabled={true}
-              type="button"
-              className={`flex items-center gap-1 font-medium text-switchGreen`}
-              onClick={() => rotateKeys()}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className={`${isPending && "animate-spin"}`}
-              >
-                <path
-                  d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
-                  stroke="#0BB466"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <div>
+                <button
+                  disabled={true}
+                  type="button"
+                  className={`flex items-center gap-1 font-medium text-switchGreen`}
+                  onClick={() => rotateKeys()}
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`${isPending && "animate-spin"}`}
+                  >
+                    <path
+                      d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
+                      stroke="#0BB466"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
 
-              <p>Generate new keys</p>
-            </button>
-          </div>
-          <div>
+                  <p>Generate new keys</p>
+                </button>
+              </div>
+            </div>
             <Input
               disabled
               isSecretInput
@@ -131,25 +133,23 @@ const ApiKeysForm = ({
                   showSecret={() => setIsEnterPassword("live-secret")}
                 />
               }
-              {...register("live_secret", {
-                required: "Old Password is required",
-              })}
+              {...register("live_secret")}
+            />
+            <Input
+              label="Live public key"
+              placeholder="Enter your new password"
+              type="text"
+              error={errors.live_public?.message}
+              disabled
+              isSecretInput
+              noMessage
+              {...register("live_public")}
             />
           </div>
-          <Input
-            label="Live public key"
-            placeholder="Enter your new password"
-            type="text"
-            error={errors.live_public?.message}
-            disabled
-            isSecretInput
-            noMessage
-            {...register("live_public", {
-              required: "New Password is required",
-            })}
-          />
 
-          <div>
+          <div className="space-y-4">
+            <H2 className="mb-6">Sandbox keys</H2>
+
             <Input
               label="Sandbox secret key"
               placeholder=""
@@ -167,17 +167,17 @@ const ApiKeysForm = ({
               }
               {...register("test_secret")}
             />
-          </div>
 
-          <Input
-            label="Sandbox public key"
-            placeholder=""
-            type="text"
-            error={errors.test_public?.message}
-            disabled
-            isSecretInput
-            {...register("test_public")}
-          />
+            <Input
+              label="Sandbox public key"
+              placeholder=""
+              type="text"
+              error={errors.test_public?.message}
+              disabled
+              isSecretInput
+              {...register("test_public")}
+            />
+          </div>
         </section>
 
         <section className="space-y-4">
